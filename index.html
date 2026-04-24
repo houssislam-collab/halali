@@ -1952,22 +1952,36 @@ async function sendAI() {
       body: JSON.stringify({ messages: aiHistory })
     });
 
-    const data = await response.json();
+    const rawText = await response.text();
     removeTyping();
 
-    if (data.error) {
-      addBotMessage('⚠️ خدمة المساعد غير متاحة حالياً. حاول مجدداً بعد قليل.');
+    let data;
+    try {
+      data = JSON.parse(rawText);
+    } catch(e) {
+      addBotMessage('⚠️ ردّ غير متوقع من الخادم. حاول مجدداً.');
       aiHistory.pop();
-    } else {
+      aiLoading = false;
+      document.getElementById('ai-send-btn').disabled = false;
+      return;
+    }
+
+    if (!response.ok || data.error) {
+      const errMsg = data.error?.message || data.error || `خطأ ${response.status}`;
+      addBotMessage(`⚠️ ${errMsg}`);
+      aiHistory.pop();
+    } else if (data.content && data.content[0] && data.content[0].text) {
       const reply = data.content[0].text;
       aiHistory.push({ role: 'assistant', content: reply });
       addBotMessage(reply);
-      // Keep history max 20 messages
       if (aiHistory.length > 20) aiHistory = aiHistory.slice(-20);
+    } else {
+      addBotMessage('⚠️ ما قدرت نفهم الرد. حاول مجدداً.');
+      aiHistory.pop();
     }
   } catch (err) {
     removeTyping();
-    addBotMessage('⚠️ تأكد من اتصالك بالإنترنت وحاول مجدداً.');
+    addBotMessage(`⚠️ تعذّر الاتصال بالخادم: ${err.message}`);
     aiHistory.pop();
   }
 

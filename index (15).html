@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حلالك — منصة مربّي الدواجن والمواشي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --g900:#173404;--g800:#27500A;--g600:#3B6D11;--g400:#639922;--g200:#97C459;--g100:#C0DD97;--g50:#EAF3DE;
+  --a900:#412402;--a800:#633806;--a600:#854F0B;--a400:#BA7517;--a200:#EF9F27;--a100:#FAC775;--a50:#FAEEDA;
+  --t800:#085041;--t600:#0F6E56;--t400:#1D9E75;--t100:#9FE1CB;--t50:#E1F5EE;
+  --r600:#A32D2D;--r50:#FCEBEB;--r800:#791F1F;
+  --text:#1a1a1a;--text2:#555;--text3:#888;
+  --bg:#FAFAF7;--white:#fff;--border:rgba(0,0,0,0.1);
+  --radius:12px;--radius-lg:18px;
+}
+html { scroll-behavior:smooth; }
+body { font-family:'Cairo',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+
+/* NAV */
+nav { position:sticky;top:0;z-index:100;background:rgba(250,250,247,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:62px; }
+.nav-logo { font-family:'Amiri',serif;font-size:1.6rem;font-weight:700;color:var(--g800);display:flex;align-items:center;gap:8px;text-decoration:none;cursor:pointer; }
+.nav-links { display:flex;gap:4px; }
+.nav-link { background:none;border:none;padding:7px 14px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s; }
+.nav-link:hover { background:var(--g50);color:var(--g800); }
+.nav-link.active { background:var(--g50);color:var(--g800);font-weight:600; }
+.nav-cta { background:var(--g800);color:var(--g50);border:none;padding:8px 18px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s; }
+.nav-cta:hover { background:var(--g900);transform:translateY(-1px); }
+
+/* PAGES */
+.page { display:none; }
+.page.active { display:block; }
+
+/* HERO */
+.hero { background:linear-gradient(160deg,var(--g50) 0%,#f0f9e4 40%,var(--t50) 100%);padding:5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden; }
+.hero-bg-text { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:22vw;opacity:.04;font-family:'Amiri',serif;pointer-events:none;white-space:nowrap;color:var(--g800); }
+.hero-badge { display:inline-flex;align-items:center;gap:6px;background:var(--g800);color:var(--g100);font-size:12px;font-weight:600;padding:5px 16px;border-radius:20px;margin-bottom:1.5rem;animation:fadeDown .6s ease both; }
+.hero h1 { font-family:'Amiri',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:700;color:var(--g900);line-height:1.35;margin-bottom:1rem;animation:fadeDown .7s ease .1s both; }
+.hero h1 em { color:var(--g600);font-style:normal; }
+.hero p { font-size:1.05rem;color:var(--g800);max-width:520px;margin:0 auto 2rem;line-height:1.8;animation:fadeDown .7s ease .2s both; }
+.hero-btns { display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeDown .7s ease .3s both; }
+.btn-primary { background:var(--g800);color:var(--g50);border:none;padding:12px 28px;border-radius:10px;font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s; }
+.btn-primary:hover { background:var(--g900);transform:translateY(-2px); }
+.btn-outline { background:transparent;color:var(--g800);border:1.5px solid var(--g400);padding:12px 28px;border-radius:10px;font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s; }
+.btn-outline:hover { background:var(--g50); }
+.hero-stats { display:flex;justify-content:center;gap:3rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid rgba(63,109,17,.15);animation:fadeDown .7s ease .4s both;flex-wrap:wrap; }
+.hero-stat-num { font-size:2rem;font-weight:700;color:var(--g600);display:block; }
+.hero-stat-lbl { font-size:12px;color:var(--g800); }
+
+/* CONTAINER */
+.container { max-width:1100px;margin:0 auto;padding:3rem 1.5rem; }
+.section-title { font-family:'Amiri',serif;font-size:1.8rem;font-weight:700;color:var(--g900);margin-bottom:.4rem; }
+.section-sub { font-size:14px;color:var(--text3);margin-bottom:2rem; }
+
+/* CATEGORIES */
+.categories-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:3rem; }
+.cat-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:all .25s;position:relative;overflow:hidden; }
+.cat-card::after { content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--g400);transform:scaleX(0);transition:transform .25s; }
+.cat-card:hover { border-color:var(--g400);transform:translateY(-3px);box-shadow:0 8px 24px rgba(63,109,17,.12); }
+.cat-card:hover::after { transform:scaleX(1); }
+.cat-icon { font-size:36px;display:block;margin-bottom:8px; }
+.cat-name { font-size:14px;font-weight:600;color:var(--text); }
+.cat-count { font-size:11px;color:var(--text3);margin-top:3px; }
+
+/* TIPS */
+.tips-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:3rem; }
+.tip-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;cursor:pointer;transition:all .2s;border-right:4px solid transparent; }
+.tip-card:hover { box-shadow:0 6px 20px rgba(0,0,0,.08);transform:translateY(-2px); }
+.tip-card.green { border-right-color:var(--g600); }
+.tip-card.amber { border-right-color:var(--a400); }
+.tip-card.teal { border-right-color:var(--t600); }
+.tip-tag { display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:10px; }
+.tip-tag.green { background:var(--g50);color:var(--g800); }
+.tip-tag.amber { background:var(--a50);color:var(--a800); }
+.tip-tag.teal { background:var(--t50);color:var(--t800); }
+.tip-card h3 { font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px; }
+.tip-card p { font-size:13px;color:var(--text2);line-height:1.65; }
+
+/* MARKET */
+.market-table { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px; }
+.market-header { background:var(--g50);padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center; }
+.market-header h3 { font-size:15px;font-weight:600;color:var(--g900); }
+.market-updated { font-size:11px;color:var(--g600); }
+.market-row { display:flex;justify-content:space-between;align-items:center;padding:14px 1.5rem;border-bottom:1px solid var(--border);transition:background .15s; }
+.market-row:last-child { border-bottom:none; }
+.market-row:hover { background:var(--g50); }
+.market-info { display:flex;align-items:center;gap:12px; }
+.market-emoji { font-size:22px; }
+.market-name { font-size:14px;font-weight:600;color:var(--text); }
+.market-sub { font-size:11px;color:var(--text3); }
+.market-price { font-size:16px;font-weight:700;color:var(--g800); }
+.market-change { font-size:11px;font-weight:600; }
+.up { color:var(--g600); } .down { color:var(--r600); }
+.market-grid { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+.chart-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem; }
+.chart-title { font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px; }
+.chart-sub { font-size:12px;color:var(--text3);margin-bottom:1rem; }
+.chart-tabs { display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap; }
+.chart-tab { background:var(--bg);border:1px solid var(--border);padding:5px 12px;border-radius:20px;font-family:'Cairo',sans-serif;font-size:12px;color:var(--text2);cursor:pointer;transition:all .2s; }
+.chart-tab.active { background:var(--g800);color:var(--g50);border-color:var(--g800); }
+
+/* DISEASE */
+.disease-search-wrap { position:relative;margin-bottom:1.5rem; }
+.disease-search { width:100%;padding:12px 16px 12px 44px;border:1.5px solid var(--border);border-radius:10px;font-family:'Cairo',sans-serif;font-size:14px;background:var(--white);color:var(--text);transition:border-color .2s; }
+.disease-search:focus { outline:none;border-color:var(--g400); }
+.search-icon { position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px; }
+.disease-filters { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem; }
+.filter-btn { background:var(--white);border:1px solid var(--border);padding:6px 16px;border-radius:20px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s; }
+.filter-btn.active { background:var(--g800);color:var(--g50);border-color:var(--g800); }
+.filter-btn:hover:not(.active) { border-color:var(--g400);color:var(--g800); }
+.diseases-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px; }
+.disease-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all .2s; }
+.disease-card:hover { box-shadow:0 8px 24px rgba(0,0,0,.09);transform:translateY(-2px); }
+.disease-header { padding:1rem 1.25rem .75rem;display:flex;align-items:center;gap:10px; }
+.disease-icon { font-size:28px; }
+.disease-severity { margin-right:auto;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px; }
+.sev-high { background:var(--r50);color:var(--r800); }
+.sev-mid { background:var(--a50);color:var(--a800); }
+.sev-low { background:var(--g50);color:var(--g800); }
+.disease-name { font-size:15px;font-weight:600;color:var(--text); }
+.disease-latin { font-size:11px;color:var(--text3);font-style:italic; }
+.disease-body { padding:0 1.25rem 1.25rem; }
+.disease-section-lbl { font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;margin-top:10px; }
+.disease-symptoms { font-size:13px;color:var(--text2);line-height:1.7; }
+.disease-treatment { background:var(--g50);border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px;color:var(--g800);line-height:1.65; }
+.disease-animals { display:flex;gap:4px;flex-wrap:wrap;margin-top:10px; }
+.animal-badge { font-size:11px;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:2px 8px;color:var(--text2); }
+.vet-btn { display:flex;align-items:center;gap:6px;margin-top:12px;background:var(--t50);color:var(--t800);border:1px solid var(--t100);padding:7px 14px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;width:100%;justify-content:center; }
+.vet-btn:hover { background:var(--t100); }
+
+/* FEED CALCULATOR */
+.feed-calc { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;margin-bottom:2rem; }
+.feed-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:1.5rem; }
+.feed-field label { font-size:13px;color:var(--text2);font-weight:500;display:block;margin-bottom:6px; }
+.feed-field select, .feed-field input { width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Cairo',sans-serif;font-size:14px;background:var(--bg);color:var(--text);transition:border-color .2s; }
+.feed-field select:focus, .feed-field input:focus { outline:none;border-color:var(--g400); }
+.feed-results { display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px; }
+.feed-result { background:var(--g50);border-radius:var(--radius);padding:1rem;text-align:center; }
+.feed-result.highlight { background:var(--g800); }
+.feed-num { font-size:1.4rem;font-weight:700;color:var(--g800);display:block; }
+.feed-result.highlight .feed-num { color:var(--g100); }
+.feed-lbl { font-size:12px;color:var(--g600); }
+.feed-result.highlight .feed-lbl { color:var(--g200); }
+
+/* CALENDAR */
+.calendar-section { margin-bottom:2rem; }
+.calendar-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px; }
+.cal-month { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden; }
+.cal-month-header { padding:.75rem 1rem;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px; }
+.cal-month-header.spring { background:var(--g50);color:var(--g800); }
+.cal-month-header.summer { background:var(--a50);color:var(--a800); }
+.cal-month-header.fall { background:#FEF3E2;color:#633806; }
+.cal-month-header.winter { background:var(--t50);color:var(--t800); }
+.cal-event { display:flex;align-items:flex-start;gap:8px;padding:8px 1rem;border-bottom:1px solid var(--border);font-size:13px; }
+.cal-event:last-child { border-bottom:none; }
+.cal-event-icon { font-size:16px;flex-shrink:0;margin-top:1px; }
+.cal-event-text { color:var(--text2);line-height:1.5; }
+.cal-event-text strong { color:var(--text);font-weight:600;display:block;font-size:13px; }
+
+/* MAP */
+.map-section { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:2rem; }
+.map-header { background:var(--g50);padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center; }
+.map-header h3 { font-size:15px;font-weight:600;color:var(--g900); }
+.map-stats { display:flex;gap:1.5rem; }
+.map-stat { font-size:12px;color:var(--g800); }
+.map-stat strong { font-weight:700; }
+.map-body { display:grid;grid-template-columns:1fr 280px; }
+.wilayas-grid { padding:1.5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px; }
+.wilaya-card { background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;cursor:pointer;transition:all .2s; }
+.wilaya-card:hover { border-color:var(--g400);background:var(--g50); }
+.wilaya-card.active { border-color:var(--g600);background:var(--g50); }
+.wilaya-name { font-size:12px;font-weight:600;color:var(--text); }
+.wilaya-count { font-size:11px;color:var(--text3); }
+.wilaya-dot { width:8px;height:8px;border-radius:50%;display:inline-block;margin-left:4px; }
+.dot-high { background:var(--g600); }
+.dot-mid { background:var(--a400); }
+.dot-low { background:var(--t400); }
+.map-sidebar { border-right:1px solid var(--border);padding:1.5rem; }
+.map-sidebar-title { font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px; }
+.member-row { display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border); }
+.member-row:last-child { border-bottom:none; }
+.member-av { width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0; }
+.member-info { flex:1; }
+.member-name { font-size:13px;font-weight:600;color:var(--text); }
+.member-spec { font-size:11px;color:var(--text3); }
+.member-badge { font-size:10px;padding:2px 6px;border-radius:10px;background:var(--g50);color:var(--g800);font-weight:600; }
+
+/* COMMUNITY */
+.community-layout { display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start; }
+.posts-list { display:flex;flex-direction:column;gap:14px; }
+.post-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;transition:all .2s; }
+.post-card:hover { box-shadow:0 6px 18px rgba(0,0,0,.07); }
+.post-header { display:flex;align-items:center;gap:10px;margin-bottom:10px; }
+.avatar { width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0; }
+.av-green { background:var(--g50);color:var(--g800); }
+.av-amber { background:var(--a50);color:var(--a800); }
+.av-teal { background:var(--t50);color:var(--t800); }
+.post-author { font-size:14px;font-weight:600;color:var(--text); }
+.post-meta { font-size:11px;color:var(--text3); }
+.post-badge { margin-right:auto;font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;background:var(--g50);color:var(--g800); }
+.post-badge.question { background:var(--a50);color:var(--a800); }
+.post-badge.tip { background:var(--t50);color:var(--t800); }
+.post-badge.sale { background:#F3F0FF;color:#534AB7; }
+.post-title { font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px; }
+.post-body { font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px; }
+.post-footer { display:flex;align-items:center;gap:16px; }
+.post-action { background:none;border:none;font-family:'Cairo',sans-serif;font-size:12px;color:var(--text3);cursor:pointer;display:flex;align-items:center;gap:4px;transition:color .2s;padding:0; }
+.post-action:hover { color:var(--g800); }
+.post-action.liked { color:var(--g600); }
+.verified-badge { font-size:10px;background:var(--g50);color:var(--g800);padding:1px 6px;border-radius:8px;margin-right:4px; }
+.rep-badge { font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px; }
+.rep-gold { background:#FEF3E2;color:#633806; }
+.rep-silver { background:#F1EFE8;color:#444441; }
+.rep-bronze { background:var(--a50);color:var(--a800); }
+.rep-new { background:var(--g50);color:var(--g800); }
+.community-sidebar { display:flex;flex-direction:column;gap:14px; }
+.sidebar-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem; }
+.sidebar-title { font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px; }
+.expert-row { display:flex;align-items:center;gap:10px;margin-bottom:10px; }
+.expert-info { flex:1; }
+.expert-name { font-size:13px;font-weight:600;color:var(--text); }
+.expert-spec { font-size:11px;color:var(--text3); }
+.expert-badge { font-size:10px;font-weight:600;background:var(--a50);color:var(--a800);padding:2px 8px;border-radius:10px; }
+.new-post-form { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem; }
+.new-post-form textarea { width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Cairo',sans-serif;font-size:13px;resize:none;min-height:80px;color:var(--text);background:var(--bg);transition:border-color .2s;margin-bottom:10px; }
+.new-post-form textarea:focus { outline:none;border-color:var(--g400); }
+.new-post-actions { display:flex;gap:8px;flex-wrap:wrap;align-items:center; }
+.post-type-btn { background:var(--bg);border:1px solid var(--border);padding:6px 12px;border-radius:6px;font-family:'Cairo',sans-serif;font-size:12px;color:var(--text2);cursor:pointer;transition:all .2s; }
+.post-type-btn.active { background:var(--g50);color:var(--g800);border-color:var(--g400); }
+.submit-post { margin-right:auto;background:var(--g800);color:var(--g50);border:none;padding:8px 18px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s; }
+.submit-post:hover { background:var(--g900); }
+.replies-section { margin-top:12px;border-top:1px solid var(--border);padding-top:10px;display:none; }
+.reply-item { display:flex;gap:8px;margin-bottom:8px; }
+.reply-av { width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0; }
+.reply-bubble { background:var(--bg);border-radius:8px;padding:7px 10px;flex:1; }
+.reply-author { font-size:11px;font-weight:600;color:var(--text); }
+.reply-text { font-size:12px;color:var(--text2);line-height:1.6; }
+.reply-input-row { display:flex;gap:6px;margin-top:8px; }
+.reply-input-row input { flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-family:'Cairo',sans-serif;font-size:12px;background:var(--white); }
+.reply-input-row button { background:var(--g800);color:var(--g50);border:none;padding:7px 12px;border-radius:6px;font-family:'Cairo',sans-serif;font-size:12px;cursor:pointer; }
+
+/* CALC */
+.calc-box { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem; }
+.calc-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:1.5rem; }
+.calc-field label { font-size:13px;color:var(--text2);font-weight:500;display:block;margin-bottom:6px; }
+.calc-field select,.calc-field input { width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Cairo',sans-serif;font-size:14px;background:var(--bg);color:var(--text);transition:border-color .2s; }
+.calc-field select:focus,.calc-field input:focus { outline:none;border-color:var(--g400); }
+.calc-results { display:grid;grid-template-columns:repeat(3,1fr);gap:12px; }
+.calc-result-card { background:var(--g50);border-radius:var(--radius);padding:1.2rem;text-align:center; }
+.calc-result-card.profit { background:var(--g800); }
+.result-num { font-size:1.4rem;font-weight:700;color:var(--g800);display:block; }
+.calc-result-card.profit .result-num { color:var(--g100); }
+.result-lbl { font-size:12px;color:var(--g600); }
+.calc-result-card.profit .result-lbl { color:var(--g200); }
+.calc-chart-wrap { margin-top:1.5rem;background:var(--bg);border-radius:var(--radius);padding:1rem; }
+
+/* TABS INNER */
+.inner-tabs { display:flex;gap:6px;margin-bottom:2rem;background:var(--bg);border-radius:10px;padding:4px;width:fit-content; }
+.inner-tab { background:none;border:none;padding:8px 18px;border-radius:7px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s; }
+.inner-tab.active { background:var(--white);color:var(--g800);font-weight:600;border:0.5px solid var(--border); }
+
+/* ANIMATIONS */
+@keyframes fadeDown { from{opacity:0;transform:translateY(-14px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+/* FOOTER */
+/* SOUQ MAP */
+.souq-controls { display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:1.5rem;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem; }
+.souq-field label { font-size:12px;color:var(--text3);font-weight:500;display:block;margin-bottom:5px; }
+.souq-field select { width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Cairo',sans-serif;font-size:13px;background:var(--bg);color:var(--text);transition:border-color .2s; }
+.souq-field select:focus { outline:none;border-color:var(--g400); }
+#souq-map { height:420px;border-radius:var(--radius-lg);border:1px solid var(--border);margin-bottom:1.5rem;z-index:1; }
+.souq-results { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:1.5rem; }
+.souq-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;transition:all .2s;cursor:pointer; }
+.souq-card:hover { box-shadow:0 6px 18px rgba(0,0,0,.08);transform:translateY(-2px); }
+.souq-card.featured { border-color:var(--g400);border-width:2px; }
+.souq-card-header { display:flex;align-items:center;gap:10px;margin-bottom:10px; }
+.souq-distance { margin-right:auto;background:var(--g50);color:var(--g800);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px; }
+.souq-name { font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px; }
+.souq-location { font-size:12px;color:var(--text3);margin-bottom:8px; }
+.souq-tags { display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px; }
+.souq-tag { font-size:11px;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:2px 8px;color:var(--text2); }
+.souq-day { font-size:12px;font-weight:600; }
+.souq-day.today { color:var(--g800);background:var(--g50);padding:3px 10px;border-radius:6px;display:inline-block; }
+.souq-day.soon { color:var(--a800);background:var(--a50);padding:3px 10px;border-radius:6px;display:inline-block; }
+.souq-price-row { display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--border); }
+.souq-price-item { text-align:center; }
+.souq-price-num { font-size:13px;font-weight:700;color:var(--g800);display:block; }
+.souq-price-lbl { font-size:10px;color:var(--text3); }
+.souq-empty { text-align:center;padding:3rem;color:var(--text3);font-size:14px;grid-column:1/-1; }
+
+/* GUIDE PAGE */
+.breed-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:2.5rem; }
+.breed-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all .2s;cursor:pointer; }
+.breed-card:hover { box-shadow:0 8px 28px rgba(0,0,0,.1);transform:translateY(-3px); }
+.breed-card.selected { border:2px solid var(--g400); }
+.breed-header { padding:1.25rem 1.25rem .75rem;display:flex;align-items:center;gap:12px; }
+.breed-emoji { font-size:40px; }
+.breed-badge { margin-right:auto;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px; }
+.badge-easy { background:var(--g50);color:var(--g800); }
+.badge-mid { background:var(--a50);color:var(--a800); }
+.badge-hard { background:var(--r50);color:var(--r800); }
+.breed-name { font-size:16px;font-weight:700;color:var(--text); }
+.breed-latin { font-size:11px;color:var(--text3);font-style:italic; }
+.breed-body { padding:0 1.25rem 1.25rem; }
+.breed-desc { font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:10px; }
+.breed-stats { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px; }
+.breed-stat { background:var(--bg);border-radius:8px;padding:8px 10px; }
+.breed-stat-lbl { font-size:10px;color:var(--text3);display:block; }
+.breed-stat-val { font-size:13px;font-weight:600;color:var(--text); }
+.breed-stars { color:#BA7517;font-size:13px; }
+.breed-tags { display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px; }
+.breed-tag { font-size:11px;background:var(--g50);color:var(--g800);border-radius:20px;padding:2px 8px; }
+.breed-ideal { font-size:12px;color:var(--t800);background:var(--t50);border-radius:8px;padding:6px 10px;line-height:1.6; }
+
+.tools-planner { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;margin-bottom:2rem; }
+.planner-controls { display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:1.5rem; }
+.planner-field label { font-size:12px;color:var(--text3);font-weight:500;display:block;margin-bottom:5px; }
+.planner-field select,.planner-field input { width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Cairo',sans-serif;font-size:13px;background:var(--bg);color:var(--text);transition:border-color .2s; }
+.planner-field select:focus,.planner-field input:focus { outline:none;border-color:var(--g400); }
+.tools-list { display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:1.5rem; }
+.tool-item { background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:10px; }
+.tool-icon { font-size:22px;flex-shrink:0; }
+.tool-name { font-size:13px;font-weight:600;color:var(--text); }
+.tool-cost { font-size:11px;color:var(--text3); }
+.tool-essential { border-right:3px solid var(--g600); }
+.tool-optional { border-right:3px solid var(--a400); }
+.tools-total { background:var(--g800);color:var(--g50);border-radius:var(--radius);padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px; }
+.tools-total-label { font-size:14px;font-weight:600; }
+.tools-total-price { font-size:1.4rem;font-weight:700;color:var(--g100); }
+
+.plan-timeline { display:flex;flex-direction:column;gap:0; }
+.plan-week { display:flex;gap:16px;position:relative;padding-bottom:0; }
+.plan-week::before { content:'';position:absolute;right:19px;top:40px;bottom:0;width:2px;background:var(--border); }
+.plan-week:last-child::before { display:none; }
+.plan-dot { width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border:2px solid var(--border);background:var(--white);z-index:1; }
+.plan-dot.done { background:var(--g800);border-color:var(--g800); }
+.plan-dot.active { background:var(--a50);border-color:var(--a400); }
+.plan-content { flex:1;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:12px; }
+.plan-week-label { font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px; }
+.plan-title { font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px; }
+.plan-tasks { font-size:13px;color:var(--text2);line-height:1.8; }
+.plan-alert { display:inline-block;font-size:11px;font-weight:600;margin-top:6px;padding:3px 10px;border-radius:20px; }
+.alert-vaccine { background:var(--t50);color:var(--t800); }
+.alert-feed { background:var(--g50);color:var(--g800); }
+.alert-watch { background:var(--r50);color:var(--r800); }
+
+footer { background:var(--g900);color:var(--g100);text-align:center;padding:1.5rem;font-size:13px; }
+footer a { color:var(--g200);text-decoration:none; }
+
+/* RESPONSIVE */
+@media(max-width:900px) {
+  .market-grid { grid-template-columns:1fr; }
+  .community-layout { grid-template-columns:1fr; }
+  .map-body { grid-template-columns:1fr; }
+  .map-sidebar { border-right:none;border-top:1px solid var(--border); }
+  .calc-results { grid-template-columns:1fr; }
+}
+@media(max-width:600px) {
+  nav { padding:0 1rem; }
+  .nav-links { display:none; }
+  .hero { padding:3.5rem 1.25rem 3rem; }
+  .hero-stats { gap:1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')"><span>🌿</span> حلالك</a>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showPage('home',this)">الرئيسية</button>
+    <button class="nav-link" onclick="showPage('market',this)">سوق الأسعار</button>
+    <button class="nav-link" onclick="showPage('diseases',this)">دليل الأمراض</button>
+    <button class="nav-link" onclick="showPage('tools',this)">أدوات المربّي</button>
+    <button class="nav-link" onclick="showPage('map',this)">خريطة المربّين</button>
+    <button class="nav-link" onclick="showPage('souq',this)">🗺️ أسواق</button>
+    <button class="nav-link" onclick="showPage('guide',this)">🐣 دليل الأنواع</button>
+    <button class="nav-link" onclick="showPage('community',this)">المجتمع</button>
+  </div>
+  <button class="nav-cta" onclick="showPage('community',document.querySelectorAll('.nav-link')[7])">انضم للمجتمع</button>
+</nav>
+
+<!-- ===== HOME ===== -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-bg-text">حلالك</div>
+    <div class="hero-badge">🌾 المنصة الأولى لمربّي الدواجن والمواشي في الجزائر</div>
+    <h1>حلالك <em>مشروعك</em>... ونجاحك!</h1>
+    <p>دليلك الشامل لتربية الدواجن والمواشي، تحسين الإنتاج، وتحويل حلالك إلى مصدر دخل حقيقي ومستدام.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])">دليل الأمراض</button>
+      <button class="btn-outline" onclick="showPage('tools',document.querySelectorAll('.nav-link')[3])">أدوات المربّي</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-num">+200</span><span class="hero-stat-lbl">نصيحة ودليل</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">×3</span><span class="hero-stat-lbl">متوسط زيادة الربح</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">1,400+</span><span class="hero-stat-lbl">مربّي مسجّل</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">12+</span><span class="hero-stat-lbl">نوع حلال مدعوم</span></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="section-title">اختر نوع حلالك</div>
+    <div class="section-sub">اكتشف نصائح ودلائل مخصصة لكل نوع</div>
+    <div class="categories-grid">
+      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐔</span><span class="cat-name">دجاج بلدي</span><span class="cat-count">42 نصيحة</span></div>
+      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐑</span><span class="cat-name">أغنام</span><span class="cat-count">35 نصيحة</span></div>
+      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐄</span><span class="cat-name">أبقار</span><span class="cat-count">28 نصيحة</span></div>
+      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐇</span><span class="cat-name">أرانب</span><span class="cat-count">20 نصيحة</span></div>
+      <div class="cat-card"><span class="cat-icon">🕊️</span><span class="cat-name">حمام</span><span class="cat-count">18 نصيحة</span></div>
+      <div class="cat-card"><span class="cat-icon">🐐</span><span class="cat-name">ماعز</span><span class="cat-count">22 نصيحة</span></div>
+      <div class="cat-card"><span class="cat-icon">🐝</span><span class="cat-name">نحل</span><span class="cat-count">15 نصيحة</span></div>
+      <div class="cat-card"><span class="cat-icon">🦃</span><span class="cat-name">ديوك رومي</span><span class="cat-count">12 نصيحة</span></div>
+    </div>
+    <div class="section-title">أبرز نصائح اليوم</div>
+    <div class="section-sub">محدّثة أسبوعياً من خبرائنا</div>
+    <div class="tips-grid">
+      <div class="tip-card green"><span class="tip-tag green">🌾 تغذية</span><h3>سر زيادة إنتاج البيض 40%</h3><p>خلطة علف بسيطة من الكالسيوم وفول الصوجا تضاعف الإنتاج خلال أسبوعين. أضف قشر البيض المطحون يومياً.</p></div>
+      <div class="tip-card amber"><span class="tip-tag amber">💰 تسويق</span><h3>بيع منتجاتك بسعر أعلى بدون وسيط</h3><p>استراتيجيات البيع المباشر عبر مجموعات واتساب المحلية وكيف تبني قاعدة زبائن وفيّة.</p></div>
+      <div class="tip-card teal"><span class="tip-tag teal">💉 صحة</span><h3>جدول التطعيم الأمثل للدجاج</h3><p>متى تُعطي اللقاحات، أيها أساسي، وكيف تحفظها بشكل صحيح لتضمن فاعليتها الكاملة.</p></div>
+      <div class="tip-card amber"><span class="tip-tag amber">🏗️ بناء</span><h3>تصميم حظيرة بتكلفة أقل</h3><p>مقاسات مثالية، تهوية صحيحة، وعزل للحرارة — كل ما تحتاجه ببيانات مبنية على التجربة.</p></div>
+      <div class="tip-card green"><span class="tip-tag green">♻️ استدامة</span><h3>دخل إضافي من مخلّفات الحيوانات</h3><p>تحويل السماد العضوي إلى مشروع مربح: البيع للمزارعين أو صنع سماد كومبوست منزلي.</p></div>
+      <div class="tip-card teal"><span class="tip-tag teal">☀️ مواسم</span><h3>حماية قطيعك من حر الصيف</h3><p>الإجهاد الحراري يخفّض الإنتاج 30%. حلول بسيطة وبتكلفة شبه معدومة لتبريد الحظيرة.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MARKET ===== -->
+<div id="page-market" class="page">
+  <div class="container">
+    <div class="section-title">سوق الأسعار</div>
+    <div class="section-sub">متوسطات أسعار السوق الجزائري مع تطور الأسعار خلال 30 يوم</div>
+    <div class="market-grid">
+      <div>
+        <div class="market-table">
+          <div class="market-header"><h3>🐔 الدواجن والبيض</h3><span class="market-updated">محدّث اليوم</span></div>
+          <div class="market-row"><div class="market-info"><span class="market-emoji">🐔</span><div><div class="market-name">دجاج بلدي حي</div><div class="market-sub">كيلوغرام</div></div></div><div><div class="market-price">480 دج</div><div class="market-change up">↑ 5.2%</div></div></div>
+          <div class="market-row"><div class="market-info"><span class="market-emoji">🥚</span><div><div class="market-name">بيض بلدي</div><div class="market-sub">30 حبة</div></div></div><div><div class="market-price">650 دج</div><div class="market-change up">↑ 8.1%</div></div></div>
+          <div class="market-row"><div class="market-info"><span class="market-emoji">🦃</span><div><div class="market-name">ديك رومي</div><div class="market-sub">كيلوغرام حي</div></div></div><div><div class="market-price">620 دج</div><div class="market-change down">↓ 1.3%</div></div></div>
+          <div class="market-row"><div class="market-info"><span class="market-emoji">🕊️</span><div><div class="market-name">حمام زاجل</div><div class="market-sub">الزوج</div></div></div><div><div class="market-price">1,200 دج</div><div class="market-change up">↑ 3.0%</div></div></div>
+        </div>
+        <div class="market-table">
+          <div class="market-header"><h3>🐄 المواشي والألبان</h3><span class="market-updated">محدّث اليوم</span></div>
+          <div class="market-row"><div class="market-info"><span class="market-emoji">🐑</span><div><div class="market-name">خروف بالغ</div><div class="market-sub">رأس — 40 كغ</div></div></div><div><div class="market-price">55,000 دج</div><div class="market-change down">↓ 2.0%</div></div></div>
+          <div class="market-row"><div class="market-info"><span class="market-emoji">🐄</span><div><div class="market-name">حليب بقر</div><div class="market-sub">لتر — مباشر</div></div></div><div><div class="market-price">120 دج</div><div class="market-change up">↑ 3.4%</div></div></div>
+          <div class="market-row"><div class="market-info"><span class="market-emoji">🐇</span><div><div class="market-name">أرنب بلدي</div><div class="market-sub">كيلوغرام حي</div></div></div><div><div class="market-price">900 دج</div><div class="market-change up">↑ 12.0%</div></div></div>
+          <div class="market-row"><div class="market-info"><span class="market-emoji">🐐</span><div><div class="market-name">حليب ماعز</div><div class="market-sub">لتر — طازج</div></div></div><div><div class="market-price">200 دج</div><div class="market-change up">↑ 6.5%</div></div></div>
+        </div>
+        <div class="market-table">
+          <div class="market-header"><h3>🌾 علف ومستلزمات</h3><span class="market-updated">بالجملة</span></div>
+          <div class="market-row"><div class="market-info"><span class="market-emoji">🌽</span><div><div class="market-name">ذرة صفراء مطحونة</div><div class="market-sub">كيس 50 كغ</div></div></div><div><div class="market-price">3,800 دج</div><div class="market-change down">↓ 0.5%</div></div></div>
+          <div class="market-row"><div class="market-info"><span class="market-emoji">🫘</span><div><div class="market-name">كسبة الصوجا</div><div class="market-sub">كيس 50 كغ</div></div></div><div><div class="market-price">6,200 دج</div><div class="market-change up">↑ 2.1%</div></div></div>
+          <div class="market-row"><div class="market-info"><span class="market-emoji">🧪</span><div><div class="market-name">فيتامينات دواجن</div><div class="market-sub">علبة 1 كغ</div></div></div><div><div class="market-price">1,100 دج</div><div class="market-change up">↑ 1.8%</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="chart-card">
+          <div class="chart-title">📈 تطور الأسعار — 30 يوم</div>
+          <div class="chart-sub">اختر المنتج لعرض تطور سعره</div>
+          <div class="chart-tabs">
+            <button class="chart-tab active" onclick="updatePriceChart('chicken',this)">دجاج</button>
+            <button class="chart-tab" onclick="updatePriceChart('eggs',this)">بيض</button>
+            <button class="chart-tab" onclick="updatePriceChart('sheep',this)">خروف</button>
+            <button class="chart-tab" onclick="updatePriceChart('rabbit',this)">أرانب</button>
+          </div>
+          <canvas id="priceChart" height="280"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DISEASES ===== -->
+<div id="page-diseases" class="page">
+  <div class="container">
+    <div class="section-title">دليل الأمراض والعلاج</div>
+    <div class="section-sub">تعرّف على الأعراض والعلاج لأكثر الأمراض شيوعاً — مع خيار التواصل مع بيطري</div>
+    <div class="disease-search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="disease-search" type="text" placeholder="ابحث عن مرض أو عرَض أو علاج..." id="disease-search" oninput="filterDiseases()">
+    </div>
+    <div class="disease-filters">
+      <button class="filter-btn active" onclick="setFilter('all',this)">الكل</button>
+      <button class="filter-btn" onclick="setFilter('دجاج',this)">🐔 دجاج</button>
+      <button class="filter-btn" onclick="setFilter('أغنام',this)">🐑 أغنام</button>
+      <button class="filter-btn" onclick="setFilter('أبقار',this)">🐄 أبقار</button>
+      <button class="filter-btn" onclick="setFilter('أرانب',this)">🐇 أرانب</button>
+      <button class="filter-btn" onclick="setFilter('ماعز',this)">🐐 ماعز</button>
+      <button class="filter-btn" onclick="setFilter('high',this)">🔴 خطر عالٍ</button>
+    </div>
+    <div class="diseases-grid" id="diseases-grid"></div>
+  </div>
+</div>
+
+<!-- ===== TOOLS ===== -->
+<div id="page-tools" class="page">
+  <div class="container">
+    <div class="section-title">أدوات المربّي</div>
+    <div class="section-sub">حاسبة العلف الذكية، حاسبة الربح، والتقويم الموسمي</div>
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="showInnerTab('feed',this)">🌾 حاسبة العلف</button>
+      <button class="inner-tab" onclick="showInnerTab('profit',this)">💰 حاسبة الربح</button>
+      <button class="inner-tab" onclick="showInnerTab('calendar',this)">📅 التقويم الموسمي</button>
+    </div>
+
+    <!-- FEED CALC -->
+    <div id="inner-feed">
+      <div class="feed-calc">
+        <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:1rem;">🌾 حاسبة العلف اليومية</div>
+        <div class="feed-grid">
+          <div class="feed-field"><label>نوع الحيوان</label>
+            <select id="f-type" onchange="calcFeed()">
+              <option value="chicken_layer">دجاج بياض</option>
+              <option value="chicken_meat">دجاج لحم</option>
+              <option value="chick">كتاكيت (أقل من شهر)</option>
+              <option value="sheep">أغنام</option>
+              <option value="cow">أبقار</option>
+              <option value="rabbit">أرانب</option>
+              <option value="goat">ماعز</option>
+            </select>
+          </div>
+          <div class="feed-field"><label>عدد الرؤوس</label><input type="number" id="f-count" value="50" min="1" oninput="calcFeed()"></div>
+          <div class="feed-field"><label>متوسط الوزن (كغ)</label><input type="number" id="f-weight" value="2" min="0.1" step="0.1" oninput="calcFeed()"></div>
+          <div class="feed-field"><label>مرحلة التربية</label>
+            <select id="f-stage" onchange="calcFeed()">
+              <option value="grow">نمو</option>
+              <option value="lay">إنتاج / بياض</option>
+              <option value="breed">تناسل</option>
+              <option value="fatten">تسمين</option>
+            </select>
+          </div>
+          <div class="feed-field"><label>سعر كيلو العلف (دج)</label><input type="number" id="f-price" value="75" min="1" oninput="calcFeed()"></div>
+        </div>
+        <div class="feed-results">
+          <div class="feed-result"><span class="feed-num" id="f-daily">4.5 كغ</span><div class="feed-lbl">علف يومي للقطيع</div></div>
+          <div class="feed-result"><span class="feed-num" id="f-monthly">135 كغ</span><div class="feed-lbl">علف شهري</div></div>
+          <div class="feed-result"><span class="feed-num" id="f-protein">18%</span><div class="feed-lbl">نسبة بروتين مثالية</div></div>
+          <div class="feed-result"><span class="feed-num" id="f-calcium">4 غ</span><div class="feed-lbl">كالسيوم يومي / رأس</div></div>
+          <div class="feed-result highlight"><span class="feed-num" id="f-cost">10,125 دج</span><div class="feed-lbl">تكلفة العلف شهرياً</div></div>
+        </div>
+        <div id="f-tips" style="margin-top:1rem;background:var(--a50);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--a800);line-height:1.7;"></div>
+      </div>
+    </div>
+
+    <!-- PROFIT CALC -->
+    <div id="inner-profit" style="display:none;">
+      <div class="calc-box">
+        <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:1rem;">💰 حاسبة الربح التفصيلية</div>
+        <div class="calc-grid">
+          <div class="calc-field"><label>نوع الحلال</label>
+            <select id="c-type" onchange="calc()">
+              <option value="chicken">دجاج بلدي</option>
+              <option value="eggs">بيض</option>
+              <option value="sheep">أغنام</option>
+              <option value="rabbit">أرانب</option>
+              <option value="turkey">ديوك رومي</option>
+              <option value="goat_milk">حليب ماعز</option>
+            </select>
+          </div>
+          <div class="calc-field"><label>عدد الرؤوس / الطيور</label><input type="number" id="c-count" value="50" min="1" onchange="calc()"></div>
+          <div class="calc-field"><label>تكلفة العلف الشهرية (دج)</label><input type="number" id="c-feed" value="15000" onchange="calc()"></div>
+          <div class="calc-field"><label>تكاليف أخرى شهرية (دج)</label><input type="number" id="c-other" value="5000" onchange="calc()"></div>
+          <div class="calc-field"><label>مدة الدورة (أشهر)</label><input type="number" id="c-months" value="3" min="1" max="24" onchange="calc()"></div>
+          <div class="calc-field"><label>سعر البيع (دج / وحدة)</label><input type="number" id="c-price" value="480" onchange="calc()"></div>
+        </div>
+        <div class="calc-results">
+          <div class="calc-result-card"><span class="result-num" id="r-revenue">72,000 دج</span><div class="result-lbl">إيرادات إجمالية</div></div>
+          <div class="calc-result-card"><span class="result-num" id="r-cost">60,000 دج</span><div class="result-lbl">تكاليف إجمالية</div></div>
+          <div class="calc-result-card profit"><span class="result-num" id="r-profit">12,000 دج</span><div class="result-lbl">🎉 ربح صافي</div></div>
+        </div>
+        <div class="calc-chart-wrap">
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px;">توزيع التكاليف والإيرادات</div>
+          <canvas id="calcChart" height="160"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div id="inner-calendar" style="display:none;">
+      <div class="section-sub" style="margin-bottom:1rem;">📅 جدول زمني لأهم أحداث التربية حسب الفصل</div>
+      <div class="calendar-grid" id="cal-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAP ===== -->
+<div id="page-map" class="page">
+  <div class="container">
+    <div class="section-title">خريطة المربّين</div>
+    <div class="section-sub">تواصل مع مربّين من ولايتك وتبادل الخبرات والمنتجات</div>
+    <div class="map-section">
+      <div class="map-header">
+        <h3>🗺️ المربّون حسب الولاية</h3>
+        <div class="map-stats">
+          <span class="map-stat"><strong>1,432</strong> مربّي</span>
+          <span class="map-stat"><strong>48</strong> ولاية</span>
+          <span class="map-stat"><span class="wilaya-dot dot-high"></span>نشاط عالٍ &nbsp;<span class="wilaya-dot dot-mid"></span>متوسط &nbsp;<span class="wilaya-dot dot-low"></span>منخفض</span>
+        </div>
+      </div>
+      <div class="map-body">
+        <div class="wilayas-grid" id="wilayas-grid"></div>
+        <div class="map-sidebar">
+          <div class="map-sidebar-title">أعضاء الولاية المختارة</div>
+          <div id="map-members">
+            <p style="font-size:13px;color:var(--text3);text-align:center;padding:1rem 0;">اختر ولاية لعرض المربّين</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COMMUNITY ===== -->
+<div id="page-community" class="page">
+  <div class="container">
+    <div class="section-title">مجتمع المربّين</div>
+    <div class="section-sub">اسأل، شارك، وتعلّم من تجارب مربّين من كل أنحاء الجزائر</div>
+    <div class="community-layout">
+      <div>
+        <div class="new-post-form">
+          <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+            <button class="post-type-btn active" id="type-tip" onclick="selectType('tip')">💡 نصيحة</button>
+            <button class="post-type-btn" id="type-question" onclick="selectType('question')">❓ سؤال</button>
+            <button class="post-type-btn" id="type-sale" onclick="selectType('sale')">🛒 بيع وشراء</button>
+          </div>
+          <textarea id="post-text" placeholder="شارك تجربتك أو اطرح سؤالك على المجتمع..."></textarea>
+          <div class="new-post-actions">
+            <select style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:12px;background:var(--bg);color:var(--text2);" id="post-wilaya">
+              <option>🌍 الولاية</option>
+              <option>البليدة</option><option>الجزائر</option><option>وهران</option>
+              <option>قسنطينة</option><option>سطيف</option><option>باتنة</option>
+            </select>
+            <button class="submit-post" onclick="submitPost()">نشر ↗</button>
+          </div>
+        </div>
+        <div class="posts-list" id="posts-list"></div>
+      </div>
+      <div class="community-sidebar">
+        <div class="sidebar-card">
+          <div class="sidebar-title">🏆 خبراء المجتمع</div>
+          <div class="expert-row"><div class="avatar av-green">أح</div><div class="expert-info"><div class="expert-name">أحمد بن سالم <span class="verified-badge">✓</span></div><div class="expert-spec">دواجن — البليدة | 234 إجابة</div></div><span class="rep-badge rep-gold">ذهبي</span></div>
+          <div class="expert-row"><div class="avatar av-amber">فز</div><div class="expert-info"><div class="expert-name">فاطمة زهراء <span class="verified-badge">✓</span></div><div class="expert-spec">أغنام وألبان — سطيف | 189 إجابة</div></div><span class="rep-badge rep-gold">ذهبي</span></div>
+          <div class="expert-row"><div class="avatar av-teal">مح</div><div class="expert-info"><div class="expert-name">محمد الصادق</div><div class="expert-spec">أرانب وطيور — وهران | 97 إجابة</div></div><span class="rep-badge rep-silver">فضي</span></div>
+          <div class="expert-row"><div class="avatar av-green">سب</div><div class="expert-info"><div class="expert-name">سليم بوزيدي</div><div class="expert-spec">نحل وماعز — تيزي وزو | 45 إجابة</div></div><span class="rep-badge rep-bronze">برونزي</span></div>
+        </div>
+        <div class="sidebar-card">
+          <div class="sidebar-title">⭐ نظام المستويات</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);"><span>🥇 ذهبي</span><span style="color:var(--text3);">+200 إجابة</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);"><span>🥈 فضي</span><span style="color:var(--text3);">50-199 إجابة</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);"><span>🥉 برونزي</span><span style="color:var(--text3);">10-49 إجابة</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;"><span>🌱 جديد</span><span style="color:var(--text3);">أقل من 10</span></div>
+          </div>
+        </div>
+        <div class="sidebar-card">
+          <div class="sidebar-title">📊 إحصائيات</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="background:var(--g50);border-radius:8px;padding:10px;text-align:center;"><div style="font-size:1.2rem;font-weight:700;color:var(--g800);">1,432</div><div style="font-size:11px;color:var(--g600);">عضو</div></div>
+            <div style="background:var(--a50);border-radius:8px;padding:10px;text-align:center;"><div style="font-size:1.2rem;font-weight:700;color:var(--a800);">348</div><div style="font-size:11px;color:var(--a600);">منشور</div></div>
+            <div style="background:var(--t50);border-radius:8px;padding:10px;text-align:center;"><div style="font-size:1.2rem;font-weight:700;color:var(--t800);">89</div><div style="font-size:11px;color:var(--t600);">سؤال مجاب</div></div>
+            <div style="background:var(--g50);border-radius:8px;padding:10px;text-align:center;"><div style="font-size:1.2rem;font-weight:700;color:var(--g800);">48</div><div style="font-size:11px;color:var(--g600);">ولاية</div></div>
+          </div>
+        </div>
+        <div class="sidebar-card">
+          <div class="sidebar-title">🔥 المواضيع الرائجة</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="font-size:13px;color:var(--text2);padding:5px 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="filterPosts('نيوكاسل')">#مرض_نيوكاسل <span style="color:var(--text3);font-size:11px;">23 منشور</span></div>
+            <div style="font-size:13px;color:var(--text2);padding:5px 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="filterPosts('أرانب')">#علف_الأرانب <span style="color:var(--text3);font-size:11px;">17 منشور</span></div>
+            <div style="font-size:13px;color:var(--text2);padding:5px 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="filterPosts('عيد')">#أسعار_العيد <span style="color:var(--text3);font-size:11px;">41 منشور</span></div>
+            <div style="font-size:13px;color:var(--text2);padding:5px 0;" onclick="filterPosts('صيف')">#الدواجن_والصيف <span style="color:var(--text3);font-size:11px;">29 منشور</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SOUQ MAP ===== -->
+<div id="page-souq" class="page">
+  <div class="container">
+    <div class="section-title">🗺️ أسواق الحيوانات والدواجن</div>
+    <div class="section-sub">ابحث عن أقرب سوق يتوفر فيه ما تحتاجه — مع يوم السوق والأسعار</div>
+
+    <div class="souq-controls">
+      <div class="souq-field">
+        <label>ما الذي تبحث عنه؟</label>
+        <select id="sq-product" onchange="filterSouq()">
+          <option value="all">الكل</option>
+          <option value="دجاج">🐔 دجاج بلدي</option>
+          <option value="بيض">🥚 بيض</option>
+          <option value="أغنام">🐑 أغنام</option>
+          <option value="أبقار">🐄 أبقار</option>
+          <option value="أرانب">🐇 أرانب</option>
+          <option value="ماعز">🐐 ماعز</option>
+          <option value="ديوك رومي">🦃 ديوك رومي</option>
+          <option value="نحل">🐝 عسل ونحل</option>
+        </select>
+      </div>
+      <div class="souq-field">
+        <label>الولاية</label>
+        <select id="sq-wilaya" onchange="filterSouq()">
+          <option value="all">كل الولايات</option>
+          <option value="الجزائر">الجزائر</option>
+          <option value="البليدة">البليدة</option>
+          <option value="وهران">وهران</option>
+          <option value="سطيف">سطيف</option>
+          <option value="قسنطينة">قسنطينة</option>
+          <option value="باتنة">باتنة</option>
+          <option value="تيزي وزو">تيزي وزو</option>
+          <option value="بجاية">بجاية</option>
+          <option value="مستغانم">مستغانم</option>
+          <option value="تلمسان">تلمسان</option>
+        </select>
+      </div>
+      <div class="souq-field">
+        <label>يوم السوق</label>
+        <select id="sq-day" onchange="filterSouq()">
+          <option value="all">كل الأيام</option>
+          <option value="الاثنين">الاثنين</option>
+          <option value="الثلاثاء">الثلاثاء</option>
+          <option value="الأربعاء">الأربعاء</option>
+          <option value="الخميس">الخميس</option>
+          <option value="الجمعة">الجمعة</option>
+          <option value="السبت">السبت</option>
+          <option value="الأحد">الأحد</option>
+        </select>
+      </div>
+      <div class="souq-field">
+        <label>ترتيب حسب</label>
+        <select id="sq-sort" onchange="filterSouq()">
+          <option value="distance">الأقرب أولاً</option>
+          <option value="day">اليوم القادم</option>
+          <option value="price">أقل سعر</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="souq-map"></div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
+      <span style="font-size:13px;color:var(--text3);">عرض <strong id="souq-count" style="color:var(--text);">0</strong> سوق</span>
+      <div style="display:flex;gap:8px;font-size:12px;color:var(--text3);align-items:center;">
+        <span>🟢 سوق اليوم</span>
+        <span>🟡 قريباً</span>
+        <span>⚪ أيام أخرى</span>
+      </div>
+    </div>
+
+    <div class="souq-results" id="souq-results"></div>
+  </div>
+</div>
+
+<!-- ===== GUIDE PAGE ===== -->
+<div id="page-guide" class="page">
+  <div class="container">
+    <div class="section-title">🐣 دليل أنواع الدجاج</div>
+    <div class="section-sub">قارن بين الأنواع، اعرف المستلزمات، واحصل على خطة تربية مخصصة لك</div>
+
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="showGuideTab('breeds',this)">🐔 مقارنة الأنواع</button>
+      <button class="inner-tab" onclick="showGuideTab('tools',this)">🔧 المستلزمات والتكلفة</button>
+      <button class="inner-tab" onclick="showGuideTab('plan',this)">📋 خطة التربية</button>
+      <button class="inner-tab" onclick="showGuideTab('space',this)">🏗️ المكان والحظيرة</button>
+    </div>
+
+    <!-- BREEDS -->
+    <div id="gtab-breeds">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem;">
+        <button class="filter-btn active" onclick="filterBreeds('all',this)">الكل</button>
+        <button class="filter-btn" onclick="filterBreeds('بيض',this)">🥚 إنتاج بيض</button>
+        <button class="filter-btn" onclick="filterBreeds('لحم',this)">🍗 إنتاج لحم</button>
+        <button class="filter-btn" onclick="filterBreeds('مزدوج',this)">⚡ مزدوج</button>
+        <button class="filter-btn" onclick="filterBreeds('سهل',this)">✅ سهل التربية</button>
+      </div>
+      <div class="breed-grid" id="breed-grid"></div>
+    </div>
+
+    <!-- TOOLS -->
+    <div id="gtab-tools" style="display:none;">
+      <div class="tools-planner">
+        <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:1rem;">⚙️ حدّد مشروعك واحسب ما تحتاجه</div>
+        <div class="planner-controls">
+          <div class="planner-field"><label>عدد الكتاكيت</label><input type="number" id="p-count" value="50" min="5" max="2000" oninput="renderTools()"></div>
+          <div class="planner-field"><label>نوع التربية</label>
+            <select id="p-type" onchange="renderTools()">
+              <option value="floor">أرضي (فرشة)</option>
+              <option value="cage">أقفاص</option>
+              <option value="free">مفتوح (حديقة)</option>
+            </select>
+          </div>
+          <div class="planner-field"><label>الهدف</label>
+            <select id="p-goal" onchange="renderTools()">
+              <option value="eggs">إنتاج بيض</option>
+              <option value="meat">تسمين لحم</option>
+              <option value="both">مزدوج</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:1rem;">
+          <span style="font-size:12px;font-weight:600;background:var(--g50);color:var(--g800);padding:3px 10px;border-radius:20px;">🟢 أساسي — لا تربي بدونه</span>
+          <span style="font-size:12px;font-weight:600;background:var(--a50);color:var(--a800);padding:3px 10px;border-radius:20px;">🟡 اختياري — يحسّن النتائج</span>
+        </div>
+        <div class="tools-list" id="tools-list"></div>
+        <div class="tools-total">
+          <span class="tools-total-label">💰 التكلفة الإجمالية التقريبية للبداية</span>
+          <span class="tools-total-price" id="tools-total">0 دج</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLAN -->
+    <div id="gtab-plan" style="display:none;">
+      <div class="tools-planner" style="margin-bottom:1.5rem;">
+        <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:1rem;">📋 خطتك المخصصة أسبوع بأسبوع</div>
+        <div class="planner-controls">
+          <div class="planner-field"><label>عدد الكتاكيت</label><input type="number" id="pl-count" value="50" min="5" oninput="renderPlan()"></div>
+          <div class="planner-field"><label>الهدف النهائي</label>
+            <select id="pl-goal" onchange="renderPlan()">
+              <option value="eggs">بيض</option>
+              <option value="meat">تسمين</option>
+              <option value="both">مزدوج</option>
+            </select>
+          </div>
+          <div class="planner-field"><label>ميزانيتك (دج)</label><input type="number" id="pl-budget" value="50000" oninput="renderPlan()"></div>
+        </div>
+      </div>
+      <div class="plan-timeline" id="plan-timeline"></div>
+    </div>
+
+    <!-- SPACE -->
+    <div id="gtab-space" style="display:none;">
+      <div class="tools-planner">
+        <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:1rem;">🏗️ حساب مساحة الحظيرة</div>
+        <div class="planner-controls">
+          <div class="planner-field"><label>عدد الطيور</label><input type="number" id="sp-count" value="50" min="1" oninput="renderSpace()"></div>
+          <div class="planner-field"><label>نوع التربية</label>
+            <select id="sp-type" onchange="renderSpace()">
+              <option value="floor">أرضي</option>
+              <option value="cage">أقفاص</option>
+              <option value="free">مفتوح</option>
+            </select>
+          </div>
+        </div>
+        <div id="space-results" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:1.5rem;"></div>
+        <div id="space-tips" style="background:var(--g50);border-radius:var(--radius);padding:1rem 1.25rem;"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;">
+        <div class="tip-card teal"><span class="tip-tag teal">🧭 الاتجاه</span><h3>أفضل اتجاه للحظيرة</h3><p>الواجهة الرئيسية نحو الجنوب — تضمن دفء الشتاء وتهوية الصيف. تجنّب الشمال تماماً.</p></div>
+        <div class="tip-card green"><span class="tip-tag green">🌿 البيئة</span><h3>المسافة عن البيت</h3><p>لا تقل عن 10 أمتار للروائح. المناطق الريفية المرتفعة قليلاً أفضل للتهوية الطبيعية.</p></div>
+        <div class="tip-card amber"><span class="tip-tag amber">💧 الماء</span><h3>قرب مصدر الماء</h3><p>الدجاج يحتاج 250-500 مل ماء يومياً. خط مياه قريب يوفّر عليك جهداً يومياً كبيراً.</p></div>
+        <div class="tip-card teal"><span class="tip-tag teal">☀️ الإضاءة</span><h3>نوافذ الإضاءة الطبيعية</h3><p>25 سم² لكل طائر من النوافذ. الضوء الطبيعي يقلل استهلاك الكهرباء ويحسّن الإنتاج.</p></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>🌿 منصة <strong>حلالك</strong> — مصنوعة بحب لمربّي الجزائر &nbsp;|&nbsp; <a href="#">سياسة الخصوصية</a> &nbsp;|&nbsp; <a href="#">تواصل معنا</a></p>
+</footer>
+
+<script>
+// ===== NAVIGATION =====
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (btn && btn.classList) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (id === 'market') initPriceChart();
+  if (id === 'tools') { calcFeed(); calc(); renderCalendar(); }
+  if (id === 'map') renderMap();
+}
+
+function showInnerTab(id, btn) {
+  ['feed','profit','calendar'].forEach(t => document.getElementById('inner-' + t).style.display = 'none');
+  document.getElementById('inner-' + id).style.display = 'block';
+  document.querySelectorAll('.inner-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (id === 'profit') { calc(); setTimeout(initCalcChart, 100); }
+  if (id === 'calendar') renderCalendar();
+}
+
+// ===== PRICE CHART =====
+let priceChart = null;
+const priceData = {
+  chicken: { label: 'دجاج بلدي (دج/كغ)', color: '#3B6D11', base: 460, trend: 1.02 },
+  eggs: { label: 'بيض (دج/30 حبة)', color: '#BA7517', base: 600, trend: 1.03 },
+  sheep: { label: 'خروف (دج/رأس ÷ 100)', color: '#0F6E56', base: 510, trend: 0.99 },
+  rabbit: { label: 'أرانب (دج/كغ)', color: '#A32D2D', base: 800, trend: 1.05 },
+};
+const days = Array.from({ length: 30 }, (_, i) => `${i + 1}`);
+
+function genPrices(base, trend) {
+  let v = base;
+  return days.map(() => {
+    v = Math.round(v * trend + (Math.random() - 0.48) * 18);
+    return v;
+  });
+}
+
+function initPriceChart() {
+  if (priceChart) return;
+  const ctx = document.getElementById('priceChart').getContext('2d');
+  const d = priceData.chicken;
+  priceChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: days,
+      datasets: [{ label: d.label, data: genPrices(d.base, d.trend), borderColor: d.color, backgroundColor: d.color + '18', tension: 0.4, fill: true, pointRadius: 0, borderWidth: 2 }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { ticks: { font: { family: 'Cairo' }, maxTicksLimit: 6 } }, y: { ticks: { font: { family: 'Cairo' } } } } }
+  });
+}
+
+function updatePriceChart(key, btn) {
+  document.querySelectorAll('.chart-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (!priceChart) { initPriceChart(); return; }
+  const d = priceData[key];
+  priceChart.data.datasets[0] = { label: d.label, data: genPrices(d.base, d.trend), borderColor: d.color, backgroundColor: d.color + '18', tension: 0.4, fill: true, pointRadius: 0, borderWidth: 2 };
+  priceChart.update();
+}
+
+// ===== DISEASES =====
+const diseases = [
+  { icon:'🦠', name:'مرض نيوكاسل', latin:'Newcastle Disease', severity:'high', animals:['دجاج','حمام','ديوك رومي'], symptoms:'توقف مفاجئ عن الأكل، صعوبة في التنفس، التواء الرقبة، إسهال أخضر، نفوق جماعي سريع.', treatment:'لا علاج شافٍ. الوقاية بالتطعيم كل 3 أشهر. عزل فوري للمصابين، تعقيم الحظيرة بالكلور.' },
+  { icon:'🔴', name:'مرض جمبورو', latin:'Infectious Bursal Disease', severity:'high', animals:['دجاج'], symptoms:'كآبة، تقوّس، إسهال أبيض مائي، رجفة، نفوق قد يصل 30% في الكتاكيت.', treatment:'لقاح عند 14 و21 يوماً. فيتامين C في الماء، تحسين التهوية، تقليل الكثافة.' },
+  { icon:'😮', name:'التهاب القصبات', latin:'Infectious Bronchitis', severity:'mid', animals:['دجاج'], symptoms:'سعال، عطس، أصوات تنفسية خشنة، انخفاض إنتاج البيض، بيض بقشرة مشوّهة.', treatment:'تطعيم وقائي. مضادات للبكتيريا الثانوية، ترطيب الهواء، دفء الحظيرة.' },
+  { icon:'🩸', name:'الكوكسيديا', latin:'Coccidiosis', severity:'mid', animals:['دجاج','أرانب','أغنام'], symptoms:'إسهال دموي، فقدان وزن مفاجئ، شحوب في العرف، كآبة وضعف عام.', treatment:'Amprolium في ماء الشرب 5 أيام. تجفيف الفرشة وتنظيف الحظيرة باستمرار.' },
+  { icon:'🤧', name:'الميكوبلازما', latin:'Mycoplasmosis', severity:'mid', animals:['دجاج','ديوك رومي'], symptoms:'أصوات تنفسية، إفرازات أنفية، تورم الجيوب، انخفاض تدريجي في الإنتاج.', treatment:'Tylosin أو Enrofloxacin بوصفة بيطرية. تحسين التهوية أساسي جداً.' },
+  { icon:'🦴', name:'نقص الكالسيوم', latin:'Hypocalcemia', severity:'low', animals:['دجاج','أبقار','أغنام'], symptoms:'بيض بقشرة رقيقة أو بدون قشرة، ضعف عضلي، صعوبة في الوقوف.', treatment:'قشر البيض المطحون أو الحجر الجيري 4-5 غ يومياً. فيتامين D3 لتحسين الامتصاص.' },
+  { icon:'🐛', name:'الديدان الطفيلية', latin:'Helminthiasis', severity:'mid', animals:['دجاج','أغنام','أبقار','ماعز'], symptoms:'نقص وزن رغم الأكل، شحوب، إسهال متكرر، ضعف عام وإنتاج منخفض.', treatment:'Albendazole أو Ivermectin حسب الوزن. تكرار كل 3-6 أشهر.' },
+  { icon:'🔵', name:'مرض الجدري', latin:'Fowlpox', severity:'mid', animals:['دجاج','حمام'], symptoms:'بثور جلدية صفراء على العرف والأرجل، تقرحات في الفم، صعوبة في الأكل.', treatment:'لقاح وقائي أساسي. تعقيم الجروح باليود. فيتامينات لتقوية المناعة.' },
+  { icon:'🐑', name:'مرض الجرب', latin:'Scabies / Mange', severity:'mid', animals:['أغنام','ماعز','أبقار'], symptoms:'حكة شديدة، تساقط الصوف، جروح من الحك، قشور جلدية، هزال تدريجي.', treatment:'Ivermectin حقناً. غسيل بـ Amitraz. عزل المصابين وتطهير المكان.' },
+  { icon:'🩺', name:'نزلة البرد الأرنبية', latin:'Pasteurellosis', severity:'high', animals:['أرانب'], symptoms:'إفرازات أنفية بيضاء، عطس متكرر، التهاب العين، صعوبة تنفس، نفوق مفاجئ.', treatment:'Enrofloxacin في الماء 7-10 أيام. عزل فوري. تحسين التهوية وتقليل الرطوبة.' },
+  { icon:'🌡️', name:'الإجهاد الحراري', latin:'Heat Stress', severity:'low', animals:['دجاج','أرانب','ديوك رومي'], symptoms:'لهاث، انتشار الأجنحة، شرب مفرط، انخفاض حاد في الإنتاج عند 32°م+.', treatment:'تبريد الماء، مراوح، خفض الكثافة، فيتامين C وإلكتروليت في الماء.' },
+  { icon:'💛', name:'الكبد الدهني', latin:'Fatty Liver Syndrome', severity:'mid', animals:['دجاج'], symptoms:'تراجع مفاجئ في الإنتاج مع سمنة ظاهرة، نفوق مفاجئ دون أعراض سابقة.', treatment:'تقليل النشويات، إضافة ميثيونين وكولين، تنشيط حركة الطيور.' },
+];
+
+let activeFilter = 'all';
+function renderDiseases(list) {
+  document.getElementById('diseases-grid').innerHTML = list.length ? list.map(d => `
+    <div class="disease-card">
+      <div class="disease-header">
+        <span class="disease-icon">${d.icon}</span>
+        <div><div class="disease-name">${d.name}</div><div class="disease-latin">${d.latin}</div></div>
+        <span class="disease-severity ${d.severity==='high'?'sev-high':d.severity==='mid'?'sev-mid':'sev-low'}">
+          ${d.severity==='high'?'🔴 خطر عالٍ':d.severity==='mid'?'🟡 متوسط':'🟢 منخفض'}
+        </span>
+      </div>
+      <div class="disease-body">
+        <div class="disease-section-lbl">الأعراض</div>
+        <div class="disease-symptoms">${d.symptoms}</div>
+        <div class="disease-section-lbl">العلاج والوقاية</div>
+        <div class="disease-treatment">${d.treatment}</div>
+        <div class="disease-animals">${d.animals.map(a=>`<span class="animal-badge">${a}</span>`).join('')}</div>
+        <button class="vet-btn" onclick="callVet('${d.name}')">📞 تواصل مع بيطري بخصوص هذا المرض</button>
+      </div>
+    </div>`).join('') : '<p style="color:var(--text3);grid-column:1/-1;text-align:center;padding:2rem;">لا توجد نتائج للبحث</p>';
+}
+function filterDiseases() {
+  const q = document.getElementById('disease-search').value.toLowerCase();
+  let list = diseases;
+  if (activeFilter === 'high') list = list.filter(d => d.severity === 'high');
+  else if (activeFilter !== 'all') list = list.filter(d => d.animals.includes(activeFilter));
+  if (q) list = list.filter(d => d.name.includes(q) || d.symptoms.includes(q) || d.treatment.includes(q));
+  renderDiseases(list);
+}
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterDiseases();
+}
+function callVet(disease) {
+  const msg = `مرحباً، أحتاج استشارة بيطرية بخصوص: ${disease}`;
+  alert('📞 سيتم تحويلك للتواصل مع بيطري متخصص.\n\nالرسالة المُرسلة:\n"' + msg + '"\n\n(هذه الميزة ستُفعَّل قريباً)');
+}
+renderDiseases(diseases);
+
+// ===== FEED CALC =====
+const feedRates = {
+  chicken_layer: { rate:0.115, protein:{grow:18,lay:16,breed:17,fatten:15}, calcium:{grow:1,lay:4,breed:3,fatten:1}, tips:'دجاج البياض يحتاج كالسيوم عالٍ في مرحلة الإنتاج. أضف قشر البيض المطحون يومياً.' },
+  chicken_meat: { rate:0.08, protein:{grow:22,lay:18,breed:18,fatten:20}, calcium:{grow:1,lay:1,breed:1,fatten:1.5}, tips:'دجاج اللحم يحتاج بروتين عالٍ للنمو السريع. الذرة + الصوجا خلطة اقتصادية مثالية.' },
+  chick: { rate:0.04, protein:{grow:22,lay:22,breed:22,fatten:22}, calcium:{grow:0.8,lay:0.8,breed:0.8,fatten:0.8}, tips:'الكتاكيت تحتاج علفاً ناعماً ومسحوقاً. تأكد من توفر الماء الدافئ دائماً.' },
+  sheep: { rate:0.025, protein:{grow:14,lay:16,breed:16,fatten:13}, calcium:{grow:0.5,lay:0.7,breed:0.8,fatten:0.5}, tips:'الأغنام في مرحلة الحمل تحتاج تغذية مضاعفة. أضف المعادن والفيتامينات شهرياً.' },
+  cow: { rate:0.02, protein:{grow:14,lay:18,breed:16,fatten:12}, calcium:{grow:0.6,lay:1.2,breed:1,fatten:0.6}, tips:'البقرة الحلوب تحتاج 3-4 كغ علف مركز لكل 10 لتر حليب إضافة للعلف الأخضر.' },
+  rabbit: { rate:0.06, protein:{grow:16,lay:18,breed:17,fatten:14}, calcium:{grow:0.5,lay:0.8,breed:0.8,fatten:0.5}, tips:'الأرانب تستفيد جداً من الخضروات الطازجة. تجنّب الخس والملفوف بكميات كبيرة.' },
+  goat: { rate:0.03, protein:{grow:14,lay:16,breed:15,fatten:13}, calcium:{grow:0.5,lay:0.8,breed:0.7,fatten:0.5}, tips:'الماعز تأكل الأعشاب والأشجار. التنوع في التغذية يحسّن جودة الحليب.' },
+};
+function calcFeed() {
+  const type = document.getElementById('f-type').value;
+  const count = parseInt(document.getElementById('f-count').value) || 0;
+  const weight = parseFloat(document.getElementById('f-weight').value) || 1;
+  const stage = document.getElementById('f-stage').value;
+  const price = parseInt(document.getElementById('f-price').value) || 0;
+  const r = feedRates[type];
+  const daily = Math.round(r.rate * weight * count * 10) / 10;
+  const monthly = Math.round(daily * 30 * 10) / 10;
+  const protein = r.protein[stage];
+  const calcium = r.calcium[stage];
+  const cost = Math.round(monthly * price);
+  document.getElementById('f-daily').textContent = daily + ' كغ';
+  document.getElementById('f-monthly').textContent = monthly + ' كغ';
+  document.getElementById('f-protein').textContent = protein + '%';
+  document.getElementById('f-calcium').textContent = calcium + ' غ';
+  document.getElementById('f-cost').textContent = cost.toLocaleString('ar-DZ') + ' دج';
+  document.getElementById('f-tips').innerHTML = '💡 <strong>نصيحة:</strong> ' + r.tips;
+}
+
+// ===== PROFIT CALC =====
+let calcChart = null;
+function calc() {
+  const count = parseInt(document.getElementById('c-count').value) || 0;
+  const feed = parseInt(document.getElementById('c-feed').value) || 0;
+  const other = parseInt(document.getElementById('c-other').value) || 0;
+  const months = parseInt(document.getElementById('c-months').value) || 1;
+  const price = parseInt(document.getElementById('c-price').value) || 0;
+  const revenue = count * price;
+  const cost = (feed + other) * months;
+  const profit = revenue - cost;
+  document.getElementById('r-revenue').textContent = revenue.toLocaleString('ar-DZ') + ' دج';
+  document.getElementById('r-cost').textContent = cost.toLocaleString('ar-DZ') + ' دج';
+  document.getElementById('r-profit').textContent = profit.toLocaleString('ar-DZ') + ' دج';
+  document.getElementById('r-profit').style.color = profit >= 0 ? '#C0DD97' : '#F09595';
+  if (calcChart) { calcChart.data.datasets[0].data = [feed * months, other * months, Math.max(0, profit)]; calcChart.update(); }
+}
+function initCalcChart() {
+  if (calcChart) return;
+  const ctx = document.getElementById('calcChart').getContext('2d');
+  const feed = (parseInt(document.getElementById('c-feed').value)||0) * (parseInt(document.getElementById('c-months').value)||1);
+  const other = (parseInt(document.getElementById('c-other').value)||0) * (parseInt(document.getElementById('c-months').value)||1);
+  const revenue = (parseInt(document.getElementById('c-count').value)||0) * (parseInt(document.getElementById('c-price').value)||0);
+  calcChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['تكلفة العلف', 'تكاليف أخرى', 'الربح'],
+      datasets: [{ data: [feed, other, Math.max(0, revenue - feed - other)], backgroundColor: ['#FAEEDA','#E1F5EE','#27500A'], borderRadius: 6 }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { ticks: { font: { family: 'Cairo' } } }, y: { ticks: { font: { family: 'Cairo' }, callback: v => v.toLocaleString('ar-DZ') } } } }
+  });
+}
+
+// ===== CALENDAR =====
+const calEvents = [
+  { month: 'يناير — فبراير', season: 'winter', icon: '❄️', events: [
+    { icon: '💉', name: 'تجديد تطعيم نيوكاسل', text: 'للدجاج والحمام كل 3 أشهر' },
+    { icon: '🌡️', name: 'عزل الحيوانات من البرد', text: 'توفير دفء الحظيرة ليلاً' },
+    { icon: '🌾', name: 'زيادة حصة العلف', text: '+15% في الشتاء لتعويض الطاقة' },
+  ]},
+  { month: 'مارس — أبريل', season: 'spring', icon: '🌸', events: [
+    { icon: '🐣', name: 'موسم التفريخ', text: 'أفضل وقت لتفريخ الكتاكيت وصغار الأرانب' },
+    { icon: '💉', name: 'تطعيم الكتاكيت الجديدة', text: 'جمبورو عند 14 و21 يوماً' },
+    { icon: '🧹', name: 'تنظيف شامل للحظيرة', text: 'تجديد الفرشة وتعقيم الجدران' },
+  ]},
+  { month: 'مايو — يونيو', season: 'spring', icon: '☀️', events: [
+    { icon: '💧', name: 'مضاعفة الماء', text: 'الحر يبدأ — ماء بارد متوفر دائماً' },
+    { icon: '🌡️', name: 'مراقبة الحرارة', text: 'تركيب مراوح إذا تجاوزت 32°م' },
+    { icon: '🐑', name: 'جزّ الأغنام', text: 'أفضل وقت قبل الحر الشديد' },
+  ]},
+  { month: 'يوليو — أغسطس', season: 'summer', icon: '🔥', events: [
+    { icon: '🧊', name: 'مكافحة الإجهاد الحراري', text: 'قناني مجمدة للأرانب، تظليل الحظيرة' },
+    { icon: '🩺', name: 'مراقبة الأمراض الصيفية', text: 'الكوكسيديا تنشط — راقب الإسهال' },
+    { icon: '🌙', name: 'التغذية الليلية', text: 'الحيوانات تأكل أفضل بعد الغروب' },
+  ]},
+  { month: 'سبتمبر — أكتوبر', season: 'fall', icon: '🍂', events: [
+    { icon: '💉', name: 'جولة تطعيم خريفية', text: 'تجديد كل اللقاحات قبل الشتاء' },
+    { icon: '🐑', name: 'موسم التلقيح للأغنام', text: 'لضمان المواليد في الربيع' },
+    { icon: '📦', name: 'تخزين العلف للشتاء', text: 'شراء بالجملة قبل ارتفاع الأسعار' },
+  ]},
+  { month: 'نوفمبر — ديسمبر', season: 'winter', icon: '🎄', events: [
+    { icon: '🐑', name: 'تسمين للعيد', text: 'بدء دورة التسمين 90 يوم قبل الأضحى' },
+    { icon: '🌡️', name: 'تدفئة الحظيرة', text: 'عزل الجدران، سد فتحات التهوية الزائدة' },
+    { icon: '🐣', name: 'تقليل الكتاكيت', text: 'الشتاء ليس مثالياً للتفريخ' },
+  ]},
+];
+function renderCalendar() {
+  document.getElementById('cal-grid').innerHTML = calEvents.map(m => `
+    <div class="cal-month">
+      <div class="cal-month-header ${m.season}">${m.icon} ${m.month}</div>
+      ${m.events.map(e => `<div class="cal-event"><span class="cal-event-icon">${e.icon}</span><div class="cal-event-text"><strong>${e.name}</strong>${e.text}</div></div>`).join('')}
+    </div>`).join('');
+}
+
+// ===== MAP =====
+const wilayas = [
+  { name:'الجزائر', count:187, level:'high' }, { name:'البليدة', count:143, level:'high' },
+  { name:'وهران', count:112, level:'high' }, { name:'سطيف', count:98, level:'high' },
+  { name:'قسنطينة', count:87, level:'high' }, { name:'باتنة', count:76, level:'high' },
+  { name:'تيزي وزو', count:65, level:'mid' }, { name:'بجاية', count:54, level:'mid' },
+  { name:'مستغانم', count:48, level:'mid' }, { name:'معسكر', count:43, level:'mid' },
+  { name:'تلمسان', count:41, level:'mid' }, { name:'الأغواط', count:37, level:'mid' },
+  { name:'بسكرة', count:32, level:'mid' }, { name:'المدية', count:29, level:'mid' },
+  { name:'ورقلة', count:21, level:'low' }, { name:'تمنراست', count:12, level:'low' },
+  { name:'أدرار', count:8, level:'low' }, { name:'إليزي', count:5, level:'low' },
+];
+const mapMembers = {
+  'الجزائر': [
+    { av:'أح', c:'av-green', name:'أحمد بن سالم', spec:'دجاج بلدي — 200 رأس', badge:'ذهبي' },
+    { av:'سم', c:'av-amber', name:'سامية مبارك', spec:'أرانب وطيور — 80 رأس', badge:'فضي' },
+    { av:'رب', c:'av-teal', name:'رشيد بوزيد', spec:'نحل — 30 خلية', badge:'برونزي' },
+  ],
+  'البليدة': [
+    { av:'مل', c:'av-green', name:'محمد الأخضر', spec:'دجاج وأغنام — 150 رأس', badge:'ذهبي' },
+    { av:'نس', c:'av-amber', name:'نسيمة سعدي', spec:'ماعز وألبان — 40 رأس', badge:'جديد' },
+  ],
+  'سطيف': [
+    { av:'فز', c:'av-amber', name:'فاطمة زهراء', spec:'أغنام — 60 رأس', badge:'ذهبي' },
+    { av:'عب', c:'av-teal', name:'عبد الله بختي', spec:'أبقار — 12 رأس', badge:'فضي' },
+  ],
+};
+function renderMap() {
+  document.getElementById('wilayas-grid').innerHTML = wilayas.map(w => `
+    <div class="wilaya-card" onclick="selectWilaya('${w.name}', this)">
+      <div class="wilaya-name"><span class="wilaya-dot dot-${w.level}"></span>${w.name}</div>
+      <div class="wilaya-count">${w.count} مربّي</div>
+    </div>`).join('');
+}
+function selectWilaya(name, el) {
+  document.querySelectorAll('.wilaya-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const members = mapMembers[name] || [];
+  const badges = { 'ذهبي':'rep-gold', 'فضي':'rep-silver', 'برونزي':'rep-bronze', 'جديد':'rep-new' };
+  document.getElementById('map-members').innerHTML = members.length
+    ? `<p style="font-size:12px;color:var(--text3);margin-bottom:10px;">مربّو ${name}</p>` + members.map(m => `
+        <div class="member-row">
+          <div class="member-av ${m.c}">${m.av}</div>
+          <div class="member-info"><div class="member-name">${m.name}</div><div class="member-spec">${m.spec}</div></div>
+          <span class="rep-badge ${badges[m.badge]}">${m.badge}</span>
+        </div>`).join('')
+    : `<p style="font-size:13px;color:var(--text3);text-align:center;padding:1rem 0;">لا يوجد أعضاء مسجّلون بعد في ${name}</p>`;
+}
+
+// ===== COMMUNITY =====
+let postType = 'tip';
+const postsData = [
+  { av:'أح', avClass:'av-green', author:'أحمد بن سالم', region:'البليدة', time:'منذ ساعتين', type:'tip', title:'طريقة منزلية لزيادة إنتاج البيض', body:'جربت إضافة قشر البيض المطحون مع ملعقة صغيرة حجر جيري للعلف اليومي. بعد أسبوعين الإنتاج زاد من 18 لـ 26 بيضة يومياً!', likes:47, comments:12, verified:true, level:'ذهبي',
+    replies:[ { av:'مح', avClass:'av-teal', name:'محمد الصادق', text:'جربته وصح والله، بس ضيف فيتامين D3 معاه يعطي نتيجة أحسن.' }, { av:'فز', avClass:'av-amber', name:'فاطمة زهراء', text:'أنا نضيف كمان سردين مجفف مطحون، يزيد البروتين ويحسّن القشرة.' } ] },
+  { av:'فز', avClass:'av-amber', author:'فاطمة زهراء', region:'سطيف', time:'منذ 4 ساعات', type:'question', title:'دجاجي يأكل باش ما يربحش وزن، شو المشكل؟', body:'عندي 40 دجاجة بلدي، ياكلوا عادي بصح ما يربحوش وزن من شهر. العلف متوازن ومقاييس بيطري. حد عنده فكرة؟', likes:23, comments:31, verified:true, level:'ذهبي',
+    replies:[ { av:'أح', avClass:'av-green', name:'أحمد بن سالم', text:'الأغلب ديدان طفيلية. عطيهم Albendazole أسبوع وشوف النتيجة.' } ] },
+  { av:'مح', avClass:'av-teal', author:'محمد الصادق', region:'وهران', time:'منذ يوم', type:'tip', title:'كيفاش نحمي الأرانب من الحر في الصيف', body:'ضعوا قناني ماء مجمدة في القفص مرتين في اليوم. الأرانب ما عندهاش غدد للعرق وتتأثر بالحر أكثر من الدجاج.', likes:61, comments:8, level:'فضي', replies:[] },
+  { av:'يب', avClass:'av-green', author:'يوسف بلعيد', region:'قسنطينة', time:'منذ يومين', type:'sale', title:'للبيع: 30 دجاجة بلدية — إنتاج ممتاز', body:'30 دجاجة بلدية عمرهم 8 أشهر، إنتاج ممتاز. السعر 450 دج/كغ. التوصيل متاح داخل قسنطينة.', likes:15, comments:19, level:'جديد', replies:[] },
+];
+let likedPosts = new Set();
+let showReplies = new Set();
+const badgeClasses = { 'ذهبي':'rep-gold', 'فضي':'rep-silver', 'برونزي':'rep-bronze', 'جديد':'rep-new' };
+
+function renderPosts(data) {
+  document.getElementById('posts-list').innerHTML = data.map((p, i) => `
+    <div class="post-card">
+      <div class="post-header">
+        <div class="avatar ${p.avClass}">${p.av}</div>
+        <div>
+          <div class="post-author">${p.author} ${p.verified ? '<span class="verified-badge">✓ موثّق</span>' : ''} <span class="rep-badge ${badgeClasses[p.level]||'rep-new'}">${p.level||'جديد'}</span></div>
+          <div class="post-meta">${p.region} · ${p.time}</div>
+        </div>
+        <span class="post-badge ${p.type}">${p.type==='tip'?'💡 نصيحة':p.type==='question'?'❓ سؤال':'🛒 بيع'}</span>
+      </div>
+      <div class="post-title">${p.title}</div>
+      <div class="post-body">${p.body}</div>
+      <div class="post-footer">
+        <button class="post-action ${likedPosts.has(i)?'liked':''}" onclick="toggleLike(${i})">
+          ${likedPosts.has(i)?'❤️':'🤍'} ${p.likes+(likedPosts.has(i)?1:0)}
+        </button>
+        <button class="post-action" onclick="toggleReplies(${i})">💬 ${p.replies.length+p.comments} تعليق</button>
+        <button class="post-action">↗ مشاركة</button>
+      </div>
+      <div class="replies-section" id="replies-${i}" style="${showReplies.has(i)?'display:block':''}">
+        ${p.replies.map(r=>`
+          <div class="reply-item">
+            <div class="reply-av ${r.avClass}">${r.av}</div>
+            <div class="reply-bubble"><div class="reply-author">${r.name}</div><div class="reply-text">${r.text}</div></div>
+          </div>`).join('')}
+        <div class="reply-input-row">
+          <input type="text" placeholder="اكتب ردّك..." id="reply-input-${i}">
+          <button onclick="submitReply(${i})">إرسال</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function toggleLike(i) {
+  likedPosts.has(i) ? likedPosts.delete(i) : likedPosts.add(i);
+  renderPosts(postsData);
+}
+function toggleReplies(i) {
+  showReplies.has(i) ? showReplies.delete(i) : showReplies.add(i);
+  const el = document.getElementById('replies-' + i);
+  if (el) el.style.display = showReplies.has(i) ? 'block' : 'none';
+}
+function submitReply(i) {
+  const input = document.getElementById('reply-input-' + i);
+  const text = input.value.trim();
+  if (!text) return;
+  postsData[i].replies.push({ av:'أن', avClass:'av-teal', name:'أنت', text });
+  showReplies.add(i);
+  renderPosts(postsData);
+}
+function selectType(type) {
+  postType = type;
+  document.querySelectorAll('.post-type-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('type-' + type).classList.add('active');
+}
+function submitPost() {
+  const text = document.getElementById('post-text').value.trim();
+  if (!text) return;
+  const wilaya = document.getElementById('post-wilaya').value;
+  postsData.unshift({ av:'أن', avClass:'av-teal', author:'أنت', region: wilaya === '🌍 الولاية' ? 'ولايتك' : wilaya, time:'الآن', type:postType, title:text.slice(0,60)+(text.length>60?'...':''), body:text, likes:0, comments:0, level:'جديد', replies:[] });
+  document.getElementById('post-text').value = '';
+  renderPosts(postsData);
+}
+function filterPosts(keyword) {
+  showPage('community', document.querySelectorAll('.nav-link')[5]);
+  const filtered = postsData.filter(p => p.title.includes(keyword) || p.body.includes(keyword));
+  renderPosts(filtered.length ? filtered : postsData);
+}
+// ===== SOUQ MAP =====
+const today = new Date().getDay(); // 0=Sun
+const dayNames = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const todayName = dayNames[today];
+
+const souqs = [
+  { id:1, name:'سوق بوفاريك', wilaya:'البليدة', lat:36.573, lng:2.907, day:'الاثنين', products:['دجاج','بيض','أغنام','أرانب'], prices:{'دجاج':460,'بيض':620,'أغنام':52000,'أرانب':850}, dist:28 },
+  { id:2, name:'سوق الحراش', wilaya:'الجزائر', lat:36.703, lng:3.151, day:'الأربعاء', products:['دجاج','بيض','ديوك رومي'], prices:{'دجاج':480,'بيض':650,'ديوك رومي':600}, dist:12 },
+  { id:3, name:'سوق بئر خادم', wilaya:'الجزائر', lat:36.687, lng:3.046, day:'السبت', products:['دجاج','أرانب','بيض','نحل'], prices:{'دجاج':490,'أرانب':900,'بيض':660,'نحل':2800}, dist:8 },
+  { id:4, name:'سوق البرواقية', wilaya:'البليدة', lat:36.423, lng:2.525, day:'الخميس', products:['أغنام','ماعز','أبقار'], prices:{'أغنام':54000,'ماعز':38000,'أبقار':280000}, dist:45 },
+  { id:5, name:'سوق عين الدفلى', wilaya:'عين الدفلى', lat:36.264, lng:1.965, day:'الثلاثاء', products:['دجاج','أغنام','بيض'], prices:{'دجاج':450,'أغنام':50000,'بيض':600}, dist:92 },
+  { id:6, name:'سوق سطيف الكبير', wilaya:'سطيف', lat:36.190, lng:5.408, day:'الجمعة', products:['أغنام','أبقار','دجاج','ماعز'], prices:{'أغنام':53000,'أبقار':270000,'دجاج':470,'ماعز':37000}, dist:295 },
+  { id:7, name:'سوق وهران المواشي', wilaya:'وهران', lat:35.697, lng:-0.634, day:'الأحد', products:['أغنام','أبقار','ماعز','ديوك رومي'], prices:{'أغنام':55000,'أبقار':285000,'ماعز':39000,'ديوك رومي':610}, dist:362 },
+  { id:8, name:'سوق القليعة', wilaya:'البليدة', lat:36.510, lng:2.734, day:'السبت', products:['دجاج','بيض','أرانب'], prices:{'دجاج':465,'بيض':630,'أرانب':880}, dist:33 },
+  { id:9, name:'سوق دراريه', wilaya:'الجزائر', lat:36.731, lng:2.961, day:'الاثنين', products:['دجاج','بيض','نحل'], prices:{'دجاج':485,'بيض':655,'نحل':3000}, dist:15 },
+  { id:10, name:'سوق عين تايا', wilaya:'الجزائر', lat:36.788, lng:3.288, day:'الخميس', products:['دجاج','أرانب','بيض'], prices:{'دجاج':475,'أرانب':890,'بيض':640}, dist:22 },
+  { id:11, name:'سوق باتنة المواشي', wilaya:'باتنة', lat:35.555, lng:6.174, day:'الأربعاء', products:['أغنام','ماعز','أبقار'], prices:{'أغنام':51000,'ماعز':36000,'أبقار':265000}, dist:412 },
+  { id:12, name:'سوق تيزي وزو', wilaya:'تيزي وزو', lat:36.717, lng:4.046, day:'الثلاثاء', products:['دجاج','بيض','نحل','أرانب'], prices:{'دجاج':470,'بيض':635,'نحل':3200,'أرانب':920}, dist:98 },
+  { id:13, name:'سوق مستغانم', wilaya:'مستغانم', lat:35.931, lng:0.088, day:'الجمعة', products:['أغنام','دجاج','بيض'], prices:{'أغنام':52500,'دجاج':460,'بيض':615}, dist:332 },
+  { id:14, name:'سوق تلمسان', wilaya:'تلمسان', lat:34.878, lng:-1.317, day:'السبت', products:['أغنام','ماعز','أبقار','دجاج'], prices:{'أغنام':54000,'ماعز':38500,'أبقار':275000,'دجاج':455}, dist:480 },
+  { id:15, name:'سوق قسنطينة الحيواني', wilaya:'قسنطينة', lat:36.365, lng:6.614, day:'الأحد', products:['أغنام','أبقار','ديوك رومي','دجاج'], prices:{'أغنام':53500,'أبقار':272000,'ديوك رومي':605,'دجاج':468}, dist:368 },
+  { id:16, name:'سوق بجاية', wilaya:'بجاية', lat:36.752, lng:5.084, day:'الخميس', products:['دجاج','بيض','نحل','أرانب'], prices:{'دجاج':472,'بيض':638,'نحل':3100,'أرانب':910}, dist:188 },
+];
+
+let souqMap = null;
+let souqMarkers = [];
+
+function daysUntil(dayName) {
+  const idx = dayNames.indexOf(dayName);
+  const diff = (idx - today + 7) % 7;
+  return diff;
+}
+
+function getDayStatus(dayName) {
+  const d = daysUntil(dayName);
+  if (d === 0) return 'today';
+  if (d <= 2) return 'soon';
+  return 'other';
+}
+
+function initSouqMap() {
+  if (souqMap) return;
+  souqMap = L.map('souq-map').setView([36.2, 2.8], 6);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
+    maxZoom: 18
+  }).addTo(souqMap);
+  filterSouq();
+}
+
+function filterSouq() {
+  const product = document.getElementById('sq-product').value;
+  const wilaya = document.getElementById('sq-wilaya').value;
+  const day = document.getElementById('sq-day').value;
+  const sort = document.getElementById('sq-sort').value;
+
+  let list = souqs.filter(s => {
+    const matchProduct = product === 'all' || s.products.includes(product);
+    const matchWilaya = wilaya === 'all' || s.wilaya === wilaya;
+    const matchDay = day === 'all' || s.day === day;
+    return matchProduct && matchWilaya && matchDay;
+  });
+
+  if (sort === 'distance') list.sort((a, b) => a.dist - b.dist);
+  else if (sort === 'day') list.sort((a, b) => daysUntil(a.day) - daysUntil(b.day));
+  else if (sort === 'price' && product !== 'all') list.sort((a, b) => (a.prices[product] || 9999) - (b.prices[product] || 9999));
+
+  document.getElementById('souq-count').textContent = list.length;
+  renderSouqCards(list, product);
+  if (souqMap) updateSouqMarkers(list, product);
+}
+
+function updateSouqMarkers(list, product) {
+  souqMarkers.forEach(m => souqMap.removeLayer(m));
+  souqMarkers = [];
+
+  list.forEach(s => {
+    const status = getDayStatus(s.day);
+    const color = status === 'today' ? '#3B6D11' : status === 'soon' ? '#BA7517' : '#888780';
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="
+        background:${color};color:white;
+        border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+        width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+        border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,.25);
+        font-size:14px;
+      "><span style="transform:rotate(45deg)">${product==='أغنام'?'🐑':product==='أبقار'?'🐄':product==='أرانب'?'🐇':product==='ماعز'?'🐐':product==='بيض'?'🥚':product==='نحل'?'🐝':product==='ديوك رومي'?'🦃':'🐔'}</span></div>`,
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+    });
+
+    const priceText = product !== 'all' && s.prices[product]
+      ? `<br><strong>السعر: ${s.prices[product].toLocaleString('ar-DZ')} دج</strong>`
+      : '';
+
+    const marker = L.marker([s.lat, s.lng], { icon })
+      .addTo(souqMap)
+      .bindPopup(`
+        <div style="font-family:'Cairo',sans-serif;direction:rtl;min-width:160px">
+          <div style="font-weight:700;font-size:14px;margin-bottom:4px">${s.name}</div>
+          <div style="font-size:12px;color:#666">${s.wilaya}</div>
+          <div style="font-size:12px;margin-top:4px">📅 يوم <strong>${s.day}</strong>${priceText}</div>
+          <div style="font-size:11px;color:#888;margin-top:2px">${s.products.join(' · ')}</div>
+        </div>`);
+    souqMarkers.push(marker);
+  });
+
+  if (list.length > 0) {
+    const group = L.featureGroup(souqMarkers);
+    souqMap.fitBounds(group.getBounds().pad(0.2));
+  }
+}
+
+function renderSouqCards(list, product) {
+  if (!list.length) {
+    document.getElementById('souq-results').innerHTML = '<div class="souq-empty">لا توجد أسواق تطابق البحث — جرّب تغيير الفلاتر</div>';
+    return;
+  }
+  document.getElementById('souq-results').innerHTML = list.map((s, i) => {
+    const status = getDayStatus(s.day);
+    const daysLeft = daysUntil(s.day);
+    const dayLabel = status === 'today'
+      ? `<span class="souq-day today">🟢 السوق اليوم!</span>`
+      : status === 'soon'
+      ? `<span class="souq-day soon">🟡 بعد ${daysLeft} ${daysLeft===1?'يوم':'أيام'}</span>`
+      : `<span class="souq-day" style="color:var(--text3)">📅 يوم ${s.day}</span>`;
+
+    const priceRows = (product !== 'all' ? [product] : s.products.slice(0,3)).map(p => `
+      <div class="souq-price-item">
+        <span class="souq-price-num">${s.prices[p] ? s.prices[p].toLocaleString('ar-DZ') : '—'} دج</span>
+        <span class="souq-price-lbl">${p}</span>
+      </div>`).join('');
+
+    return `
+      <div class="souq-card ${i===0?'featured':''}" onclick="focusSouq(${s.lat},${s.lng},'${s.name}')">
+        <div class="souq-card-header">
+          <div>
+            <div class="souq-name">${i===0?'⭐ ':''} ${s.name}</div>
+            <div class="souq-location">📍 ${s.wilaya}</div>
+          </div>
+          <span class="souq-distance">~${s.dist} كم</span>
+        </div>
+        <div class="souq-tags">${s.products.map(p=>`<span class="souq-tag">${p}</span>`).join('')}</div>
+        ${dayLabel}
+        <div class="souq-price-row">${priceRows}</div>
+      </div>`;
+  }).join('');
+}
+
+function focusSouq(lat, lng, name) {
+  if (!souqMap) return;
+  souqMap.setView([lat, lng], 13);
+  souqMarkers.forEach(m => {
+    if (m.getLatLng().lat.toFixed(3) === lat.toFixed(3)) m.openPopup();
+  });
+  document.getElementById('souq-map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+const origShowPage = showPage;
+window.showPage = function(id, btn) {
+  origShowPage(id, btn);
+  if (id === 'souq') setTimeout(initSouqMap, 100);
+};
+// ===== GUIDE PAGE =====
+function showGuideTab(id, btn) {
+  ['breeds','tools','plan','space'].forEach(t => {
+    const el = document.getElementById('gtab-' + t);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('gtab-' + id).style.display = 'block';
+  document.querySelectorAll('#page-guide .inner-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (id === 'tools') renderTools();
+  if (id === 'plan') renderPlan();
+  if (id === 'space') renderSpace();
+}
+
+const breeds = [
+  {
+    emoji:'🐔', name:'الدجاج البلدي الجزائري', latin:'Local Algerian Breed',
+    type:['بيض','لحم','مزدوج'], difficulty:'سهل',
+    desc:'الأفضل للبيئة الجزائرية. مقاوم للحر والبرد، يأكل من البيئة المحيطة، وإنتاجه مقبول جداً.',
+    eggs:'150-180 بيضة/سنة', weight:'2-3 كغ', maturity:'5-6 أشهر',
+    production:'⭐⭐⭐', resistance:'⭐⭐⭐⭐⭐', profitability:'⭐⭐⭐⭐',
+    tags:['مقاوم للمناخ','اقتصادي','سهل التسويق'],
+    ideal:'مثالي للمبتدئين والتربية المنزلية الصغيرة. يتأقلم مع كل مناطق الجزائر.'
+  },
+  {
+    emoji:'🟤', name:'دجاج فيومي', latin:'Fayoumi Chicken',
+    type:['بيض','سهل'], difficulty:'سهل',
+    desc:'أصله مصري، متأقلم ممتاز مع المناخ الحار. إنتاج بيض ممتاز وأكله قليل نسبياً.',
+    eggs:'180-200 بيضة/سنة', weight:'1.5-2 كغ', maturity:'4-5 أشهر',
+    production:'⭐⭐⭐⭐', resistance:'⭐⭐⭐⭐⭐', profitability:'⭐⭐⭐⭐',
+    tags:['إنتاج بيض عالٍ','أكل قليل','مقاوم للحر'],
+    ideal:'ممتاز للمناطق الحارة كالجنوب والهضاب العليا. ربحيته عالية بسبب قلة العلف.'
+  },
+  {
+    emoji:'⚫', name:'بلاك ستار', latin:'Black Star / Black Sex-Link',
+    type:['بيض','مزدوج'], difficulty:'سهل',
+    desc:'هجين ممتاز بين روود آيلاند وبليموث. إنتاج بيض رائع مع وزن لحم مقبول.',
+    eggs:'250-280 بيضة/سنة', weight:'2.5-3.5 كغ', maturity:'5 أشهر',
+    production:'⭐⭐⭐⭐⭐', resistance:'⭐⭐⭐⭐', profitability:'⭐⭐⭐⭐⭐',
+    tags:['إنتاج ممتاز','هجين','سريع النضج'],
+    ideal:'الأفضل لمشاريع البيض التجارية الصغيرة. يستحق الاستثمار للمربّي الجاد.'
+  },
+  {
+    emoji:'🔴', name:'روود آيلاند ريد', latin:'Rhode Island Red',
+    type:['مزدوج'], difficulty:'سهل',
+    desc:'أشهر سلالة في العالم. متوازن بين البيض واللحم، مقاوم جداً، وسهل التعامل معه.',
+    eggs:'200-260 بيضة/سنة', weight:'3-4 كغ', maturity:'5-6 أشهر',
+    production:'⭐⭐⭐⭐⭐', resistance:'⭐⭐⭐⭐', profitability:'⭐⭐⭐⭐⭐',
+    tags:['مزدوج','مشهور عالمياً','سهل التربية'],
+    ideal:'مثالي للمربّي الذي يريد بيضاً ولحماً معاً. متوفر بكثرة في السوق الجزائري.'
+  },
+  {
+    emoji:'🟡', name:'كوكين / براهما', latin:'Cochin / Brahma',
+    type:['لحم'], difficulty:'متوسط',
+    desc:'ضخم الحجم، ودود، وزنه يصل 5 كغ. أسرع نمواً للحم لكن أكله أكثر.',
+    eggs:'100-140 بيضة/سنة', weight:'4-5.5 كغ', maturity:'7-8 أشهر',
+    production:'⭐⭐', resistance:'⭐⭐⭐', profitability:'⭐⭐⭐',
+    tags:['لحم وفير','ضخم','مناسب للعيد'],
+    ideal:'مناسب للتسمين قبل المواسم والأعياد. يحتاج مساحة أكبر وعلفاً أكثر.'
+  },
+  {
+    emoji:'🤍', name:'ليغهورن أبيض', latin:'White Leghorn',
+    type:['بيض'], difficulty:'متوسط',
+    desc:'ملك إنتاج البيض الأبيض. خفيف الوزن، أكله قليل، وإنتاجه استثنائي.',
+    eggs:'280-320 بيضة/سنة', weight:'1.5-2.5 كغ', maturity:'4-5 أشهر',
+    production:'⭐⭐⭐⭐⭐', resistance:'⭐⭐⭐', profitability:'⭐⭐⭐⭐',
+    tags:['أعلى إنتاج بيض','أبيض','اقتصادي في العلف'],
+    ideal:'للمشاريع التجارية الكبيرة فقط. يحتاج حظيرة محكمة وإدارة دقيقة.'
+  },
+  {
+    emoji:'🟠', name:'ساسو / سونغ بيرد', latin:'Sasso / Label Rouge',
+    type:['لحم','مزدوج'], difficulty:'سهل',
+    desc:'هجين فرنسي مشهور بلحمه الطيّب. ينمو بسرعة ويتأقلم جيداً مع الجو الجزائري.',
+    eggs:'160-190 بيضة/سنة', weight:'3-4 كغ', maturity:'10-12 أسبوع',
+    production:'⭐⭐⭐', resistance:'⭐⭐⭐⭐', profitability:'⭐⭐⭐⭐',
+    tags:['لحم طيّب','نمو سريع','سعر مرتفع'],
+    ideal:'الأفضل للتسمين السريع. وزنه يصل 3 كغ في 10 أسابيع. سعره في السوق أعلى من البلدي.'
+  },
+  {
+    emoji:'🌈', name:'دجاج أسيل', latin:'Aseel / Asil',
+    type:['لحم','مزدوج'], difficulty:'صعب',
+    desc:'سلالة قديمة أصيلة، لحمه ذو جودة عالية جداً لكن إنتاجه البيضي منخفض.',
+    eggs:'70-100 بيضة/سنة', weight:'3-4 كغ', maturity:'8-10 أشهر',
+    production:'⭐⭐', resistance:'⭐⭐⭐⭐', profitability:'⭐⭐⭐',
+    tags:['لحم فاخر','أصيل','نادر'],
+    ideal:'للمربّي المتمرس الذي يستهدف سوق اللحم الفاخر. صعب التربية الجماعية.'
+  },
+];
+
+let breedFilter = 'all';
+function filterBreeds(f, btn) {
+  breedFilter = f;
+  document.querySelectorAll('#page-guide .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderBreeds();
+}
+function renderBreeds() {
+  let list = breeds;
+  if (breedFilter === 'سهل') list = breeds.filter(b => b.difficulty === 'سهل');
+  else if (breedFilter !== 'all') list = breeds.filter(b => b.type.includes(breedFilter));
+  document.getElementById('breed-grid').innerHTML = list.map(b => `
+    <div class="breed-card">
+      <div class="breed-header">
+        <span class="breed-emoji">${b.emoji}</span>
+        <div><div class="breed-name">${b.name}</div><div class="breed-latin">${b.latin}</div></div>
+        <span class="breed-badge ${b.difficulty==='سهل'?'badge-easy':b.difficulty==='متوسط'?'badge-mid':'badge-hard'}">${b.difficulty==='سهل'?'✅ سهل':b.difficulty==='متوسط'?'⚠️ متوسط':'🔴 صعب'}</span>
+      </div>
+      <div class="breed-body">
+        <div class="breed-desc">${b.desc}</div>
+        <div class="breed-stats">
+          <div class="breed-stat"><span class="breed-stat-lbl">إنتاج البيض</span><span class="breed-stat-val">🥚 ${b.eggs}</span></div>
+          <div class="breed-stat"><span class="breed-stat-lbl">الوزن البالغ</span><span class="breed-stat-val">⚖️ ${b.weight}</span></div>
+          <div class="breed-stat"><span class="breed-stat-lbl">النضج</span><span class="breed-stat-val">📅 ${b.maturity}</span></div>
+          <div class="breed-stat"><span class="breed-stat-lbl">الربحية</span><span class="breed-stars">${b.profitability}</span></div>
+        </div>
+        <div class="breed-tags">${b.tags.map(t=>`<span class="breed-tag">${t}</span>`).join('')}</div>
+        <div class="breed-ideal">💡 ${b.ideal}</div>
+      </div>
+    </div>`).join('');
+}
+renderBreeds();
+
+// TOOLS
+const toolsData = {
+  essential: [
+    { icon:'🏠', name:'الحظيرة (بناء أو جاهزة)', costPer:800, unit:'م²', minSize:2 },
+    { icon:'🚰', name:'معالف (عدد)', costPer:350, unit:'قطعة', ratio:10 },
+    { icon:'💧', name:'مشارب (عدد)', costPer:450, unit:'قطعة', ratio:10 },
+    { icon:'💡', name:'إضاءة LED', costPer:1200, unit:'مجموعة', fixed:true },
+    { icon:'🌡️', name:'مدفأة / حاضنة للكتاكيت', costPer:3500, unit:'قطعة', fixed:true },
+    { icon:'🌡️', name:'ميزان حرارة', costPer:500, unit:'قطعة', fixed:true },
+    { icon:'🛏️', name:'فرشة (نشارة خشب)', costPer:1200, unit:'كيس', ratio:20 },
+    { icon:'💉', name:'لقاحات البداية', costPer:2500, unit:'مجموعة', fixed:true },
+    { icon:'🐣', name:'الكتاكيت', costPer:120, unit:'كتكوت', ratio:1 },
+    { icon:'🌾', name:'علف البداية (شهر)', costPer:75, unit:'كغ', ratio:1.5 },
+  ],
+  optional: [
+    { icon:'🪣', name:'مضخة تعقيم', costPer:4500, unit:'قطعة', fixed:true },
+    { icon:'🌀', name:'مروحة تهوية', costPer:3800, unit:'قطعة', fixed:true },
+    { icon:'📊', name:'ميزان للطيور', costPer:1800, unit:'قطعة', fixed:true },
+    { icon:'🔒', name:'شبك حماية', costPer:900, unit:'م طولي', ratio:0.5 },
+    { icon:'🧪', name:'فيتامينات ومكملات (شهر)', costPer:1500, unit:'مجموعة', fixed:true },
+  ]
+};
+
+function renderTools() {
+  const count = parseInt(document.getElementById('p-count').value) || 50;
+  const type = document.getElementById('p-type').value;
+  const goal = document.getElementById('p-goal').value;
+  let total = 0;
+  const spacePerBird = type === 'cage' ? 0.5 : type === 'free' ? 3 : 1;
+  const space = Math.ceil(count * spacePerBird);
+
+  const allTools = [
+    ...toolsData.essential.map(t => ({ ...t, essential: true })),
+    ...toolsData.optional.map(t => ({ ...t, essential: false }))
+  ];
+
+  const items = allTools.map(t => {
+    let qty, cost;
+    if (t.fixed) { qty = 1; cost = t.costPer; }
+    else if (t.name.includes('الحظيرة')) { qty = space; cost = t.costPer * space; }
+    else if (t.name.includes('الكتاكيت')) { qty = count; cost = t.costPer * count; }
+    else if (t.name.includes('علف')) { qty = Math.ceil(count * t.ratio); cost = t.costPer * Math.ceil(count * t.ratio); }
+    else if (t.ratio) { qty = Math.ceil(count / t.ratio); cost = t.costPer * Math.ceil(count / t.ratio); }
+    else { qty = 1; cost = t.costPer; }
+    if (t.essential) total += cost;
+    return { ...t, qty, cost };
+  });
+
+  document.getElementById('tools-list').innerHTML = items.map(t => `
+    <div class="tool-item ${t.essential ? 'tool-essential' : 'tool-optional'}">
+      <span class="tool-icon">${t.icon}</span>
+      <div style="flex:1">
+        <div class="tool-name">${t.name}</div>
+        <div class="tool-cost">${t.qty} ${t.unit} — ${t.cost.toLocaleString('ar-DZ')} دج</div>
+      </div>
+      <span style="font-size:10px;font-weight:700;color:${t.essential?'var(--g800)':'var(--a800)'};">${t.essential?'أساسي':'اختياري'}</span>
+    </div>`).join('');
+
+  document.getElementById('tools-total').textContent = total.toLocaleString('ar-DZ') + ' دج';
+}
+
+// PLAN
+function renderPlan() {
+  const count = parseInt(document.getElementById('pl-count').value) || 50;
+  const goal = document.getElementById('pl-goal').value;
+  const budget = parseInt(document.getElementById('pl-budget').value) || 50000;
+  const isMeat = goal === 'meat';
+  const isEgg = goal === 'eggs';
+
+  const weeks = [
+    {
+      week:'الأسبوع 1-2', icon:'🐣', status:'active',
+      title:'استقبال الكتاكيت',
+      tasks:`• جهّز الحظيرة قبل يوم واحد — حرارة 32-35°م\n• استقبل الكتاكيت بماء دافئ + سكر\n• إضاءة 24 ساعة في اليوم الأول\n• علف ابتدائي بروتين 22%`,
+      alerts:[{type:'feed', text:'علف ابتدائي (Starter) — أعطه طازجاً دائماً'}]
+    },
+    {
+      week:'الأسبوع 3-4', icon:'🐥', status:'active',
+      title:'مرحلة النمو الأولى',
+      tasks:`• خفّض الحرارة تدريجياً لـ 28°م\n• راقب الأمراض يومياً (زعر، إسهال)\n• تأكد من وزن كافٍ: ${Math.round(count*0.2)} كتكوت = ${Math.round(count*0.2*180)} غ إجمالي`,
+      alerts:[{type:'vaccine', text:'لقاح نيوكاسل (قطرة عين) — اليوم 10 و21'},{type:'vaccine', text:'لقاح جمبورو — اليوم 14'}]
+    },
+    {
+      week:'الأسبوع 5-8', icon:'🐓', status:'active',
+      title:isMeat ? 'مرحلة التسمين المكثف' : 'مرحلة النمو والتطور',
+      tasks:isMeat
+        ? `• علف تسمين بروتين 19-20%\n• إضاءة 18-20 ساعة يومياً\n• هدف الوزن عند 8 أسابيع: ${Math.round(count * 1.8)} كغ إجمالي\n• راقب الأكل — الدجاجة تأكل 100-120 غ/يوم`
+        : `• انتقل لعلف النمو (Grower) بروتين 17%\n• قلّل الإضاءة لـ 14 ساعة\n• فصل الذكور عن الإناث إذا أردت\n• الوزن المتوقع: 800-1000 غ`,
+      alerts:[{type:'vaccine', text:'تجديد نيوكاسل — الأسبوع 6'},{type:'feed', text:'انتقال العلف — اخلط القديم بالجديد 3 أيام'}]
+    },
+    ...(isMeat ? [] : [{
+      week:'الأسبوع 9-16', icon:'🔴', status:'active',
+      title:'مرحلة ما قبل البياض',
+      tasks:`• علف ما قبل البياض (Pre-layer) بروتين 16%\n• أضف الكالسيوم تدريجياً 2-3 غ/طائر\n• هيّء أعشاش البياض — عشّ لكل 4 دجاجات\n• إضاءة 14-16 ساعة يومياً`,
+      alerts:[{type:'feed', text:'كالسيوم مهم جداً قبل البياض — قشر بيض مطحون'}]
+    },
+    {
+      week:'الشهر 5+', icon:'🥚', status:'active',
+      title:'مرحلة الإنتاج',
+      tasks:`• علف بياض بروتين 16-18%\n• كالسيوم 4-5 غ/طائر/يوم\n• الإنتاج المتوقع: ${Math.round(count*0.85)} بيضة/يوم\n• إيراد شهري متوقع: ${Math.round(count*0.85*30*22).toLocaleString('ar-DZ')} دج`,
+      alerts:[{type:'feed', text:'إنتاج منخفض؟ راجع الكالسيوم والإضاءة أولاً'},{type:'watch', text:'بعد 18 شهر — قرر إذا تبيع أو تجدد القطيع'}]
+    }]),
+    {
+      week:isMeat ? 'الأسبوع 9-10' : 'دورياً',
+      icon:isMeat ? '💰' : '🔄', status:'active',
+      title:isMeat ? 'موعد البيع والذبح' : 'الصيانة الدورية',
+      tasks:isMeat
+        ? `• الوزن المستهدف: ${Math.round(count*2.5)} كغ إجمالي\n• إيراد متوقع: ${Math.round(count*2.5*480).toLocaleString('ar-DZ')} دج\n• اتصل بالمشترين قبل أسبوع\n• أوقف العلف 8 ساعات قبل الذبح`
+        : `• تطعيم دوري كل 3 أشهر\n• تبديل الفرشة كل 6 أسابيع\n• فحص بيطري كل 3 أشهر\n• راقب نسبة الإنتاج أسبوعياً`,
+      alerts:[{type:'feed', text:isMeat?'أوقف العلف 8 ساعات قبل الذبح':'سجّل الإنتاج يومياً — الانخفاض المفاجئ يعني مشكلة'}]
+    },
+  ];
+
+  const alertColors = { vaccine:'alert-vaccine', feed:'alert-feed', watch:'alert-watch' };
+  document.getElementById('plan-timeline').innerHTML = weeks.map((w,i) => `
+    <div class="plan-week">
+      <div class="plan-dot ${i<2?'done':'active'}">${w.icon}</div>
+      <div class="plan-content">
+        <div class="plan-week-label">${w.week}</div>
+        <div class="plan-title">${w.title}</div>
+        <div class="plan-tasks" style="white-space:pre-line">${w.tasks}</div>
+        <div>${w.alerts.map(a=>`<span class="plan-alert ${alertColors[a.type]}">⚠️ ${a.text}</span>`).join(' ')}</div>
+      </div>
+    </div>`).join('');
+}
+
+// SPACE
+function renderSpace() {
+  const count = parseInt(document.getElementById('sp-count').value) || 50;
+  const type = document.getElementById('sp-type').value;
+  const rates = { floor:{ space:0.9, feeder:10, drinker:12 }, cage:{ space:0.45, feeder:8, drinker:10 }, free:{ space:3, feeder:12, drinker:15 } };
+  const r = rates[type];
+  const area = Math.ceil(count * r.space);
+  const feeders = Math.ceil(count / r.feeder);
+  const drinkers = Math.ceil(count / r.drinker);
+  const w = Math.ceil(Math.sqrt(area * 0.6));
+  const l = Math.ceil(area / w);
+
+  document.getElementById('space-results').innerHTML = `
+    <div class="feed-result"><span class="feed-num">${area} م²</span><div class="feed-lbl">المساحة الكلية</div></div>
+    <div class="feed-result"><span class="feed-num">${w}×${l} م</span><div class="feed-lbl">الأبعاد المقترحة</div></div>
+    <div class="feed-result"><span class="feed-num">${feeders} معلفة</span><div class="feed-lbl">عدد المعالف</div></div>
+    <div class="feed-result"><span class="feed-num">${drinkers} مشرب</span><div class="feed-lbl">عدد المشارب</div></div>
+    <div class="feed-result highlight"><span class="feed-num">${Math.round(area * 850).toLocaleString('ar-DZ')} دج</span><div class="feed-lbl">تكلفة البناء التقريبية</div></div>`;
+
+  const tips = {
+    floor:'✅ التربية الأرضية الأنسب للجزائر — سهلة وصحية. الفرشة تكون 5-8 سم من نشارة الخشب. تهوية جانبية ضرورية.',
+    cage:'📦 الأقفاص توفر مساحة لكن تحتاج تنظيف يومي. مناسبة للبياض التجاري. اسمح بـ 450 سم² لكل دجاجة.',
+    free:'🌿 التربية المفتوحة أفضل للصحة والنكهة — لكن تحتاج سياج قوي ضد الثعالب والطيور الجارحة. السماح بـ 3 م² بالخارج.'
+  };
+  document.getElementById('space-tips').innerHTML = `<p style="font-size:13px;color:var(--g800);line-height:1.7">${tips[type]}</p>`;
+}
+
+renderTools();
+renderPlan();
+renderSpace();
+
+const _sp = window.showPage;
+window.showPage = function(id, btn) {
+  _sp(id, btn);
+  if (id === 'guide') { renderBreeds(); }
+};
+</script>
+
+<!-- ===== AI ASSISTANT STYLES ===== -->
+<style>
+#ai-fab {
+  position:fixed; bottom:28px; left:28px; z-index:999;
+  width:56px; height:56px; border-radius:50%;
+  background:var(--g800); color:var(--g50);
+  border:none; font-size:24px; cursor:pointer;
+  box-shadow:0 4px 20px rgba(39,80,10,.45);
+  transition:all .25s; display:flex; align-items:center; justify-content:center;
+}
+#ai-fab:hover { background:var(--g900); transform:scale(1.1); }
+#ai-fab .fab-ping {
+  position:absolute; top:-3px; right:-3px;
+  width:14px; height:14px; border-radius:50%;
+  background:var(--a200); border:2px solid var(--bg);
+  animation:ping 1.5s infinite;
+}
+@keyframes ping { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:.6} }
+
+#ai-panel {
+  position:fixed; bottom:96px; left:28px; z-index:998;
+  width:360px; max-height:580px;
+  background:var(--white); border:1px solid var(--border);
+  border-radius:20px; box-shadow:0 12px 48px rgba(0,0,0,.18);
+  display:flex; flex-direction:column;
+  transform:translateY(20px) scale(.95); opacity:0;
+  pointer-events:none; transition:all .25s cubic-bezier(.34,1.56,.64,1);
+}
+#ai-panel.open {
+  transform:translateY(0) scale(1); opacity:1; pointer-events:all;
+}
+.ai-header {
+  background:var(--g800); color:var(--g50);
+  padding:.9rem 1.1rem; border-radius:18px 18px 0 0;
+  display:flex; align-items:center; gap:10px;
+}
+.ai-header-icon { font-size:22px; }
+.ai-header-title { font-size:14px; font-weight:700; flex:1; }
+.ai-header-sub { font-size:11px; color:var(--g200); }
+.ai-close {
+  background:none; border:none; color:var(--g200);
+  font-size:18px; cursor:pointer; padding:2px 6px; border-radius:6px;
+  transition:background .2s;
+}
+.ai-close:hover { background:rgba(255,255,255,.15); }
+
+#ai-key-setup {
+  padding:1.25rem; display:flex; flex-direction:column; gap:10px;
+}
+.ai-key-info {
+  background:var(--g50); border-radius:10px; padding:.9rem 1rem;
+  font-size:12px; color:var(--g800); line-height:1.7;
+}
+.ai-key-input {
+  width:100%; padding:9px 12px;
+  border:1.5px solid var(--border); border-radius:8px;
+  font-family:'Cairo',sans-serif; font-size:13px;
+  color:var(--text); background:var(--bg); transition:border-color .2s;
+}
+.ai-key-input:focus { outline:none; border-color:var(--g400); }
+.ai-key-btn {
+  background:var(--g800); color:var(--g50); border:none;
+  padding:10px; border-radius:8px; font-family:'Cairo',sans-serif;
+  font-size:13px; font-weight:600; cursor:pointer; transition:all .2s;
+}
+.ai-key-btn:hover { background:var(--g900); }
+
+#ai-chat { display:none; flex-direction:column; height:100%; }
+.ai-messages {
+  flex:1; overflow-y:auto; padding:.9rem 1rem; display:flex;
+  flex-direction:column; gap:10px; max-height:380px;
+  min-height:200px;
+}
+.ai-messages::-webkit-scrollbar { width:4px; }
+.ai-messages::-webkit-scrollbar-track { background:transparent; }
+.ai-messages::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+.ai-msg {
+  max-width:88%; padding:9px 13px; border-radius:14px;
+  font-size:13px; line-height:1.65; animation:fadeIn .2s ease;
+}
+.ai-msg.user {
+  background:var(--g800); color:var(--g50);
+  align-self:flex-end; border-radius:14px 14px 4px 14px;
+}
+.ai-msg.bot {
+  background:var(--bg); color:var(--text);
+  border:1px solid var(--border);
+  align-self:flex-start; border-radius:14px 14px 14px 4px;
+}
+.ai-msg.bot.thinking {
+  color:var(--text3); font-style:italic;
+}
+.ai-typing { display:flex; gap:4px; align-items:center; padding:4px 0; }
+.ai-typing span {
+  width:7px; height:7px; border-radius:50%;
+  background:var(--text3); animation:bounce .9s infinite;
+}
+.ai-typing span:nth-child(2) { animation-delay:.15s; }
+.ai-typing span:nth-child(3) { animation-delay:.3s; }
+@keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+.ai-suggestions {
+  padding:.5rem 1rem .25rem;
+  display:flex; gap:6px; flex-wrap:wrap;
+}
+.ai-suggestion {
+  font-size:11px; background:var(--g50); color:var(--g800);
+  border:1px solid var(--g100); border-radius:20px;
+  padding:4px 10px; cursor:pointer; transition:all .15s;
+  font-family:'Cairo',sans-serif;
+}
+.ai-suggestion:hover { background:var(--g100); }
+
+.ai-input-row {
+  padding:.75rem 1rem 1rem;
+  display:flex; gap:7px; align-items:center;
+  border-top:1px solid var(--border);
+}
+.ai-input {
+  flex:1; padding:9px 12px;
+  border:1.5px solid var(--border); border-radius:10px;
+  font-family:'Cairo',sans-serif; font-size:13px;
+  color:var(--text); background:var(--bg); transition:border-color .2s;
+  resize:none; max-height:80px;
+}
+.ai-input:focus { outline:none; border-color:var(--g400); }
+.ai-send {
+  width:38px; height:38px; border-radius:10px;
+  background:var(--g800); color:var(--g50);
+  border:none; font-size:16px; cursor:pointer;
+  transition:all .2s; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+}
+.ai-send:hover { background:var(--g900); }
+.ai-send:disabled { background:var(--border); cursor:not-allowed; }
+.ai-reset {
+  font-size:11px; color:var(--text3); background:none; border:none;
+  cursor:pointer; padding:0 .5rem; font-family:'Cairo',sans-serif;
+  transition:color .2s;
+}
+.ai-reset:hover { color:var(--r600); }
+
+@media(max-width:420px) {
+  #ai-panel { width:calc(100vw - 32px); left:16px; }
+  #ai-fab { left:16px; bottom:16px; }
+}
+</style>
+
+<!-- ===== AI FAB ===== -->
+<button id="ai-fab" onclick="toggleAI()" title="المساعد الذكي">
+  🤖
+  <span class="fab-ping"></span>
+</button>
+
+<!-- ===== AI PANEL ===== -->
+<div id="ai-panel">
+  <div class="ai-header">
+    <span class="ai-header-icon">🌿</span>
+    <div>
+      <div class="ai-header-title">مساعد حلالك الذكي</div>
+      <div class="ai-header-sub">اسألني أي سؤال عن تربيتك</div>
+    </div>
+    <button class="ai-close" onclick="toggleAI()">✕</button>
+  </div>
+
+  <!-- KEY SETUP -->
+  <div id="ai-key-setup">
+    <div class="ai-key-info">
+      🔑 <strong>أدخل API Key تاعك</strong><br>
+      يتحفظ في متصفحك فقط — لا يُرفع على الإنترنت أبداً.<br>
+      احصل عليه مجاناً من <strong>console.anthropic.com</strong>
+    </div>
+    <input class="ai-key-input" type="password" id="ai-key-input"
+      placeholder="sk-ant-api03-..." autocomplete="off">
+    <button class="ai-key-btn" onclick="saveKey()">🚀 ابدأ المحادثة</button>
+  </div>
+
+  <!-- CHAT -->
+  <div id="ai-chat">
+    <div class="ai-messages" id="ai-messages"></div>
+    <div class="ai-suggestions" id="ai-suggestions">
+      <button class="ai-suggestion" onclick="askSuggestion(this)">كيف أزيد إنتاج البيض؟</button>
+      <button class="ai-suggestion" onclick="askSuggestion(this)">أعراض مرض نيوكاسل؟</button>
+      <button class="ai-suggestion" onclick="askSuggestion(this)">أفضل علف للكتاكيت؟</button>
+      <button class="ai-suggestion" onclick="askSuggestion(this)">كم تكلفة 50 دجاجة؟</button>
+    </div>
+    <div class="ai-input-row">
+      <textarea class="ai-input" id="ai-input" rows="1"
+        placeholder="اسأل عن التربية، الأمراض، العلف..."
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAI()}"
+        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
+      <button class="ai-send" id="ai-send-btn" onclick="sendAI()">↑</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ===== AI ASSISTANT =====
+const WORKER_URL = 'https://halali-ai.yatyyalyyalrrr.workers.dev';
+let aiOpen = false;
+let aiHistory = [];
+let aiLoading = false;
+
+function toggleAI() {
+  aiOpen = !aiOpen;
+  document.getElementById('ai-panel').classList.toggle('open', aiOpen);
+  if (aiOpen) {
+    document.getElementById('ai-key-setup').style.display = 'none';
+    document.getElementById('ai-chat').style.display = 'flex';
+    if (aiHistory.length === 0) {
+      addBotMessage('أهلاً! 👋 أنا مساعد حلالك الذكي. اسألني أي سؤال عن تربيتك — دواجن، مواشي، أمراض، علف، أو أسعار! كيف نبدأ؟');
+    }
+    setTimeout(() => document.getElementById('ai-input').focus(), 100);
+  }
+}
+
+function addUserMessage(text) {
+  const div = document.createElement('div');
+  div.className = 'ai-msg user';
+  div.textContent = text;
+  document.getElementById('ai-messages').appendChild(div);
+  scrollChat();
+}
+
+function addBotMessage(text) {
+  const div = document.createElement('div');
+  div.className = 'ai-msg bot';
+  div.innerHTML = text.replace(/\n/g, '<br>');
+  document.getElementById('ai-messages').appendChild(div);
+  scrollChat();
+  return div;
+}
+
+function showTyping() {
+  const div = document.createElement('div');
+  div.className = 'ai-msg bot';
+  div.id = 'ai-typing';
+  div.innerHTML = '<div class="ai-typing"><span></span><span></span><span></span></div>';
+  document.getElementById('ai-messages').appendChild(div);
+  scrollChat();
+}
+
+function removeTyping() {
+  const t = document.getElementById('ai-typing');
+  if (t) t.remove();
+}
+
+function scrollChat() {
+  const msgs = document.getElementById('ai-messages');
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function askSuggestion(btn) {
+  document.getElementById('ai-input').value = btn.textContent;
+  sendAI();
+}
+
+async function sendAI() {
+  if (aiLoading) return;
+  const input = document.getElementById('ai-input');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('ai-suggestions').style.display = 'none';
+  document.getElementById('ai-send-btn').disabled = true;
+  aiLoading = true;
+
+  addUserMessage(text);
+  aiHistory.push({ role: 'user', content: text });
+  showTyping();
+
+  try {
+    const response = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: aiHistory })
+    });
+
+    const data = await response.json();
+    removeTyping();
+
+    if (data.error) {
+      addBotMessage('⚠️ خدمة المساعد غير متاحة حالياً. حاول مجدداً بعد قليل.');
+      aiHistory.pop();
+    } else {
+      const reply = data.content[0].text;
+      aiHistory.push({ role: 'assistant', content: reply });
+      addBotMessage(reply);
+      // Keep history max 20 messages
+      if (aiHistory.length > 20) aiHistory = aiHistory.slice(-20);
+    }
+  } catch (err) {
+    removeTyping();
+    addBotMessage('⚠️ تأكد من اتصالك بالإنترنت وحاول مجدداً.');
+    aiHistory.pop();
+  }
+
+  aiLoading = false;
+  document.getElementById('ai-send-btn').disabled = false;
+  document.getElementById('ai-input').focus();
+}
+
+// Hide key setup on load - not needed
+document.getElementById('ai-key-setup').style.display = 'none';
+</script>
+</body>
+</html>

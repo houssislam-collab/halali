@@ -477,10 +477,10 @@ footer a { color:var(--g200);text-decoration:none; }
       <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐑</span><span class="cat-name">أغنام</span><span class="cat-count">35 نصيحة</span></div>
       <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐄</span><span class="cat-name">أبقار</span><span class="cat-count">28 نصيحة</span></div>
       <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐇</span><span class="cat-name">أرانب</span><span class="cat-count">20 نصيحة</span></div>
-      <div class="cat-card"><span class="cat-icon">🕊️</span><span class="cat-name">حمام</span><span class="cat-count">18 نصيحة</span></div>
-      <div class="cat-card"><span class="cat-icon">🐐</span><span class="cat-name">ماعز</span><span class="cat-count">22 نصيحة</span></div>
-      <div class="cat-card"><span class="cat-icon">🐝</span><span class="cat-name">نحل</span><span class="cat-count">15 نصيحة</span></div>
-      <div class="cat-card"><span class="cat-icon">🦃</span><span class="cat-name">ديوك رومي</span><span class="cat-count">12 نصيحة</span></div>
+      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🕊️</span><span class="cat-name">حمام</span><span class="cat-count">18 نصيحة</span></div>
+      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐐</span><span class="cat-name">ماعز</span><span class="cat-count">22 نصيحة</span></div>
+      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐝</span><span class="cat-name">نحل</span><span class="cat-count">15 نصيحة</span></div>
+      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🦃</span><span class="cat-name">ديوك رومي</span><span class="cat-count">12 نصيحة</span></div>
     </div>
     <div class="section-title">أبرز نصائح اليوم</div>
     <div class="section-sub">محدّثة أسبوعياً من خبرائنا</div>
@@ -2201,5 +2201,134 @@ window.setLang = async (lang) => {
   if (user) {
     await setDoc(doc(db, 'users', user.uid), { lang }, { merge: true });
   }
+};
+</script>
+<script>
+// ===== EXTENDED TRANSLATIONS =====
+// Add data-i18n attributes approach - translate all text elements
+const i18n = {
+  ar: {
+    // Hero
+    heroBadge: '🌾 المنصة الأولى لمربّي الدواجن والمواشي في الجزائر',
+    heroStat1: 'نصيحة ودليل', heroStat2: 'متوسط زيادة الربح', heroStat3: 'مربّي مسجّل', heroStat4: 'نوع حلال مدعوم',
+    heroBtn1: 'دليل الأمراض', heroBtn2: 'أدوات المربّي',
+    // Section titles
+    catTitle: 'اختر نوع حلالك', catSub: 'اكتشف نصائح ودلائل مخصصة لكل نوع',
+    tipsTitle: 'أبرز نصائح اليوم', tipsSub: 'محدّثة أسبوعياً من خبرائنا',
+    // Categories
+    cat1:'دجاج بلدي', cat2:'أغنام', cat3:'أبقار', cat4:'أرانب', cat5:'حمام', cat6:'ماعز', cat7:'نحل', cat8:'ديوك رومي',
+    // Market
+    mktTitle:'سوق الأسعار', mktSub:'متوسطات أسعار السوق الجزائري مع تطور الأسعار خلال 30 يوم',
+    // Diseases
+    disTitle:'دليل الأمراض والعلاج', disSub:'تعرّف على الأعراض والعلاج لأكثر الأمراض شيوعاً',
+    // Tools
+    toolTitle:'أدوات المربّي', toolSub:'حاسبة العلف الذكية، حاسبة الربح، والتقويم الموسمي',
+    // Community
+    comTitle:'مجتمع المربّين', comSub:'اسأل، شارك، وتعلّم من تجارب مربّين من كل أنحاء الجزائر',
+    // Auth modal
+    authTitle:'أهلاً بك في حلالك', authGoogle:'متابعة بـ Google', authEmail:'البريد الإلكتروني', authPass:'كلمة المرور', authSignIn:'دخول', authSignUp:'إنشاء الحساب', authNoAcc:'ليس لديك حساب؟', authCreateAcc:'إنشاء حساب', authHaveAcc:'لديك حساب؟', authSignInLink:'تسجيل الدخول',
+    signout:'🚪 تسجيل الخروج',
+  },
+  en: {
+    heroBadge: '🌾 Algeria\'s #1 Platform for Poultry & Livestock Breeders',
+    heroStat1: 'Tips & Guides', heroStat2: 'Avg Profit Increase', heroStat3: 'Registered Breeders', heroStat4: 'Supported Species',
+    heroBtn1: 'Disease Guide', heroBtn2: 'Breeder Tools',
+    catTitle: 'Choose Your Livestock', catSub: 'Discover tips and guides tailored for each type',
+    tipsTitle: "Today's Top Tips", tipsSub: 'Updated weekly by our experts',
+    cat1:'Local Chicken', cat2:'Sheep', cat3:'Cattle', cat4:'Rabbits', cat5:'Pigeons', cat6:'Goats', cat7:'Bees', cat8:'Turkeys',
+    mktTitle:'Price Market', mktSub:'Algerian market price averages with 30-day trends',
+    disTitle:'Disease & Treatment Guide', disSub:'Learn about symptoms and treatment for common diseases',
+    toolTitle:'Breeder Tools', toolSub:'Smart feed calculator, profit calculator, and seasonal calendar',
+    comTitle:'Breeder Community', comSub:'Ask, share, and learn from breeders across Algeria',
+    authTitle:'Welcome to Halali', authGoogle:'Continue with Google', authEmail:'Email address', authPass:'Password', authSignIn:'Sign In', authSignUp:'Create Account', authNoAcc:"Don't have an account?", authCreateAcc:'Create Account', authHaveAcc:'Already have an account?', authSignInLink:'Sign In',
+    signout:'🚪 Sign Out',
+  },
+  fr: {
+    heroBadge: '🌾 La 1ère Plateforme des Éleveurs en Algérie',
+    heroStat1: 'Conseils & Guides', heroStat2: 'Hausse Moy. des Profits', heroStat3: 'Éleveurs Inscrits', heroStat4: 'Espèces Supportées',
+    heroBtn1: 'Guide Maladies', heroBtn2: 'Outils Éleveur',
+    catTitle: 'Choisissez votre élevage', catSub: 'Découvrez des conseils adaptés à chaque type',
+    tipsTitle: 'Meilleurs Conseils du Jour', tipsSub: 'Mis à jour chaque semaine par nos experts',
+    cat1:'Poulet Local', cat2:'Moutons', cat3:'Bovins', cat4:'Lapins', cat5:'Pigeons', cat6:'Chèvres', cat7:'Abeilles', cat8:'Dindes',
+    mktTitle:'Marché des Prix', mktSub:'Prix moyens du marché algérien sur 30 jours',
+    disTitle:'Guide Maladies & Traitements', disSub:'Apprenez les symptômes et traitements des maladies courantes',
+    toolTitle:'Outils Éleveur', toolSub:'Calculateur de fourrage, de profit et calendrier saisonnier',
+    comTitle:'Communauté des Éleveurs', comSub:'Posez des questions, partagez, apprenez de toute l\'Algérie',
+    authTitle:'Bienvenue sur Halali', authGoogle:'Continuer avec Google', authEmail:'Adresse email', authPass:'Mot de passe', authSignIn:'Connexion', authSignUp:'Créer un compte', authNoAcc:'Pas de compte?', authCreateAcc:'Créer un compte', authHaveAcc:'Déjà un compte?', authSignInLink:'Se connecter',
+    signout:'🚪 Déconnexion',
+  }
+};
+
+const _origSetLang = window.setLang;
+window.setLang = async function(lang) {
+  await _origSetLang(lang);
+  const t = i18n[lang];
+  if (!t) return;
+
+  // Hero badge
+  const badge = document.querySelector('.hero-badge');
+  if (badge) badge.textContent = t.heroBadge;
+
+  // Hero buttons
+  const heroBtns = document.querySelectorAll('.hero-btns button');
+  if (heroBtns[0]) heroBtns[0].textContent = t.heroBtn1;
+  if (heroBtns[1]) heroBtns[1].textContent = t.heroBtn2;
+
+  // Hero stats labels
+  const statLbls = document.querySelectorAll('.hero-stat-lbl');
+  [t.heroStat1, t.heroStat2, t.heroStat3, t.heroStat4].forEach((s,i) => { if(statLbls[i]) statLbls[i].textContent = s; });
+
+  // Section titles on home page
+  const secTitles = document.querySelectorAll('#page-home .section-title');
+  if (secTitles[0]) secTitles[0].textContent = t.catTitle;
+  if (secTitles[1]) secTitles[1].textContent = t.tipsTitle;
+  const secSubs = document.querySelectorAll('#page-home .section-sub');
+  if (secSubs[0]) secSubs[0].textContent = t.catSub;
+  if (secSubs[1]) secSubs[1].textContent = t.tipsSub;
+
+  // Category names
+  const cats = document.querySelectorAll('.cat-name');
+  [t.cat1,t.cat2,t.cat3,t.cat4,t.cat5,t.cat6,t.cat7,t.cat8].forEach((c,i) => { if(cats[i]) cats[i].textContent = c; });
+
+  // Page titles
+  const mktTitle = document.querySelector('#page-market .section-title');
+  const mktSub = document.querySelector('#page-market .section-sub');
+  if (mktTitle) mktTitle.textContent = t.mktTitle;
+  if (mktSub) mktSub.textContent = t.mktSub;
+
+  const disTitle = document.querySelector('#page-diseases .section-title');
+  const disSub = document.querySelector('#page-diseases .section-sub');
+  if (disTitle) disTitle.textContent = t.disTitle;
+  if (disSub) disSub.textContent = t.disSub;
+
+  const toolTitle = document.querySelector('#page-tools .section-title');
+  const toolSub = document.querySelector('#page-tools .section-sub');
+  if (toolTitle) toolTitle.textContent = t.toolTitle;
+  if (toolSub) toolSub.textContent = t.toolSub;
+
+  const comTitle = document.querySelector('#page-community .section-title');
+  const comSub = document.querySelector('#page-community .section-sub');
+  if (comTitle) comTitle.textContent = t.comTitle;
+  if (comSub) comSub.textContent = t.comSub;
+
+  // Auth modal
+  const authTitleEl = document.getElementById('auth-title');
+  if (authTitleEl) authTitleEl.textContent = t.authTitle;
+  const googleBtn = document.querySelector('.auth-google-btn');
+  if (googleBtn) googleBtn.childNodes[googleBtn.childNodes.length-1].textContent = ' ' + t.authGoogle;
+  const emailInput = document.getElementById('auth-email');
+  if (emailInput) emailInput.placeholder = t.authEmail;
+  const passInput = document.getElementById('auth-password');
+  if (passInput) passInput.placeholder = t.authPass;
+  const submitBtn = document.getElementById('auth-submit-btn');
+  if (submitBtn) submitBtn.textContent = t.authSignIn;
+  const toggleText = document.getElementById('auth-toggle-text');
+  if (toggleText) toggleText.textContent = t.authNoAcc;
+  const toggleBtn = document.getElementById('auth-toggle-btn');
+  if (toggleBtn) toggleBtn.textContent = t.authCreateAcc;
+
+  // Sign out button
+  const signoutBtn = document.querySelector('.user-dropdown-item');
+  if (signoutBtn) signoutBtn.textContent = t.signout;
 };
 </script>

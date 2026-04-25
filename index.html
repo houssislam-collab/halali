@@ -21,6 +21,27 @@
 }
 html { scroll-behavior:smooth; }
 body { font-family:'Cairo',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+/* LANG SWITCHER */
+.lang-switcher { display:flex;gap:2px;background:var(--g50);border-radius:8px;padding:2px; }
+.lang-btn { background:none;border:none;padding:4px 9px;border-radius:6px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--text3);transition:all .2s; }
+.lang-btn.active { background:var(--white);color:var(--g800);box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+/* USER AVATAR */
+.user-avatar { width:34px;height:34px;border-radius:50%;background:var(--g600);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;cursor:pointer; }
+.user-dropdown { position:absolute;top:44px;left:0;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px;min-width:180px;box-shadow:0 8px 24px rgba(0,0,0,0.12);z-index:200; }
+.user-dropdown-item { background:none;border:none;width:100%;text-align:right;padding:8px 4px;font-family:'Cairo',sans-serif;font-size:13px;color:var(--r600);cursor:pointer;border-radius:6px; }
+.user-dropdown-item:hover { background:var(--r50); }
+/* AUTH MODAL */
+.auth-box { background:var(--white);border-radius:20px;padding:32px 28px;max-width:380px;width:90%;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.2); }
+.auth-title { font-size:1.3rem;font-weight:700;text-align:center;color:var(--g900);margin-bottom:4px; }
+.auth-sub { font-size:13px;color:var(--text3);text-align:center;margin-bottom:20px; }
+.auth-google-btn { width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:11px;border:1.5px solid var(--border);border-radius:10px;background:var(--white);font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;margin-bottom:12px; }
+.auth-google-btn:hover { background:var(--g50);border-color:var(--g200); }
+.auth-divider { display:flex;align-items:center;gap:10px;margin:12px 0;color:var(--text3);font-size:12px; }
+.auth-divider::before,.auth-divider::after { content:'';flex:1;height:1px;background:var(--border); }
+.auth-input { width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Cairo',sans-serif;font-size:14px;margin-bottom:10px;outline:none;transition:border .2s;background:var(--bg); }
+.auth-input:focus { border-color:var(--g400); }
+.auth-submit-btn { width:100%;padding:12px;background:var(--g800);color:white;border:none;border-radius:10px;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s; }
+.auth-submit-btn:hover { background:var(--g900); }
 
 /* NAV */
 nav { position:sticky;top:0;z-index:100;background:rgba(250,250,247,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:62px; }
@@ -384,8 +405,51 @@ footer a { color:var(--g200);text-decoration:none; }
     <button class="nav-link" onclick="showPage('guide',this)">🐣 دليل الأنواع</button>
     <button class="nav-link" onclick="showPage('community',this)">المجتمع</button>
   </div>
-  <button class="nav-cta" onclick="showPage('community',document.querySelectorAll('.nav-link')[7])">انضم للمجتمع</button>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('ar')" id="lang-ar">ع</button>
+      <button class="lang-btn" onclick="setLang('en')" id="lang-en">EN</button>
+      <button class="lang-btn" onclick="setLang('fr')" id="lang-fr">FR</button>
+    </div>
+    <div id="auth-nav">
+      <button class="nav-cta" onclick="openAuthModal()" id="auth-nav-btn">تسجيل الدخول</button>
+    </div>
+    <div id="user-nav" style="display:none;position:relative;">
+      <div style="cursor:pointer;" onclick="toggleUserMenu()">
+        <div class="user-avatar" id="user-avatar">؟</div>
+      </div>
+      <div class="user-dropdown" id="user-dropdown" style="display:none;">
+        <div style="font-weight:600;font-size:13px;color:var(--text);" id="user-display-name"></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;" id="user-display-email"></div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:8px 0;">
+        <button class="user-dropdown-item" onclick="signOutUser()">🚪 تسجيل الخروج</button>
+      </div>
+    </div>
+  </div>
 </nav>
+
+<!-- AUTH MODAL -->
+<div id="auth-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+  <div class="auth-box">
+    <button onclick="closeAuthModal()" style="position:absolute;top:12px;left:12px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);">✕</button>
+    <div style="font-size:2rem;text-align:center;margin-bottom:4px;">🌿</div>
+    <div class="auth-title" id="auth-title">أهلاً بك في حلالك</div>
+    <div class="auth-sub">سجّل دخولك للوصول لكل الميزات</div>
+    <button class="auth-google-btn" onclick="signInWithGoogle()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.5 6.5 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.5 6.5 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.3 35.3 26.8 36 24 36c-5.2 0-9.6-3.3-11.2-8H6.4C9.7 36.4 16.4 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.3 4.1-4.2 5.4l6.2 5.2C41.5 35.4 44 30.1 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+      متابعة بـ Google
+    </button>
+    <div class="auth-divider"><span>أو</span></div>
+    <input class="auth-input" type="email" id="auth-email" placeholder="البريد الإلكتروني">
+    <input class="auth-input" type="password" id="auth-password" placeholder="كلمة المرور">
+    <div id="auth-error" style="color:var(--r600);font-size:12px;text-align:center;min-height:16px;margin-bottom:4px;"></div>
+    <button class="auth-submit-btn" onclick="handleEmailAuth()" id="auth-submit-btn">دخول</button>
+    <div style="text-align:center;font-size:13px;margin-top:12px;color:var(--text3);">
+      <span id="auth-toggle-text">ليس لديك حساب؟</span>
+      <button onclick="toggleAuthMode()" id="auth-toggle-btn" style="background:none;border:none;color:var(--g600);font-weight:600;cursor:pointer;font-family:inherit;font-size:13px;">إنشاء حساب</button>
+    </div>
+  </div>
+</div>
 
 <!-- ===== HOME ===== -->
 <div id="page-home" class="page active">
@@ -1995,3 +2059,147 @@ document.getElementById('ai-key-setup').style.display = 'none';
 </script>
 </body>
 </html>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBOLtZcVDeoMU4K64Nr0FmIV-3M9-_nffU",
+  authDomain: "halali-4175b.firebaseapp.com",
+  projectId: "halali-4175b",
+  storageBucket: "halali-4175b.firebasestorage.app",
+  messagingSenderId: "111702921580",
+  appId: "1:111702921580:web:01cf16070dde9945ea6349",
+  measurementId: "G-7YB1PHRC0C"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+let isSignUp = false;
+
+window.openAuthModal = () => {
+  const m = document.getElementById('auth-modal');
+  m.style.display = 'flex';
+};
+window.closeAuthModal = () => {
+  document.getElementById('auth-modal').style.display = 'none';
+  document.getElementById('auth-error').textContent = '';
+};
+window.toggleAuthMode = () => {
+  isSignUp = !isSignUp;
+  document.getElementById('auth-title').textContent = isSignUp ? 'إنشاء حساب جديد' : 'أهلاً بك في حلالك';
+  document.getElementById('auth-submit-btn').textContent = isSignUp ? 'إنشاء الحساب' : 'دخول';
+  document.getElementById('auth-toggle-text').textContent = isSignUp ? 'لديك حساب بالفعل؟' : 'ليس لديك حساب؟';
+  document.getElementById('auth-toggle-btn').textContent = isSignUp ? 'تسجيل الدخول' : 'إنشاء حساب';
+  document.getElementById('auth-error').textContent = '';
+};
+window.toggleUserMenu = () => {
+  const d = document.getElementById('user-dropdown');
+  d.style.display = d.style.display === 'none' ? 'block' : 'none';
+};
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#user-nav')) {
+    const d = document.getElementById('user-dropdown');
+    if (d) d.style.display = 'none';
+  }
+});
+
+window.signInWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    await saveUserData(result.user);
+    closeAuthModal();
+  } catch(e) {
+    document.getElementById('auth-error').textContent = 'فشل تسجيل الدخول بـ Google';
+  }
+};
+
+window.handleEmailAuth = async () => {
+  const email = document.getElementById('auth-email').value.trim();
+  const pass = document.getElementById('auth-password').value;
+  if (!email || !pass) { document.getElementById('auth-error').textContent = 'أدخل البريد وكلمة المرور'; return; }
+  try {
+    let result;
+    if (isSignUp) {
+      result = await createUserWithEmailAndPassword(auth, email, pass);
+    } else {
+      result = await signInWithEmailAndPassword(auth, email, pass);
+    }
+    await saveUserData(result.user);
+    closeAuthModal();
+  } catch(e) {
+    const msgs = { 'auth/email-already-in-use': 'البريد مستخدم بالفعل', 'auth/wrong-password': 'كلمة المرور خاطئة', 'auth/user-not-found': 'المستخدم غير موجود', 'auth/weak-password': 'كلمة المرور ضعيفة (6 أحرف على الأقل)', 'auth/invalid-email': 'البريد غير صحيح' };
+    document.getElementById('auth-error').textContent = msgs[e.code] || 'حدث خطأ، حاول مجدداً';
+  }
+};
+
+window.signOutUser = async () => {
+  await signOut(auth);
+  document.getElementById('user-dropdown').style.display = 'none';
+};
+
+async function saveUserData(user) {
+  const ref = doc(db, 'users', user.uid);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) {
+    await setDoc(ref, { email: user.email, name: user.displayName || '', lang: 'ar', createdAt: new Date() });
+  }
+}
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    document.getElementById('auth-nav').style.display = 'none';
+    document.getElementById('user-nav').style.display = 'block';
+    const initials = (user.displayName || user.email || '?').charAt(0).toUpperCase();
+    document.getElementById('user-avatar').textContent = initials;
+    document.getElementById('user-display-name').textContent = user.displayName || 'مستخدم';
+    document.getElementById('user-display-email').textContent = user.email;
+    // Load saved language
+    const ref = doc(db, 'users', user.uid);
+    const snap = await getDoc(ref);
+    if (snap.exists() && snap.data().lang) setLang(snap.data().lang);
+  } else {
+    document.getElementById('auth-nav').style.display = 'block';
+    document.getElementById('user-nav').style.display = 'none';
+  }
+});
+
+// ===== LANGUAGE =====
+const translations = {
+  ar: { home:'الرئيسية', market:'سوق الأسعار', diseases:'دليل الأمراض', tools:'أدوات المربّي', map:'خريطة المربّين', souq:'🗺️ أسواق', guide:'🐣 دليل الأنواع', community:'المجتمع', login:'تسجيل الدخول', heroTitle:'حلالك مشروعك... ونجاحك!', heroSub:'دليلك الشامل لتربية الدواجن والمواشي، تحسين الإنتاج، وتحويل حلالك إلى مصدر دخل حقيقي ومستدام.' },
+  en: { home:'Home', market:'Price Market', diseases:'Disease Guide', tools:'Breeder Tools', map:'Breeder Map', souq:'🗺️ Markets', guide:'🐣 Breed Guide', community:'Community', login:'Sign In', heroTitle:'Your Farm... Your Success!', heroSub:'Your complete guide to raising poultry and livestock, improving production, and turning your farm into a sustainable income.' },
+  fr: { home:'Accueil', market:'Marché des Prix', diseases:'Guide Maladies', tools:'Outils Éleveur', map:'Carte Éleveurs', souq:'🗺️ Marchés', guide:'🐣 Guide Races', community:'Communauté', login:'Connexion', heroTitle:'Votre Élevage... Votre Succès!', heroSub:'Votre guide complet pour élever volailles et bétail, améliorer la production et transformer votre élevage en source de revenus.' }
+};
+
+window.setLang = async (lang) => {
+  const t = translations[lang];
+  if (!t) return;
+  // Update buttons
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('lang-' + lang)?.classList.add('active');
+  // Update nav links
+  const links = document.querySelectorAll('.nav-link');
+  const keys = ['home','market','diseases','tools','map','souq','guide','community'];
+  links.forEach((l,i) => { if(keys[i] && t[keys[i]]) l.textContent = t[keys[i]]; });
+  // Update auth button
+  const authBtn = document.getElementById('auth-nav-btn');
+  if (authBtn) authBtn.textContent = t.login;
+  // Update hero
+  const h1 = document.querySelector('.hero h1');
+  const hp = document.querySelector('.hero p');
+  if (h1) h1.innerHTML = t.heroTitle;
+  if (hp) hp.textContent = t.heroSub;
+  // Update dir
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.lang = lang;
+  // Save to Firestore
+  const user = auth.currentUser;
+  if (user) {
+    await setDoc(doc(db, 'users', user.uid), { lang }, { merge: true });
+  }
+};
+</script>

@@ -21,27 +21,6 @@
 }
 html { scroll-behavior:smooth; }
 body { font-family:'Cairo',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
-/* LANG SWITCHER */
-.lang-switcher { display:flex;gap:2px;background:var(--g50);border-radius:8px;padding:2px; }
-.lang-btn { background:none;border:none;padding:4px 9px;border-radius:6px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--text3);transition:all .2s; }
-.lang-btn.active { background:var(--white);color:var(--g800);box-shadow:0 1px 3px rgba(0,0,0,0.1); }
-/* USER AVATAR */
-.user-avatar { width:34px;height:34px;border-radius:50%;background:var(--g600);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;cursor:pointer; }
-.user-dropdown { position:absolute;top:44px;left:0;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px;min-width:180px;box-shadow:0 8px 24px rgba(0,0,0,0.12);z-index:200; }
-.user-dropdown-item { background:none;border:none;width:100%;text-align:right;padding:8px 4px;font-family:'Cairo',sans-serif;font-size:13px;color:var(--r600);cursor:pointer;border-radius:6px; }
-.user-dropdown-item:hover { background:var(--r50); }
-/* AUTH MODAL */
-.auth-box { background:var(--white);border-radius:20px;padding:32px 28px;max-width:380px;width:90%;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.2); }
-.auth-title { font-size:1.3rem;font-weight:700;text-align:center;color:var(--g900);margin-bottom:4px; }
-.auth-sub { font-size:13px;color:var(--text3);text-align:center;margin-bottom:20px; }
-.auth-google-btn { width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:11px;border:1.5px solid var(--border);border-radius:10px;background:var(--white);font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;margin-bottom:12px; }
-.auth-google-btn:hover { background:var(--g50);border-color:var(--g200); }
-.auth-divider { display:flex;align-items:center;gap:10px;margin:12px 0;color:var(--text3);font-size:12px; }
-.auth-divider::before,.auth-divider::after { content:'';flex:1;height:1px;background:var(--border); }
-.auth-input { width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Cairo',sans-serif;font-size:14px;margin-bottom:10px;outline:none;transition:border .2s;background:var(--bg); }
-.auth-input:focus { border-color:var(--g400); }
-.auth-submit-btn { width:100%;padding:12px;background:var(--g800);color:white;border:none;border-radius:10px;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s; }
-.auth-submit-btn:hover { background:var(--g900); }
 
 /* NAV */
 nav { position:sticky;top:0;z-index:100;background:rgba(250,250,247,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:62px; }
@@ -371,6 +350,52 @@ nav { position:sticky;top:0;z-index:100;background:rgba(250,250,247,0.93);backdr
 .alert-feed { background:var(--g50);color:var(--g800); }
 .alert-watch { background:var(--r50);color:var(--r800); }
 
+/* CARE PAGE */
+.care-animal-tabs { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem; }
+.care-animal-btn { background:var(--white);border:1px solid var(--border);padding:8px 16px;border-radius:20px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px; }
+.care-animal-btn.active { background:var(--g800);color:var(--g50);border-color:var(--g800); }
+.care-animal-btn:hover:not(.active) { border-color:var(--g400);color:var(--g800); }
+.care-sections { display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:2rem; }
+.care-section-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden; }
+.care-section-header { padding:.9rem 1.25rem;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s; }
+.care-section-header:hover { background:var(--bg); }
+.care-section-icon { font-size:22px; }
+.care-section-title { font-size:14px;font-weight:600;color:var(--text);flex:1; }
+.care-section-toggle { font-size:12px;color:var(--text3);transition:transform .2s; }
+.care-section-toggle.open { transform:rotate(180deg); }
+.care-section-body { padding:0 1.25rem;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s; }
+.care-section-body.open { max-height:600px;padding:.75rem 1.25rem 1.25rem; }
+.care-item { display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px; }
+.care-item:last-child { border-bottom:none; }
+.care-item-dot { width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px; }
+.dot-green { background:var(--g600); }
+.dot-amber { background:var(--a400); }
+.dot-red { background:var(--r600); }
+.dot-teal { background:var(--t600); }
+.care-item-text { color:var(--text2);line-height:1.6;flex:1; }
+.care-item-text strong { color:var(--text);font-weight:600; }
+.vaccine-table { width:100%;border-collapse:collapse;font-size:13px;margin-top:8px; }
+.vaccine-table th { background:var(--g50);color:var(--g800);padding:7px 10px;text-align:right;font-weight:600;font-size:12px; }
+.vaccine-table td { padding:7px 10px;border-bottom:1px solid var(--border);color:var(--text2); }
+.vaccine-table tr:last-child td { border-bottom:none; }
+.vaccine-table tr:hover td { background:var(--bg); }
+.vac-badge { font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px; }
+.vac-must { background:var(--r50);color:var(--r800); }
+.vac-opt { background:var(--a50);color:var(--a800); }
+
+/* HOUSING DESIGNS */
+.housing-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-top:1.5rem; }
+.housing-card { background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all .2s; }
+.housing-card:hover { box-shadow:0 8px 24px rgba(0,0,0,.1);transform:translateY(-2px); }
+.housing-svg-wrap { background:linear-gradient(135deg,var(--g50),var(--t50));padding:1.5rem;display:flex;justify-content:center; }
+.housing-info { padding:1.25rem; }
+.housing-name { font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px; }
+.housing-desc { font-size:12px;color:var(--text3);line-height:1.6;margin-bottom:10px; }
+.housing-specs { display:grid;grid-template-columns:1fr 1fr;gap:6px; }
+.housing-spec { background:var(--bg);border-radius:6px;padding:6px 8px; }
+.housing-spec-lbl { font-size:10px;color:var(--text3);display:block; }
+.housing-spec-val { font-size:12px;font-weight:600;color:var(--text); }
+
 footer { background:var(--g900);color:var(--g100);text-align:center;padding:1.5rem;font-size:13px; }
 footer a { color:var(--g200);text-decoration:none; }
 
@@ -388,9 +413,264 @@ footer a { color:var(--g200);text-decoration:none; }
   .hero { padding:3.5rem 1.25rem 3rem; }
   .hero-stats { gap:1.5rem; }
 }
+
+/* ===== MOBILE APP EXPERIENCE ===== */
+@media (max-width: 768px) {
+  /* Bottom nav bar */
+  nav { display:none !important; }
+  
+  .mobile-bottom-nav {
+    display:flex !important;
+  }
+  
+  body {
+    padding-bottom: 70px;
+  }
+  
+  /* Full width pages */
+  .container {
+    padding: 1.25rem 1rem;
+  }
+  
+  /* Hero mobile */
+  .hero {
+    padding: 2.5rem 1.25rem 2rem;
+  }
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+  .hero p { font-size: 0.9rem; }
+  .hero-stats { gap: 1rem; }
+  .hero-stat-num { font-size: 1.5rem; }
+  
+  /* Cards full width */
+  .categories-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .cat-card { padding: 1rem 0.5rem; }
+  .cat-icon { font-size: 28px; }
+  .cat-name { font-size: 12px; }
+  .cat-count { display: none; }
+  
+  /* Tips grid */
+  .tips-grid { grid-template-columns: 1fr; gap: 12px; }
+  
+  /* Market */
+  .market-grid { grid-template-columns: 1fr; }
+  
+  /* Community */
+  .community-layout { grid-template-columns: 1fr; }
+  .community-sidebar { display: none; }
+  
+  /* Map */
+  .map-body { grid-template-columns: 1fr; }
+  .map-sidebar { display: none; }
+  .wilayas-grid { grid-template-columns: repeat(3, 1fr); }
+  
+  /* Diseases */
+  .diseases-grid { grid-template-columns: 1fr; }
+  
+  /* Calc */
+  .calc-grid { grid-template-columns: 1fr 1fr; }
+  .calc-results { grid-template-columns: 1fr; }
+  
+  /* Inner tabs scroll */
+  .inner-tabs {
+    overflow-x: auto;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+  .inner-tab { white-space: nowrap; padding: 7px 12px; font-size: 12px; }
+  
+  /* Care sections */
+  .care-sections { grid-template-columns: 1fr; }
+  
+  /* Housing */
+  .housing-grid { grid-template-columns: 1fr; }
+  
+  /* Souq */
+  .souq-controls { grid-template-columns: 1fr 1fr; }
+  .souq-results { grid-template-columns: 1fr; }
+  
+  /* Breed grid */
+  .breed-grid { grid-template-columns: 1fr; }
+  
+  /* Feed grid */
+  .feed-grid { grid-template-columns: 1fr 1fr; }
+  .feed-results { grid-template-columns: 1fr 1fr; }
+  .planner-controls { grid-template-columns: 1fr 1fr; }
+  
+  /* Vaccine table scroll */
+  .vaccine-table-wrap { overflow-x: auto; }
+  .vaccine-table { font-size: 11px; }
+  .vaccine-table th, .vaccine-table td { padding: 5px 7px; }
+  
+  /* AI panel mobile */
+  #ai-panel {
+    width: calc(100vw - 24px);
+    left: 12px;
+    bottom: 82px;
+    max-height: 70vh;
+  }
+  #ai-fab {
+    bottom: 78px;
+    left: 16px;
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  
+  /* Section titles */
+  .section-title { font-size: 1.4rem; }
+  
+  /* Auth modal */
+  .auth-box { padding: 24px 20px; }
+  
+  /* Souq map height */
+  #souq-map { height: 280px; }
+  
+  /* Breed stats 1 col */
+  .breed-stats { grid-template-columns: 1fr 1fr; }
+  
+  /* Tools list */
+  .tools-list { grid-template-columns: 1fr; }
+  
+  /* Lang switcher hidden on mobile */
+  .lang-switcher { display: none; }
+}
+
+/* Bottom Navigation Bar */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: rgba(250,250,247,0.97);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border);
+  height: 64px;
+  padding: 0;
+}
+.mobile-bottom-nav-inner {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.mobile-bottom-nav-inner::-webkit-scrollbar { display: none; }
+.mobile-nav-btn {
+  flex: 0 0 auto;
+  min-width: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: all 0.2s;
+  position: relative;
+}
+.mobile-nav-btn.active .mobile-nav-icon { color: var(--g800); }
+.mobile-nav-btn.active .mobile-nav-label { color: var(--g800); font-weight: 600; }
+.mobile-nav-btn.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 3px;
+  background: var(--g600);
+  border-radius: 0 0 3px 3px;
+}
+.mobile-nav-icon {
+  font-size: 22px;
+  color: var(--text3);
+  transition: all 0.2s;
+  line-height: 1;
+}
+.mobile-nav-label {
+  font-size: 10px;
+  color: var(--text3);
+  font-family: 'Cairo', sans-serif;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+/* Mobile page header */
+.mobile-page-header {
+  display: none;
+}
+@media (max-width: 768px) {
+  .mobile-page-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem 1.25rem 0;
+    margin-bottom: 0.5rem;
+  }
+  .mobile-page-header-icon { font-size: 24px; }
+  .mobile-page-header-title {
+    font-family: 'Amiri', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--g900);
+  }
+  .mobile-page-header-auth {
+    margin-right: auto;
+  }
+}
 </style>
 </head>
 <body>
+
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-bottom-nav">
+  <div class="mobile-bottom-nav-inner">
+    <button class="mobile-nav-btn active" onclick="showPageMobile('home',this)">
+      <span class="mobile-nav-icon">🏠</span>
+      <span class="mobile-nav-label">الرئيسية</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="showPageMobile('market',this)">
+      <span class="mobile-nav-icon">📊</span>
+      <span class="mobile-nav-label">الأسعار</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="showPageMobile('diseases',this)">
+      <span class="mobile-nav-icon">🩺</span>
+      <span class="mobile-nav-label">الأمراض</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="showPageMobile('care',this)">
+      <span class="mobile-nav-icon">🏥</span>
+      <span class="mobile-nav-label">الرعاية</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="showPageMobile('tools',this)">
+      <span class="mobile-nav-icon">🔧</span>
+      <span class="mobile-nav-label">الأدوات</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="showPageMobile('guide',this)">
+      <span class="mobile-nav-icon">🐣</span>
+      <span class="mobile-nav-label">الأنواع</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="showPageMobile('souq',this)">
+      <span class="mobile-nav-icon">🗺️</span>
+      <span class="mobile-nav-label">الأسواق</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="showPageMobile('map',this)">
+      <span class="mobile-nav-icon">📍</span>
+      <span class="mobile-nav-label">المربّون</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="showPageMobile('community',this)">
+      <span class="mobile-nav-icon">👥</span>
+      <span class="mobile-nav-label">المجتمع</span>
+    </button>
+  </div>
+</nav>
 
 <!-- NAV -->
 <nav>
@@ -403,53 +683,29 @@ footer a { color:var(--g200);text-decoration:none; }
     <button class="nav-link" onclick="showPage('map',this)">خريطة المربّين</button>
     <button class="nav-link" onclick="showPage('souq',this)">🗺️ أسواق</button>
     <button class="nav-link" onclick="showPage('guide',this)">🐣 دليل الأنواع</button>
+    <button class="nav-link" onclick="showPage('care',this)">🏥 الرعاية</button>
     <button class="nav-link" onclick="showPage('community',this)">المجتمع</button>
   </div>
   <div style="display:flex;align-items:center;gap:8px;">
     <div class="lang-switcher">
-      <button class="lang-btn active" onclick="setLang('ar')" id="lang-ar">ع</button>
-      <button class="lang-btn" onclick="setLang('en')" id="lang-en">EN</button>
-      <button class="lang-btn" onclick="setLang('fr')" id="lang-fr">FR</button>
+      <button class="lang-btn active" id="lang-ar">ع</button>
+      <button class="lang-btn" id="lang-en">EN</button>
+      <button class="lang-btn" id="lang-fr">FR</button>
     </div>
     <div id="auth-nav">
-      <button class="nav-cta" onclick="openAuthModal()" id="auth-nav-btn">تسجيل الدخول</button>
+      <button class="nav-cta" onclick="openAuthModal()">تسجيل الدخول</button>
     </div>
     <div id="user-nav" style="display:none;position:relative;">
-      <div style="cursor:pointer;" onclick="toggleUserMenu()">
-        <div class="user-avatar" id="user-avatar">؟</div>
-      </div>
+      <div class="user-avatar" id="user-avatar" onclick="toggleUserMenu()">؟</div>
       <div class="user-dropdown" id="user-dropdown" style="display:none;">
-        <div style="font-weight:600;font-size:13px;color:var(--text);" id="user-display-name"></div>
-        <div style="font-size:11px;color:var(--text3);margin-top:2px;" id="user-display-email"></div>
+        <div style="font-weight:600;font-size:13px;" id="user-display-name"></div>
+        <div style="font-size:11px;color:var(--text3);" id="user-display-email"></div>
         <hr style="border:none;border-top:1px solid var(--border);margin:8px 0;">
         <button class="user-dropdown-item" onclick="signOutUser()">🚪 تسجيل الخروج</button>
       </div>
     </div>
   </div>
 </nav>
-
-<!-- AUTH MODAL -->
-<div id="auth-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
-  <div class="auth-box">
-    <button onclick="closeAuthModal()" style="position:absolute;top:12px;left:12px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);">✕</button>
-    <div style="font-size:2rem;text-align:center;margin-bottom:4px;">🌿</div>
-    <div class="auth-title" id="auth-title">أهلاً بك في حلالك</div>
-    <div class="auth-sub">سجّل دخولك للوصول لكل الميزات</div>
-    <button class="auth-google-btn" onclick="signInWithGoogle()">
-      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.5 6.5 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.5 6.5 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.3 35.3 26.8 36 24 36c-5.2 0-9.6-3.3-11.2-8H6.4C9.7 36.4 16.4 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.3 4.1-4.2 5.4l6.2 5.2C41.5 35.4 44 30.1 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
-      متابعة بـ Google
-    </button>
-    <div class="auth-divider"><span>أو</span></div>
-    <input class="auth-input" type="email" id="auth-email" placeholder="البريد الإلكتروني">
-    <input class="auth-input" type="password" id="auth-password" placeholder="كلمة المرور">
-    <div id="auth-error" style="color:var(--r600);font-size:12px;text-align:center;min-height:16px;margin-bottom:4px;"></div>
-    <button class="auth-submit-btn" onclick="handleEmailAuth()" id="auth-submit-btn">دخول</button>
-    <div style="text-align:center;font-size:13px;margin-top:12px;color:var(--text3);">
-      <span id="auth-toggle-text">ليس لديك حساب؟</span>
-      <button onclick="toggleAuthMode()" id="auth-toggle-btn" style="background:none;border:none;color:var(--g600);font-weight:600;cursor:pointer;font-family:inherit;font-size:13px;">إنشاء حساب</button>
-    </div>
-  </div>
-</div>
 
 <!-- ===== HOME ===== -->
 <div id="page-home" class="page active">
@@ -477,10 +733,10 @@ footer a { color:var(--g200);text-decoration:none; }
       <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐑</span><span class="cat-name">أغنام</span><span class="cat-count">35 نصيحة</span></div>
       <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐄</span><span class="cat-name">أبقار</span><span class="cat-count">28 نصيحة</span></div>
       <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐇</span><span class="cat-name">أرانب</span><span class="cat-count">20 نصيحة</span></div>
-      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🕊️</span><span class="cat-name">حمام</span><span class="cat-count">18 نصيحة</span></div>
-      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐐</span><span class="cat-name">ماعز</span><span class="cat-count">22 نصيحة</span></div>
-      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🐝</span><span class="cat-name">نحل</span><span class="cat-count">15 نصيحة</span></div>
-      <div class="cat-card" onclick="showPage('diseases',document.querySelectorAll('.nav-link')[2])"><span class="cat-icon">🦃</span><span class="cat-name">ديوك رومي</span><span class="cat-count">12 نصيحة</span></div>
+      <div class="cat-card"><span class="cat-icon">🕊️</span><span class="cat-name">حمام</span><span class="cat-count">18 نصيحة</span></div>
+      <div class="cat-card"><span class="cat-icon">🐐</span><span class="cat-name">ماعز</span><span class="cat-count">22 نصيحة</span></div>
+      <div class="cat-card"><span class="cat-icon">🐝</span><span class="cat-name">نحل</span><span class="cat-count">15 نصيحة</span></div>
+      <div class="cat-card"><span class="cat-icon">🦃</span><span class="cat-name">ديوك رومي</span><span class="cat-count">12 نصيحة</span></div>
     </div>
     <div class="section-title">أبرز نصائح اليوم</div>
     <div class="section-sub">محدّثة أسبوعياً من خبرائنا</div>
@@ -925,6 +1181,66 @@ footer a { color:var(--g200);text-decoration:none; }
   </div>
 </div>
 
+<!-- ===== CARE PAGE ===== -->
+<div id="page-care" class="page">
+  <div class="container">
+    <div class="section-title">🏥 الرعاية الصحية الشاملة</div>
+    <div class="section-sub">كل شيء عن الغذاء، الشراب، التطعيمات، والوقاية — مع تصاميم الحضانات والمزارع</div>
+
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="showCareTab('health',this)">🏥 الرعاية والتغذية</button>
+      <button class="inner-tab" onclick="showCareTab('vaccines',this)">💉 جدول التطعيمات</button>
+      <button class="inner-tab" onclick="showCareTab('housing',this)">🏗️ تصاميم الحضانات</button>
+    </div>
+
+    <!-- HEALTH & NUTRITION -->
+    <div id="ctab-health">
+      <div class="care-animal-tabs" id="care-animal-tabs">
+        <button class="care-animal-btn active" onclick="setCareAnimal('chicken',this)">🐔 دجاج</button>
+        <button class="care-animal-btn" onclick="setCareAnimal('sheep',this)">🐑 أغنام</button>
+        <button class="care-animal-btn" onclick="setCareAnimal('cow',this)">🐄 أبقار</button>
+        <button class="care-animal-btn" onclick="setCareAnimal('rabbit',this)">🐇 أرانب</button>
+        <button class="care-animal-btn" onclick="setCareAnimal('goat',this)">🐐 ماعز</button>
+        <button class="care-animal-btn" onclick="setCareAnimal('pigeon',this)">🕊️ حمام</button>
+      </div>
+      <div class="care-sections" id="care-sections"></div>
+    </div>
+
+    <!-- VACCINES -->
+    <div id="ctab-vaccines" style="display:none;">
+      <div class="care-animal-tabs">
+        <button class="care-animal-btn active" onclick="setVaxAnimal('chicken',this)">🐔 دجاج</button>
+        <button class="care-animal-btn" onclick="setVaxAnimal('sheep',this)">🐑 أغنام</button>
+        <button class="care-animal-btn" onclick="setVaxAnimal('rabbit',this)">🐇 أرانب</button>
+        <button class="care-animal-btn" onclick="setVaxAnimal('cow',this)">🐄 أبقار</button>
+      </div>
+      <div class="care-section-card" style="margin-top:1rem;">
+        <div style="padding:1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px;">💉</span>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--text);" id="vax-title">جدول تطعيم الدجاج</div>
+            <div style="font-size:11px;color:var(--text3);">اتبع الجدول بدقة للحصول على أفضل حماية</div>
+          </div>
+          <div style="margin-right:auto;background:var(--r50);color:var(--r800);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;">🔴 أساسي</div>
+          <div style="background:var(--a50);color:var(--a800);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;">🟡 اختياري</div>
+        </div>
+        <div style="overflow-x:auto;padding:1rem 1.25rem;">
+          <table class="vaccine-table" id="vax-table"></table>
+        </div>
+        <div style="padding:1rem 1.25rem;background:var(--g50);border-top:1px solid var(--border);" id="vax-tips"></div>
+      </div>
+    </div>
+
+    <!-- HOUSING DESIGNS -->
+    <div id="ctab-housing" style="display:none;">
+      <div style="background:var(--a50);border-radius:var(--radius);padding:10px 14px;font-size:13px;color:var(--a800);margin-bottom:1.5rem;">
+        💡 جميع التصاميم مناسبة للمناخ الجزائري — صيف حار وشتاء بارد. الأبعاد قابلة للتعديل حسب عدد الحيوانات.
+      </div>
+      <div class="housing-grid" id="housing-grid"></div>
+    </div>
+  </div>
+</div>
+
 <footer>
   <p>🌿 منصة <strong>حلالك</strong> — مصنوعة بحب لمربّي الجزائر &nbsp;|&nbsp; <a href="#">سياسة الخصوصية</a> &nbsp;|&nbsp; <a href="#">تواصل معنا</a></p>
 </footer>
@@ -1006,6 +1322,12 @@ const diseases = [
   { icon:'🩺', name:'نزلة البرد الأرنبية', latin:'Pasteurellosis', severity:'high', animals:['أرانب'], symptoms:'إفرازات أنفية بيضاء، عطس متكرر، التهاب العين، صعوبة تنفس، نفوق مفاجئ.', treatment:'Enrofloxacin في الماء 7-10 أيام. عزل فوري. تحسين التهوية وتقليل الرطوبة.' },
   { icon:'🌡️', name:'الإجهاد الحراري', latin:'Heat Stress', severity:'low', animals:['دجاج','أرانب','ديوك رومي'], symptoms:'لهاث، انتشار الأجنحة، شرب مفرط، انخفاض حاد في الإنتاج عند 32°م+.', treatment:'تبريد الماء، مراوح، خفض الكثافة، فيتامين C وإلكتروليت في الماء.' },
   { icon:'💛', name:'الكبد الدهني', latin:'Fatty Liver Syndrome', severity:'mid', animals:['دجاج'], symptoms:'تراجع مفاجئ في الإنتاج مع سمنة ظاهرة، نفوق مفاجئ دون أعراض سابقة.', treatment:'تقليل النشويات، إضافة ميثيونين وكولين، تنشيط حركة الطيور.' },
+  { icon:'🟣', name:'مرض المارك', latin:"Marek's Disease", severity:'high', animals:['دجاج','ديوك رومي'], symptoms:'شلل في الأرجل والأجنحة، انحراف الرقبة، تورم الأعصاب، فقدان البصر، نفوق مفاجئ.', treatment:'لا علاج — الوقاية بلقاح المارك في اليوم الأول بالمفرخ فقط. تجنب التوتر والاكتظاظ.' },
+  { icon:'🫁', name:'الكوريزا (التهاب الأنف المعدي)', latin:'Infectious Coryza', severity:'mid', animals:['دجاج'], symptoms:'إفراز أنفي كثيف برائحة كريهة، تورم الوجه والعينين، انتفاخ الجيوب الأنفية، انخفاض الإنتاج.', treatment:'Sulfadimethoxine أو Amoxicillin في الماء. تحسين التهوية. عزل المصابين فوراً.' },
+  { icon:'🐄', name:'التهاب الضرع (الماستيتيس)', latin:'Mastitis', severity:'high', animals:['أبقار','أغنام','ماعز'], symptoms:'تورم وتصلب الضرع، حليب متكتل أو دموي، ارتفاع الحرارة، رفض الحلب بسبب الألم.', treatment:'مضادات حيوية موضعية داخل القناة + حقن عضلي. حلب الضرع كل 4 ساعات لتفريغه. بيطري عاجل.' },
+  { icon:'🌀', name:'الانتفاخ (التيمبانيا)', latin:'Bloat / Tympany', severity:'high', animals:['أغنام','ماعز','أبقار'], symptoms:'تضخم الكرش الأيسر بشكل مفاجئ، صعوبة تنفس، قلق وتوتر شديد، قد يؤدي للنفوق خلال ساعات.', treatment:'دوران الحيوان لتحريك الغاز، Simethicone أو زيت نباتي في الفم، في الحالات الشديدة ثقب الكرش بالإبرة. بيطري عاجل.' },
+  { icon:'🦷', name:'العقر والتسمم بالرصاص', latin:'Enterotoxemia / Clostridial', severity:'high', animals:['أغنام','ماعز','أبقار'], symptoms:'اختلاجات مفاجئة، سيلان اللعاب، إسهال دموي، وفاة مفاجئة لأصحاء دون أعراض مسبقة.', treatment:'تطعيم وقائي بـ Clostridial قبل الموسم أهم من العلاج. عند الإصابة: سيروم مضاد + بيطري عاجل.' },
+  { icon:'🐛', name:'البرغش والقمل (الطفيليات الخارجية)', latin:'External Parasites', severity:'low', animals:['دجاج','حمام','أغنام','أبقار'], symptoms:'حكة مستمرة، تساقط الريش أو الصوف، خدوش من الحك، شحوب وفقدان وزن تدريجي.', treatment:'رش Pyrethrin أو Deltamethrin على الريش/الصوف. تعقيم الحظيرة كاملة. تكرار بعد أسبوعين لقتل البيض.' },
 ];
 
 let activeFilter = 'all';
@@ -2016,36 +2338,22 @@ async function sendAI() {
       body: JSON.stringify({ messages: aiHistory })
     });
 
-    const rawText = await response.text();
+    const data = await response.json();
     removeTyping();
 
-    let data;
-    try {
-      data = JSON.parse(rawText);
-    } catch(e) {
-      addBotMessage('⚠️ ردّ غير متوقع من الخادم. حاول مجدداً.');
+    if (data.error) {
+      addBotMessage('⚠️ خدمة المساعد غير متاحة حالياً. حاول مجدداً بعد قليل.');
       aiHistory.pop();
-      aiLoading = false;
-      document.getElementById('ai-send-btn').disabled = false;
-      return;
-    }
-
-    if (!response.ok || data.error) {
-      const errMsg = data.error?.message || data.error || `خطأ ${response.status}`;
-      addBotMessage(`⚠️ ${errMsg}`);
-      aiHistory.pop();
-    } else if (data.content && data.content[0] && data.content[0].text) {
+    } else {
       const reply = data.content[0].text;
       aiHistory.push({ role: 'assistant', content: reply });
       addBotMessage(reply);
+      // Keep history max 20 messages
       if (aiHistory.length > 20) aiHistory = aiHistory.slice(-20);
-    } else {
-      addBotMessage('⚠️ ما قدرت نفهم الرد. حاول مجدداً.');
-      aiHistory.pop();
     }
   } catch (err) {
     removeTyping();
-    addBotMessage(`⚠️ تعذّر الاتصال بالخادم: ${err.message}`);
+    addBotMessage('⚠️ تأكد من اتصالك بالإنترنت وحاول مجدداً.');
     aiHistory.pop();
   }
 
@@ -2054,11 +2362,444 @@ async function sendAI() {
   document.getElementById('ai-input').focus();
 }
 
-// Hide key setup on load - not needed
-document.getElementById('ai-key-setup').style.display = 'none';
+// ===== CARE PAGE =====
+const careData = {
+  chicken: [
+    { icon:'🌾', title:'التغذية اليومية', color:'green', items:[
+      { dot:'dot-green', text:'<strong>علف الكتاكيت (Starter):</strong> بروتين 22% — من اليوم 1 حتى الأسبوع 4' },
+      { dot:'dot-green', text:'<strong>علف النمو (Grower):</strong> بروتين 17% — من الأسبوع 4 حتى البياض' },
+      { dot:'dot-green', text:'<strong>علف البياض (Layer):</strong> بروتين 16% + كالسيوم 4 غ — أثناء الإنتاج' },
+      { dot:'dot-amber', text:'<strong>الكمية:</strong> 100-120 غ/طائر/يوم للدجاج البالغ' },
+      { dot:'dot-amber', text:'<strong>مكملات:</strong> قشر بيض مطحون + فيتامين D3 + أوميغا 3 (بذور الكتان)' },
+      { dot:'dot-red', text:'<strong>تجنّب:</strong> الأفوكادو، البصل، الكاكاو — سامة للدجاج' },
+    ]},
+    { icon:'💧', title:'الشراب والماء', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>الكمية:</strong> 200-300 مل/طائر/يوم — تضاعف في الصيف' },
+      { dot:'dot-green', text:'<strong>درجة الحرارة:</strong> ماء بارد صيفاً، دافئ شتاءً (لا يتجمد)' },
+      { dot:'dot-amber', text:'<strong>التنظيف:</strong> غسل المشارب يومياً بمحلول الخل أسبوعياً' },
+      { dot:'dot-teal', text:'<strong>إلكتروليت:</strong> أضفه للماء في الحر الشديد أو بعد النقل' },
+      { dot:'dot-red', text:'<strong>تحذير:</strong> الماء الملوث يسبب الإسهال والنفوق — راقبه يومياً' },
+    ]},
+    { icon:'🏠', title:'البيئة والمسكن', color:'amber', items:[
+      { dot:'dot-green', text:'<strong>المساحة:</strong> 0.9 م² للتربية الأرضية، 0.45 م² للأقفاص' },
+      { dot:'dot-green', text:'<strong>الفرشة:</strong> نشارة خشب 5-8 سم — جافة ونظيفة دائماً' },
+      { dot:'dot-amber', text:'<strong>الحرارة المثالية:</strong> 20-25°م للبالغ، 32-35°م للكتاكيت' },
+      { dot:'dot-amber', text:'<strong>الإضاءة:</strong> 14-16 ساعة/يوم للبياض، 24 ساعة للكتاكيت أول يوم' },
+      { dot:'dot-teal', text:'<strong>التهوية:</strong> 1 م² فتحات لكل 10 م² مساحة حظيرة' },
+      { dot:'dot-red', text:'<strong>خطر:</strong> الرطوبة فوق 70% تسبب الأمراض — هوّد جيداً' },
+    ]},
+    { icon:'🛡️', title:'الوقاية والحماية', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>التطعيم:</strong> نيوكاسل كل 3 أشهر، جمبورو عند 14 و21 يوم' },
+      { dot:'dot-green', text:'<strong>التعقيم:</strong> رش الحظيرة بالكلور أسبوعياً، فورمالين شهرياً' },
+      { dot:'dot-amber', text:'<strong>العزل:</strong> أي طائر جديد يُعزل 2 أسبوع قبل الدمج' },
+      { dot:'dot-amber', text:'<strong>مكافحة القوارض:</strong> فخاخ عند المداخل — تنقل الأمراض' },
+      { dot:'dot-teal', text:'<strong>السجلات:</strong> سجّل الإنتاج والنفوق يومياً للكشف المبكر' },
+    ]},
+  ],
+  sheep: [
+    { icon:'🌾', title:'التغذية اليومية', color:'green', items:[
+      { dot:'dot-green', text:'<strong>العلف الأخضر:</strong> 3-5 كغ/رأس/يوم — النجيل والشعير الأخضر مثالي' },
+      { dot:'dot-green', text:'<strong>العلف الجاف:</strong> تبن القمح أو الشعير — متوفر دائماً' },
+      { dot:'dot-amber', text:'<strong>العلف المركز:</strong> 300-500 غ/يوم — أهم في الحمل والرضاعة' },
+      { dot:'dot-amber', text:'<strong>الملح:</strong> حجر ملح معدني معلّق في الحظيرة — ضروري' },
+      { dot:'dot-red', text:'<strong>تجنّب:</strong> البرسيم الرطب بكمية كبيرة — يسبب الانتفاخ' },
+    ]},
+    { icon:'💧', title:'الشراب والماء', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>الكمية:</strong> 3-5 لتر/رأس/يوم — 8 لتر في الصيف' },
+      { dot:'dot-green', text:'<strong>الحوامل والمرضعات:</strong> ماء بارد نظيف طوال اليوم' },
+      { dot:'dot-amber', text:'<strong>نوعية الماء:</strong> نظيف غير ملوث — الأغنام حساسة جداً' },
+    ]},
+    { icon:'🏠', title:'البيئة والمسكن', color:'amber', items:[
+      { dot:'dot-green', text:'<strong>المساحة:</strong> 1.5-2 م²/رأس داخل + 3 م² خارج للمرعى' },
+      { dot:'dot-green', text:'<strong>الأرضية:</strong> إسمنت + فرشة تبن — تُبدّل أسبوعياً' },
+      { dot:'dot-amber', text:'<strong>التهوية:</strong> جيدة بدون تيارات هواء مباشرة على الحيوانات' },
+      { dot:'dot-teal', text:'<strong>الجزّ:</strong> مرة/سنة في الربيع — يقي من الحر والطفيليات' },
+    ]},
+    { icon:'🛡️', title:'الوقاية والحماية', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>مكافحة الديدان:</strong> Albendazole كل 6 أشهر للقطيع كله' },
+      { dot:'dot-green', text:'<strong>مكافحة الجرب:</strong> Ivermectin حقناً مرة بالسنة وقائياً' },
+      { dot:'dot-amber', text:'<strong>تقليم الحوافر:</strong> كل 3-4 أشهر لتجنب العرج' },
+      { dot:'dot-amber', text:'<strong>فصل النعاج:</strong> قبل الولادة بأسبوع في مكان هادئ ونظيف' },
+    ]},
+  ],
+  cow: [
+    { icon:'🌾', title:'التغذية اليومية', color:'green', items:[
+      { dot:'dot-green', text:'<strong>العلف الأخضر:</strong> 30-40 كغ/يوم — البرسيم والنجيل الأفضل' },
+      { dot:'dot-green', text:'<strong>العلف المركز:</strong> 3-4 كغ لكل 10 لتر حليب إضافة للأساسي' },
+      { dot:'dot-amber', text:'<strong>المعادن:</strong> كالسيوم + فوسفور + مغنيزيوم — ضرورية للحلوب' },
+      { dot:'dot-amber', text:'<strong>أوقات التغذية:</strong> 3 مرات يومياً منتظمة — تزيد الإنتاج 15%' },
+    ]},
+    { icon:'💧', title:'الشراب والماء', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>الكمية:</strong> 40-60 لتر/يوم — 80 لتر للحلوب في الصيف' },
+      { dot:'dot-green', text:'<strong>حوض الماء:</strong> دائماً ممتلئ ونظيف — البقرة تشرب 10-15 مرة/يوم' },
+    ]},
+    { icon:'🏠', title:'البيئة والمسكن', color:'amber', items:[
+      { dot:'dot-green', text:'<strong>المساحة:</strong> 6-8 م²/رأس في الحظيرة + مرعى مفتوح' },
+      { dot:'dot-amber', text:'<strong>الحلب:</strong> مرتين يومياً بمواعيد ثابتة — الانتظام يزيد الإنتاج' },
+      { dot:'dot-teal', text:'<strong>التنظيف:</strong> مرة يومياً للحظيرة — البقرة حساسة للضرع' },
+    ]},
+    { icon:'🛡️', title:'الوقاية والحماية', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>تطعيم الحمى القلاعية:</strong> مرتين/سنة — إلزامي في الجزائر' },
+      { dot:'dot-green', text:'<strong>فحص الضرع:</strong> يومياً للكشف المبكر عن التهاب الضرع' },
+      { dot:'dot-amber', text:'<strong>الطفيليات الخارجية:</strong> رش بـ Deltamethrin شهرياً' },
+    ]},
+  ],
+  rabbit: [
+    { icon:'🌾', title:'التغذية اليومية', color:'green', items:[
+      { dot:'dot-green', text:'<strong>علف مركز:</strong> 100-150 غ/أرنب/يوم — أساسي لا يُستغنى عنه' },
+      { dot:'dot-green', text:'<strong>خضروات طازجة:</strong> جزر، كرفس، خس روماني — 100 غ/يوم' },
+      { dot:'dot-amber', text:'<strong>تبن:</strong> متاح دائماً لتحسين الهضم وصحة الأسنان' },
+      { dot:'dot-red', text:'<strong>تجنّب:</strong> الملفوف الأبيض، الجبن، الخبز — تضر بالهضم' },
+      { dot:'dot-red', text:'<strong>خطر:</strong> أي تغيير مفاجئ في النظام الغذائي يسبب الإسهال المميت' },
+    ]},
+    { icon:'💧', title:'الشراب والماء', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>الكمية:</strong> 100-350 مل/يوم — تضاعف في الصيف والإرضاع' },
+      { dot:'dot-green', text:'<strong>مشرب القطّارة:</strong> الأنظف والأفضل — يمنع تلوث الماء' },
+      { dot:'dot-red', text:'<strong>تحذير:</strong> الأرانب تموت بسرعة من العطش — تفقّد الماء مرتين يومياً' },
+    ]},
+    { icon:'🏠', title:'البيئة والمسكن', color:'amber', items:[
+      { dot:'dot-green', text:'<strong>القفص:</strong> 0.5 م² للأرنب الواحد كحد أدنى' },
+      { dot:'dot-amber', text:'<strong>الحرارة:</strong> 15-22°م مثالية — فوق 28°م خطر، فوق 35°م مميت' },
+      { dot:'dot-amber', text:'<strong>التهوية:</strong> هواء نظيف بدون رياح مباشرة — الرطوبة عدو الأرانب' },
+      { dot:'dot-teal', text:'<strong>الصيف:</strong> قناني ماء مجمدة في القفص مرتين يومياً' },
+    ]},
+    { icon:'🛡️', title:'الوقاية والحماية', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>تطعيم VHD:</strong> ضد نزيف الأرانب — كل 6 أشهر' },
+      { dot:'dot-green', text:'<strong>تطعيم Myxomatosis:</strong> سنوياً — خطير جداً' },
+      { dot:'dot-amber', text:'<strong>الجرب:</strong> فحص الآذان أسبوعياً — علاج فوري بـ Ivermectin' },
+      { dot:'dot-amber', text:'<strong>العزل:</strong> أرنب جديد يُعزل أسبوعين قبل الدمج مع القطيع' },
+    ]},
+  ],
+  goat: [
+    { icon:'🌾', title:'التغذية اليومية', color:'green', items:[
+      { dot:'dot-green', text:'<strong>المرعى:</strong> 6-8 ساعات يومياً — الماعز تأكل الأعشاب والأشجار' },
+      { dot:'dot-green', text:'<strong>العلف المركز:</strong> 200-400 غ/يوم — أكثر في الحمل والحلب' },
+      { dot:'dot-amber', text:'<strong>الملح المعدني:</strong> 5-10 غ/يوم — يحسن الإنتاج والصحة' },
+    ]},
+    { icon:'💧', title:'الشراب والماء', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>الكمية:</strong> 3-4 لتر/يوم — 7 لتر للحلوب' },
+      { dot:'dot-amber', text:'<strong>الماعز الحلوب:</strong> ماء نظيف بارد دائماً — يزيد الحليب' },
+    ]},
+    { icon:'🏠', title:'البيئة والمسكن', color:'amber', items:[
+      { dot:'dot-green', text:'<strong>المساحة:</strong> 1.5 م²/رأس + 4 م² مرعى' },
+      { dot:'dot-amber', text:'<strong>الأرضية:</strong> مرتفعة قليلاً — الماعز تكره الرطوبة' },
+      { dot:'dot-teal', text:'<strong>الحلب:</strong> يومياً بمواعيد ثابتة — يزيد إنتاج الحليب' },
+    ]},
+    { icon:'🛡️', title:'الوقاية والحماية', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>مكافحة الطفيليات:</strong> Ivermectin كل 6 أشهر للقطيع' },
+      { dot:'dot-amber', text:'<strong>تقليم الحوافر:</strong> كل 3 أشهر لمنع العرج' },
+    ]},
+  ],
+  pigeon: [
+    { icon:'🌾', title:'التغذية اليومية', color:'green', items:[
+      { dot:'dot-green', text:'<strong>البذور:</strong> قمح + ذرة + بازلاء — 30-50 غ/حمامة/يوم' },
+      { dot:'dot-green', text:'<strong>الجريت (Grit):</strong> حصى صغيرة ومحار مطحون — ضروري للهضم' },
+      { dot:'dot-amber', text:'<strong>فيتامينات:</strong> B12 و E في الماء أسبوعياً — يحسن التوالد' },
+      { dot:'dot-red', text:'<strong>تجنّب:</strong> الملح، الشوكولاتة، أوراق الطماطم — سامة' },
+    ]},
+    { icon:'💧', title:'الشراب والماء', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>الكمية:</strong> 30-60 مل/حمامة/يوم — أكثر في الصيف' },
+      { dot:'dot-green', text:'<strong>حوض الاستحمام:</strong> مرة أسبوعياً — ينظف الريش ويقي من الطفيليات' },
+    ]},
+    { icon:'🏠', title:'البيئة والمسكن', color:'amber', items:[
+      { dot:'dot-green', text:'<strong>البرج:</strong> 0.5 م²/زوج — مع صندوق تعشيش لكل زوج' },
+      { dot:'dot-amber', text:'<strong>التهوية:</strong> ممتازة — الحمام لا يتحمل الرطوبة والأمونيا' },
+      { dot:'dot-teal', text:'<strong>التنظيف:</strong> إزالة البراز يومياً — يمنع الأمراض التنفسية' },
+    ]},
+    { icon:'🛡️', title:'الوقاية والحماية', color:'teal', items:[
+      { dot:'dot-green', text:'<strong>تطعيم نيوكاسل:</strong> كل 3 أشهر — الأهم للحمام' },
+      { dot:'dot-green', text:'<strong>مكافحة القمل:</strong> رش Pyrethrin على الريش شهرياً' },
+      { dot:'dot-amber', text:'<strong>فصل المرضى:</strong> فوراً عند أي أعراض تنفسية' },
+    ]},
+  ],
+};
+
+const vaccineData = {
+  chicken: {
+    title: 'جدول تطعيم الدجاج الكامل',
+    tips: '💡 احفظ اللقاحات في الثلاجة بين 2-8°م. استخدم اللقاح خلال ساعة من فتحه. لا تطعّم الطيور المريضة.',
+    rows: [
+      { age:'اليوم 1', vaccine:'مارك (في المفرخ)', type:'must', route:'حقن تحت الجلد', note:'يُعطى في المفرخ فقط' },
+      { age:'اليوم 7-10', vaccine:'نيوكاسل + IB (H120)', type:'must', route:'قطرة عين أو ماء', note:'أهم لقاح — لا تفوّته' },
+      { age:'اليوم 14', vaccine:'جمبورو (Gumboro)', type:'must', route:'ماء الشرب', note:'جرعة أولى' },
+      { age:'اليوم 21', vaccine:'جمبورو + نيوكاسل', type:'must', route:'ماء الشرب', note:'جرعة ثانية جمبورو' },
+      { age:'اليوم 28-30', vaccine:'الجدري (Fowlpox)', type:'opt', route:'وخز الجناح', note:'خاصة في المناطق الموبوءة' },
+      { age:'الأسبوع 6', vaccine:'نيوكاسل IB (H52)', type:'must', route:'ماء أو رش', note:'تجديد الحماية' },
+      { age:'الأسبوع 10', vaccine:'التهاب الجيوب MG', type:'opt', route:'حقن عضلي', note:'للدجاج البياض فقط' },
+      { age:'كل 3 أشهر', vaccine:'نيوكاسل', type:'must', route:'ماء الشرب', note:'تجديد دوري إلزامي' },
+    ]
+  },
+  sheep: {
+    title: 'جدول تطعيم الأغنام',
+    tips: '💡 اشترِ اللقاحات من صيدلية بيطرية معتمدة. احفظها في برودة. طعّم قبل موسم التوالد بشهرين.',
+    rows: [
+      { age:'الأسبوع 4-6', vaccine:'الانتيروتوكسيميا (Clostridial)', type:'must', route:'حقن تحت الجلد', note:'جرعة أولى للحمل الجديد' },
+      { age:'الأسبوع 8', vaccine:'الانتيروتوكسيميا (Booster)', type:'must', route:'حقن تحت الجلد', note:'جرعة تعزيزية' },
+      { age:'سنوياً', vaccine:'الانتيروتوكسيميا', type:'must', route:'حقن تحت الجلد', note:'قبل موسم الولادة بشهر' },
+      { age:'6 أشهر', vaccine:'الجدري (Sheeppox)', type:'must', route:'وخز الجلد', note:'للمناطق الموبوءة في الجزائر' },
+      { age:'سنوياً', vaccine:'البروسيلا', type:'opt', route:'حقن تحت الجلد', note:'للنعاج البكر فقط — يحتاج إذن بيطري' },
+      { age:'عند الحاجة', vaccine:'الحمى القلاعية FMD', type:'opt', route:'حقن عضلي', note:'في المناطق الموبوءة' },
+    ]
+  },
+  rabbit: {
+    title: 'جدول تطعيم الأرانب',
+    tips: '💡 ابدأ التطعيم من عمر 5 أسابيع. تجنب التطعيم أثناء الحمل أو المرض. انتظر أسبوعاً بين لقاحين مختلفين.',
+    rows: [
+      { age:'الأسبوع 5-6', vaccine:'نزيف الأرانب (VHD)', type:'must', route:'حقن تحت الجلد', note:'أخطر أمراض الأرانب — لقّح فوراً' },
+      { age:'الأسبوع 7', vaccine:'Myxomatosis', type:'must', route:'حقن تحت الجلد', note:'أسبوع بعد VHD' },
+      { age:'كل 6 أشهر', vaccine:'VHD (تجديد)', type:'must', route:'حقن تحت الجلد', note:'إلزامي بانتظام' },
+      { age:'سنوياً', vaccine:'Myxomatosis (تجديد)', type:'must', route:'حقن تحت الجلد', note:'قبل فصل الربيع' },
+    ]
+  },
+  cow: {
+    title: 'جدول تطعيم الأبقار',
+    tips: '💡 الحمى القلاعية إلزامية قانونياً في الجزائر. طعّم العجول من عمر 4 أشهر. جدّد سنوياً.',
+    rows: [
+      { age:'الشهر 4', vaccine:'الحمى القلاعية FMD', type:'must', route:'حقن عضلي', note:'إلزامي — مدعوم حكومياً أحياناً' },
+      { age:'كل 6 أشهر', vaccine:'الحمى القلاعية (تجديد)', type:'must', route:'حقن عضلي', note:'أساسي لحماية القطيع' },
+      { age:'سنوياً', vaccine:'التهاب الرئة IBR', type:'opt', route:'حقن عضلي أو أنفي', note:'للمزارع الكبيرة' },
+      { age:'سنوياً', vaccine:'البروسيلا', type:'opt', route:'حقن تحت الجلد', note:'يحتاج إذن بيطري رسمي' },
+      { age:'سنوياً', vaccine:'الانتيروتوكسيميا', type:'must', route:'حقن تحت الجلد', note:'للعجول والأبقار الصغيرة' },
+    ]
+  }
+};
+
+const housingSVGs = [
+  {
+    name: 'حظيرة دجاج أرضية كلاسيكية',
+    desc: 'التصميم الأكثر شيوعاً في الجزائر. مناسبة للمناخ الجاف والرطب، سهلة البناء بمواد محلية.',
+    capacity: '50-200 طائر', cost: '80,000-150,000 دج', time: '2-3 أسابيع', type: 'دجاج',
+    svg: `<svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" width="240" height="155">
+      <rect x="20" y="90" width="240" height="75" fill="#D4C5A9" stroke="#8B7355" stroke-width="2" rx="2"/>
+      <polygon points="140,20 20,90 260,90" fill="#C0392B" stroke="#922B21" stroke-width="2"/>
+      <rect x="55" y="110" width="50" height="55" fill="#8B7355" stroke="#6B5B45" stroke-width="1.5" rx="2"/>
+      <rect x="175" y="115" width="55" height="35" fill="#AED6F1" stroke="#7FB3D3" stroke-width="1.5" rx="2"/>
+      <line x1="202" y1="115" x2="202" y2="150" stroke="#7FB3D3" stroke-width="1"/>
+      <line x1="175" y1="132" x2="230" y2="132" stroke="#7FB3D3" stroke-width="1"/>
+      <rect x="55" y="155" width="50" height="8" fill="#7FB3D3" stroke="#5B99B5" stroke-width="1" rx="1"/>
+      <text x="80" y="152" font-size="9" fill="#5B4B3A" text-anchor="middle" font-family="Cairo">باب</text>
+      <text x="202" y="111" font-size="9" fill="#5B4B3A" text-anchor="middle" font-family="Cairo">نافذة</text>
+      <rect x="20" y="162" width="240" height="3" fill="#8B7355" rx="1"/>
+      <circle cx="45" cy="170" r="3" fill="#639922"/>
+      <circle cx="60" cy="168" r="2" fill="#639922"/>
+      <circle cx="235" cy="170" r="3" fill="#639922"/>
+      <text x="140" y="50" font-size="11" fill="#922B21" text-anchor="middle" font-family="Cairo" font-weight="bold">حظيرة الدجاج الأرضية</text>
+    </svg>`
+  },
+  {
+    name: 'بيت الأرانب المتعدد الطوابق',
+    desc: 'تصميم عملي يوفر المساحة. الأقفاص مرتبة فوق بعض مع درج لتجميع البراز تلقائياً.',
+    capacity: '30-60 أرنب', cost: '40,000-80,000 دج', time: '1-2 أسبوع', type: 'أرانب',
+    svg: `<svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" width="240" height="155">
+      <rect x="30" y="30" width="220" height="130" fill="#E8D5B7" stroke="#8B7355" stroke-width="2" rx="3"/>
+      <line x1="30" y1="80" x2="250" y2="80" stroke="#8B7355" stroke-width="2"/>
+      <line x1="30" y1="130" x2="250" y2="130" stroke="#8B7355" stroke-width="2"/>
+      <line x1="140" y1="30" x2="140" y2="160" stroke="#8B7355" stroke-width="2"/>
+      <rect x="35" y="35" width="100" height="40" fill="none" stroke="#7FB3D3" stroke-width="1.5"/>
+      <rect x="145" y="35" width="100" height="40" fill="none" stroke="#7FB3D3" stroke-width="1.5"/>
+      <rect x="35" y="85" width="100" height="40" fill="none" stroke="#7FB3D3" stroke-width="1.5"/>
+      <rect x="145" y="85" width="100" height="40" fill="none" stroke="#7FB3D3" stroke-width="1.5"/>
+      <text x="85" y="59" font-size="18" text-anchor="middle">🐇</text>
+      <text x="195" y="59" font-size="18" text-anchor="middle">🐇</text>
+      <text x="85" y="109" font-size="18" text-anchor="middle">🐇</text>
+      <text x="195" y="109" font-size="18" text-anchor="middle">🐇</text>
+      <rect x="30" y="135" width="220" height="15" fill="#C8A87A" stroke="#8B7355" stroke-width="1.5"/>
+      <text x="140" y="147" font-size="9" fill="#5B4B3A" text-anchor="middle" font-family="Cairo">درج جمع البراز</text>
+      <text x="140" y="20" font-size="11" fill="#6B5B45" text-anchor="middle" font-family="Cairo" font-weight="bold">بيت الأرانب المتعدد الطوابق</text>
+    </svg>`
+  },
+  {
+    name: 'حظيرة أغنام تقليدية جزائرية',
+    desc: 'مبنية بالحجارة والطوب — عازلة للحرارة شتاءً وصيفاً. مع سطح مائل لتصريف الأمطار.',
+    capacity: '20-50 رأس', cost: '200,000-400,000 دج', time: '3-6 أسابيع', type: 'أغنام',
+    svg: `<svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" width="240" height="155">
+      <rect x="20" y="85" width="240" height="80" fill="#D4C5A9" stroke="#8B7355" stroke-width="2"/>
+      <rect x="20" y="85" width="240" height="10" fill="#A0856B" stroke="#8B7355" stroke-width="1"/>
+      <polygon points="10,85 140,30 270,85" fill="#8B7355" stroke="#6B5B45" stroke-width="2"/>
+      <rect x="10" y="80" width="260" height="8" fill="#6B5B45" rx="1"/>
+      <rect x="60" y="110" width="45" height="55" fill="#8B6045" stroke="#6B4B35" stroke-width="1.5" rx="2"/>
+      <rect x="60" y="155" width="45" height="8" fill="#7FB3D3" stroke="#5B99B5" stroke-width="1" rx="1"/>
+      <rect x="170" y="115" width="50" height="30" fill="#AED6F1" stroke="#7FB3D3" stroke-width="1.5" rx="2"/>
+      <line x1="195" y1="115" x2="195" y2="145" stroke="#7FB3D3" stroke-width="1"/>
+      <line x1="170" y1="130" x2="220" y2="130" stroke="#7FB3D3" stroke-width="1"/>
+      <path d="M20 163 Q30 158 50 162 Q70 158 90 162 Q110 158 130 162 Q150 158 170 162 Q190 158 210 162 Q230 158 250 162 Q260 163 260 165 L20 165 Z" fill="#8B9A6B" opacity="0.6"/>
+      <text x="82" y="140" font-size="18" text-anchor="middle">🐑</text>
+      <text x="140" y="50" font-size="11" fill="#6B5B45" text-anchor="middle" font-family="Cairo" font-weight="bold">حظيرة الأغنام التقليدية</text>
+    </svg>`
+  },
+  {
+    name: 'حضانة الكتاكيت الآلية',
+    desc: 'مصممة للكتاكيت حتى عمر 4 أسابيع. مع مدفأة مركزية، إضاءة منتظمة، وتهوية محكومة.',
+    capacity: '100-500 كتكوت', cost: '120,000-250,000 دج', time: '1-2 أسبوع', type: 'كتاكيت',
+    svg: `<svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" width="240" height="155">
+      <rect x="25" y="45" width="230" height="115" fill="#F0E6D3" stroke="#B8A88A" stroke-width="2" rx="5"/>
+      <rect x="25" y="45" width="230" height="20" fill="#B8A88A" rx="5"/>
+      <text x="140" y="59" font-size="10" fill="white" text-anchor="middle" font-family="Cairo" font-weight="bold">حضانة الكتاكيت</text>
+      <circle cx="140" cy="95" r="25" fill="#FDEBD0" stroke="#E67E22" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="140" y="100" font-size="18" text-anchor="middle">🌡️</text>
+      <text x="140" y="118" font-size="8" fill="#E67E22" text-anchor="middle" font-family="Cairo">مدفأة مركزية</text>
+      <text x="60" y="90" font-size="14" text-anchor="middle">🐣</text>
+      <text x="85" y="110" font-size="12" text-anchor="middle">🐣</text>
+      <text x="50" y="115" font-size="11" text-anchor="middle">🐣</text>
+      <text x="195" y="90" font-size="14" text-anchor="middle">🐣</text>
+      <text x="220" y="110" font-size="12" text-anchor="middle">🐣</text>
+      <text x="210" y="130" font-size="11" text-anchor="middle">🐣</text>
+      <rect x="30" y="140" width="8" height="15" fill="#E67E22" rx="1"/>
+      <rect x="44" y="140" width="8" height="15" fill="#E67E22" rx="1"/>
+      <text x="48" y="168" font-size="8" fill="#8B7355" text-anchor="middle" font-family="Cairo">مشارب</text>
+      <rect x="200" y="140" width="8" height="15" fill="#E67E22" rx="1"/>
+      <rect x="214" y="140" width="8" height="15" fill="#E67E22" rx="1"/>
+      <text x="210" y="168" font-size="8" fill="#8B7355" text-anchor="middle" font-family="Cairo">معالف</text>
+      <line x1="25" y1="137" x2="255" y2="137" stroke="#B8A88A" stroke-width="1" stroke-dasharray="4,3"/>
+    </svg>`
+  },
+  {
+    name: 'حظيرة أبقار حديثة',
+    desc: 'تصميم مفتوح من الجانبين مع سقف عالٍ لتهوية ممتازة. أرضية إسمنتية مائلة لتصريف البول.',
+    capacity: '5-20 رأس', cost: '500,000-1,200,000 دج', time: '4-8 أسابيع', type: 'أبقار',
+    svg: `<svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" width="240" height="155">
+      <rect x="15" y="100" width="250" height="60" fill="#D4C5A9" stroke="#8B7355" stroke-width="2"/>
+      <polygon points="15,100 140,40 265,100" fill="#7B8D6B" stroke="#5B6D4B" stroke-width="2"/>
+      <rect x="15" y="97" width="250" height="6" fill="#5B6D4B"/>
+      <line x1="25" y1="100" x2="25" y2="160" stroke="#8B7355" stroke-width="3"/>
+      <line x1="255" y1="100" x2="255" y2="160" stroke="#8B7355" stroke-width="3"/>
+      <line x1="90" y1="100" x2="90" y2="160" stroke="#8B7355" stroke-width="2"/>
+      <line x1="140" y1="100" x2="140" y2="160" stroke="#8B7355" stroke-width="2"/>
+      <line x1="190" y1="100" x2="190" y2="160" stroke="#8B7355" stroke-width="2"/>
+      <text x="57" y="135" font-size="22" text-anchor="middle">🐄</text>
+      <text x="115" y="135" font-size="22" text-anchor="middle">🐄</text>
+      <text x="165" y="135" font-size="22" text-anchor="middle">🐄</text>
+      <text x="222" y="135" font-size="22" text-anchor="middle">🐄</text>
+      <rect x="15" y="157" width="250" height="5" fill="#A0856B" rx="1"/>
+      <text x="140" y="58" font-size="11" fill="#3B5B2B" text-anchor="middle" font-family="Cairo" font-weight="bold">حظيرة الأبقار المفتوحة</text>
+    </svg>`
+  },
+  {
+    name: 'برج الحمام الكلاسيكي',
+    desc: 'برج مثمن الشكل بارتفاع 3 أمتار. صناديق تعشيش في الداخل، ومدخل دائري في الأعلى.',
+    capacity: '20-50 زوج', cost: '30,000-70,000 دج', time: '1-2 أسبوع', type: 'حمام',
+    svg: `<svg viewBox="0 0 280 190" xmlns="http://www.w3.org/2000/svg" width="240" height="155">
+      <polygon points="140,15 165,30 175,60 165,150 115,150 105,60 115,30" fill="#D4C5A9" stroke="#8B7355" stroke-width="2"/>
+      <ellipse cx="140" cy="15" rx="30" ry="12" fill="#C0392B" stroke="#922B21" stroke-width="1.5"/>
+      <ellipse cx="140" cy="150" rx="45" ry="12" fill="#8B7355" stroke="#6B5B45" stroke-width="1.5"/>
+      <rect x="120" y="148" width="40" height="25" fill="#A0856B" stroke="#8B7355" stroke-width="1"/>
+      <circle cx="140" cy="25" r="8" fill="#AED6F1" stroke="#7FB3D3" stroke-width="1.5"/>
+      <rect x="115" y="55" width="25" height="20" fill="#F5CBA7" stroke="#E59866" stroke-width="1" rx="2"/>
+      <rect x="142" y="55" width="25" height="20" fill="#F5CBA7" stroke="#E59866" stroke-width="1" rx="2"/>
+      <rect x="115" y="80" width="25" height="20" fill="#F5CBA7" stroke="#E59866" stroke-width="1" rx="2"/>
+      <rect x="142" y="80" width="25" height="20" fill="#F5CBA7" stroke="#E59866" stroke-width="1" rx="2"/>
+      <rect x="115" y="105" width="25" height="20" fill="#F5CBA7" stroke="#E59866" stroke-width="1" rx="2"/>
+      <rect x="142" y="105" width="25" height="20" fill="#F5CBA7" stroke="#E59866" stroke-width="1" rx="2"/>
+      <text x="100" y="45" font-size="13">🕊️</text>
+      <text x="170" y="65" font-size="13">🕊️</text>
+      <rect x="95" y="148" width="90" height="40" fill="#A0856B" stroke="#8B7355" stroke-width="1.5" rx="2"/>
+      <text x="140" y="8" font-size="11" fill="#6B5B45" text-anchor="middle" font-family="Cairo" font-weight="bold">برج الحمام الكلاسيكي</text>
+    </svg>`
+  },
+];
+
+let currentCareAnimal = 'chicken';
+let currentVaxAnimal = 'chicken';
+
+function showCareTab(id, btn) {
+  ['health','vaccines','housing'].forEach(t => {
+    const el = document.getElementById('ctab-' + t);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('ctab-' + id).style.display = 'block';
+  document.querySelectorAll('#page-care .inner-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (id === 'housing') renderHousing();
+  if (id === 'vaccines') renderVaxTable(currentVaxAnimal);
+  if (id === 'health') renderCare(currentCareAnimal);
+}
+
+function setCareAnimal(animal, btn) {
+  currentCareAnimal = animal;
+  document.querySelectorAll('#care-animal-tabs .care-animal-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCare(animal);
+}
+
+function renderCare(animal) {
+  const sections = careData[animal] || [];
+  document.getElementById('care-sections').innerHTML = sections.map((s, i) => `
+    <div class="care-section-card">
+      <div class="care-section-header" onclick="toggleCareSection(${i})">
+        <span class="care-section-icon">${s.icon}</span>
+        <span class="care-section-title">${s.title}</span>
+        <span class="care-section-toggle" id="toggle-${i}">▼</span>
+      </div>
+      <div class="care-section-body ${i===0?'open':''}" id="care-body-${i}">
+        ${s.items.map(item => `
+          <div class="care-item">
+            <span class="care-item-dot ${item.dot}"></span>
+            <span class="care-item-text">${item.text}</span>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function toggleCareSection(i) {
+  const body = document.getElementById('care-body-' + i);
+  const toggle = document.getElementById('toggle-' + i);
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+function setVaxAnimal(animal, btn) {
+  currentVaxAnimal = animal;
+  document.querySelectorAll('#ctab-vaccines .care-animal-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderVaxTable(animal);
+}
+
+function renderVaxTable(animal) {
+  const d = vaccineData[animal];
+  if (!d) return;
+  document.getElementById('vax-title').textContent = d.title;
+  document.getElementById('vax-table').innerHTML = `
+    <thead><tr>
+      <th>العمر</th><th>اللقاح</th><th>الأهمية</th><th>طريقة الإعطاء</th><th>ملاحظة</th>
+    </tr></thead>
+    <tbody>${d.rows.map(r => `<tr>
+      <td style="font-weight:600;color:var(--g800);white-space:nowrap">${r.age}</td>
+      <td style="font-weight:500">${r.vaccine}</td>
+      <td><span class="vac-badge ${r.type==='must'?'vac-must':'vac-opt'}">${r.type==='must'?'🔴 أساسي':'🟡 اختياري'}</span></td>
+      <td style="color:var(--text2)">${r.route}</td>
+      <td style="color:var(--text3);font-size:12px">${r.note}</td>
+    </tr>`).join('')}</tbody>`;
+  document.getElementById('vax-tips').innerHTML = `<p style="font-size:13px;color:var(--g800);line-height:1.7">${d.tips}</p>`;
+}
+
+function renderHousing() {
+  document.getElementById('housing-grid').innerHTML = housingSVGs.map(h => `
+    <div class="housing-card">
+      <div class="housing-svg-wrap">${h.svg}</div>
+      <div class="housing-info">
+        <div class="housing-name">${h.name}</div>
+        <div class="housing-desc">${h.desc}</div>
+        <div class="housing-specs">
+          <div class="housing-spec"><span class="housing-spec-lbl">الطاقة الاستيعابية</span><span class="housing-spec-val">🐾 ${h.capacity}</span></div>
+          <div class="housing-spec"><span class="housing-spec-lbl">التكلفة التقريبية</span><span class="housing-spec-val">💰 ${h.cost}</span></div>
+          <div class="housing-spec"><span class="housing-spec-lbl">وقت البناء</span><span class="housing-spec-val">⏱️ ${h.time}</span></div>
+          <div class="housing-spec"><span class="housing-spec-lbl">النوع</span><span class="housing-spec-val">🏷️ ${h.type}</span></div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// Init care page on first load
+renderCare('chicken');
+renderVaxTable('chicken');
+
+const __sp = window.showPage;
+window.showPage = function(id, btn) {
+  __sp(id, btn);
+  if (id === 'care') { renderCare(currentCareAnimal); renderVaxTable(currentVaxAnimal); }
+};
 </script>
-</body>
-</html>
+
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
@@ -2070,265 +2811,67 @@ const firebaseConfig = {
   projectId: "halali-4175b",
   storageBucket: "halali-4175b.firebasestorage.app",
   messagingSenderId: "111702921580",
-  appId: "1:111702921580:web:01cf16070dde9945ea6349",
-  measurementId: "G-7YB1PHRC0C"
+  appId: "1:111702921580:web:01cf16070dde9945ea6349"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
-
 let isSignUp = false;
 
-window.openAuthModal = () => {
-  const m = document.getElementById('auth-modal');
-  m.style.display = 'flex';
-};
-window.closeAuthModal = () => {
-  document.getElementById('auth-modal').style.display = 'none';
-  document.getElementById('auth-error').textContent = '';
-};
+window.openAuthModal = () => { document.getElementById('auth-modal').style.display='flex'; };
+window.closeAuthModal = () => { document.getElementById('auth-modal').style.display='none'; document.getElementById('auth-error').textContent=''; };
 window.toggleAuthMode = () => {
   isSignUp = !isSignUp;
   document.getElementById('auth-title').textContent = isSignUp ? 'إنشاء حساب جديد' : 'أهلاً بك في حلالك';
   document.getElementById('auth-submit-btn').textContent = isSignUp ? 'إنشاء الحساب' : 'دخول';
-  document.getElementById('auth-toggle-text').textContent = isSignUp ? 'لديك حساب بالفعل؟' : 'ليس لديك حساب؟';
+  document.getElementById('auth-toggle-text').textContent = isSignUp ? 'لديك حساب؟' : 'ليس لديك حساب؟';
   document.getElementById('auth-toggle-btn').textContent = isSignUp ? 'تسجيل الدخول' : 'إنشاء حساب';
-  document.getElementById('auth-error').textContent = '';
 };
 window.toggleUserMenu = () => {
   const d = document.getElementById('user-dropdown');
   d.style.display = d.style.display === 'none' ? 'block' : 'none';
 };
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('#user-nav')) {
-    const d = document.getElementById('user-dropdown');
-    if (d) d.style.display = 'none';
-  }
-});
+document.addEventListener('click', e => { if (!e.target.closest('#user-nav')) { const d = document.getElementById('user-dropdown'); if (d) d.style.display='none'; } });
 
 window.signInWithGoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    await saveUserData(result.user);
-    closeAuthModal();
-  } catch(e) {
-    document.getElementById('auth-error').textContent = 'فشل تسجيل الدخول بـ Google';
-  }
+  try { const r = await signInWithPopup(auth, provider); await saveUserData(r.user); closeAuthModal(); }
+  catch(e) { document.getElementById('auth-error').textContent = 'فشل تسجيل الدخول بـ Google'; }
 };
-
 window.handleEmailAuth = async () => {
   const email = document.getElementById('auth-email').value.trim();
   const pass = document.getElementById('auth-password').value;
-  if (!email || !pass) { document.getElementById('auth-error').textContent = 'أدخل البريد وكلمة المرور'; return; }
+  if (!email||!pass) { document.getElementById('auth-error').textContent='أدخل البريد وكلمة المرور'; return; }
   try {
-    let result;
-    if (isSignUp) {
-      result = await createUserWithEmailAndPassword(auth, email, pass);
-    } else {
-      result = await signInWithEmailAndPassword(auth, email, pass);
-    }
-    await saveUserData(result.user);
-    closeAuthModal();
+    const r = isSignUp ? await createUserWithEmailAndPassword(auth,email,pass) : await signInWithEmailAndPassword(auth,email,pass);
+    await saveUserData(r.user); closeAuthModal();
   } catch(e) {
-    const msgs = { 'auth/email-already-in-use': 'البريد مستخدم بالفعل', 'auth/wrong-password': 'كلمة المرور خاطئة', 'auth/user-not-found': 'المستخدم غير موجود', 'auth/weak-password': 'كلمة المرور ضعيفة (6 أحرف على الأقل)', 'auth/invalid-email': 'البريد غير صحيح' };
-    document.getElementById('auth-error').textContent = msgs[e.code] || 'حدث خطأ، حاول مجدداً';
+    const msgs = {'auth/email-already-in-use':'البريد مستخدم','auth/wrong-password':'كلمة المرور خاطئة','auth/user-not-found':'المستخدم غير موجود','auth/weak-password':'كلمة المرور ضعيفة','auth/invalid-email':'البريد غير صحيح'};
+    document.getElementById('auth-error').textContent = msgs[e.code]||'حدث خطأ';
   }
 };
-
-window.signOutUser = async () => {
-  await signOut(auth);
-  document.getElementById('user-dropdown').style.display = 'none';
-};
+window.signOutUser = async () => { await signOut(auth); document.getElementById('user-dropdown').style.display='none'; };
 
 async function saveUserData(user) {
-  const ref = doc(db, 'users', user.uid);
+  const ref = doc(db,'users',user.uid);
   const snap = await getDoc(ref);
-  if (!snap.exists()) {
-    await setDoc(ref, { email: user.email, name: user.displayName || '', lang: 'ar', createdAt: new Date() });
-  }
+  if (!snap.exists()) await setDoc(ref,{email:user.email,name:user.displayName||'',createdAt:new Date()});
 }
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, user => {
   if (user) {
-    document.getElementById('auth-nav').style.display = 'none';
-    document.getElementById('user-nav').style.display = 'block';
-    const initials = (user.displayName || user.email || '?').charAt(0).toUpperCase();
-    document.getElementById('user-avatar').textContent = initials;
-    document.getElementById('user-display-name').textContent = user.displayName || 'مستخدم';
+    document.getElementById('auth-nav').style.display='none';
+    document.getElementById('user-nav').style.display='block';
+    const init = (user.displayName||user.email||'?').charAt(0).toUpperCase();
+    document.getElementById('user-avatar').textContent = init;
+    document.getElementById('user-display-name').textContent = user.displayName||'مستخدم';
     document.getElementById('user-display-email').textContent = user.email;
-    // Load saved language
-    const ref = doc(db, 'users', user.uid);
-    const snap = await getDoc(ref);
-    if (snap.exists() && snap.data().lang) setLang(snap.data().lang);
   } else {
-    document.getElementById('auth-nav').style.display = 'block';
-    document.getElementById('user-nav').style.display = 'none';
+    document.getElementById('auth-nav').style.display='block';
+    document.getElementById('user-nav').style.display='none';
   }
 });
-
-// ===== LANGUAGE =====
-const translations = {
-  ar: { home:'الرئيسية', market:'سوق الأسعار', diseases:'دليل الأمراض', tools:'أدوات المربّي', map:'خريطة المربّين', souq:'🗺️ أسواق', guide:'🐣 دليل الأنواع', community:'المجتمع', login:'تسجيل الدخول', heroTitle:'حلالك مشروعك... ونجاحك!', heroSub:'دليلك الشامل لتربية الدواجن والمواشي، تحسين الإنتاج، وتحويل حلالك إلى مصدر دخل حقيقي ومستدام.' },
-  en: { home:'Home', market:'Price Market', diseases:'Disease Guide', tools:'Breeder Tools', map:'Breeder Map', souq:'🗺️ Markets', guide:'🐣 Breed Guide', community:'Community', login:'Sign In', heroTitle:'Your Farm... Your Success!', heroSub:'Your complete guide to raising poultry and livestock, improving production, and turning your farm into a sustainable income.' },
-  fr: { home:'Accueil', market:'Marché des Prix', diseases:'Guide Maladies', tools:'Outils Éleveur', map:'Carte Éleveurs', souq:'🗺️ Marchés', guide:'🐣 Guide Races', community:'Communauté', login:'Connexion', heroTitle:'Votre Élevage... Votre Succès!', heroSub:'Votre guide complet pour élever volailles et bétail, améliorer la production et transformer votre élevage en source de revenus.' }
-};
-
-window.setLang = async (lang) => {
-  const t = translations[lang];
-  if (!t) return;
-  // Update buttons
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('lang-' + lang)?.classList.add('active');
-  // Update nav links
-  const links = document.querySelectorAll('.nav-link');
-  const keys = ['home','market','diseases','tools','map','souq','guide','community'];
-  links.forEach((l,i) => { if(keys[i] && t[keys[i]]) l.textContent = t[keys[i]]; });
-  // Update auth button
-  const authBtn = document.getElementById('auth-nav-btn');
-  if (authBtn) authBtn.textContent = t.login;
-  // Update hero
-  const h1 = document.querySelector('.hero h1');
-  const hp = document.querySelector('.hero p');
-  if (h1) h1.innerHTML = t.heroTitle;
-  if (hp) hp.textContent = t.heroSub;
-  // Update dir
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  document.documentElement.lang = lang;
-  // Save to Firestore
-  const user = auth.currentUser;
-  if (user) {
-    await setDoc(doc(db, 'users', user.uid), { lang }, { merge: true });
-  }
-};
 </script>
-<script>
-// ===== EXTENDED TRANSLATIONS =====
-// Add data-i18n attributes approach - translate all text elements
-const i18n = {
-  ar: {
-    // Hero
-    heroBadge: '🌾 المنصة الأولى لمربّي الدواجن والمواشي في الجزائر',
-    heroStat1: 'نصيحة ودليل', heroStat2: 'متوسط زيادة الربح', heroStat3: 'مربّي مسجّل', heroStat4: 'نوع حلال مدعوم',
-    heroBtn1: 'دليل الأمراض', heroBtn2: 'أدوات المربّي',
-    // Section titles
-    catTitle: 'اختر نوع حلالك', catSub: 'اكتشف نصائح ودلائل مخصصة لكل نوع',
-    tipsTitle: 'أبرز نصائح اليوم', tipsSub: 'محدّثة أسبوعياً من خبرائنا',
-    // Categories
-    cat1:'دجاج بلدي', cat2:'أغنام', cat3:'أبقار', cat4:'أرانب', cat5:'حمام', cat6:'ماعز', cat7:'نحل', cat8:'ديوك رومي',
-    // Market
-    mktTitle:'سوق الأسعار', mktSub:'متوسطات أسعار السوق الجزائري مع تطور الأسعار خلال 30 يوم',
-    // Diseases
-    disTitle:'دليل الأمراض والعلاج', disSub:'تعرّف على الأعراض والعلاج لأكثر الأمراض شيوعاً',
-    // Tools
-    toolTitle:'أدوات المربّي', toolSub:'حاسبة العلف الذكية، حاسبة الربح، والتقويم الموسمي',
-    // Community
-    comTitle:'مجتمع المربّين', comSub:'اسأل، شارك، وتعلّم من تجارب مربّين من كل أنحاء الجزائر',
-    // Auth modal
-    authTitle:'أهلاً بك في حلالك', authGoogle:'متابعة بـ Google', authEmail:'البريد الإلكتروني', authPass:'كلمة المرور', authSignIn:'دخول', authSignUp:'إنشاء الحساب', authNoAcc:'ليس لديك حساب؟', authCreateAcc:'إنشاء حساب', authHaveAcc:'لديك حساب؟', authSignInLink:'تسجيل الدخول',
-    signout:'🚪 تسجيل الخروج',
-  },
-  en: {
-    heroBadge: '🌾 Algeria\'s #1 Platform for Poultry & Livestock Breeders',
-    heroStat1: 'Tips & Guides', heroStat2: 'Avg Profit Increase', heroStat3: 'Registered Breeders', heroStat4: 'Supported Species',
-    heroBtn1: 'Disease Guide', heroBtn2: 'Breeder Tools',
-    catTitle: 'Choose Your Livestock', catSub: 'Discover tips and guides tailored for each type',
-    tipsTitle: "Today's Top Tips", tipsSub: 'Updated weekly by our experts',
-    cat1:'Local Chicken', cat2:'Sheep', cat3:'Cattle', cat4:'Rabbits', cat5:'Pigeons', cat6:'Goats', cat7:'Bees', cat8:'Turkeys',
-    mktTitle:'Price Market', mktSub:'Algerian market price averages with 30-day trends',
-    disTitle:'Disease & Treatment Guide', disSub:'Learn about symptoms and treatment for common diseases',
-    toolTitle:'Breeder Tools', toolSub:'Smart feed calculator, profit calculator, and seasonal calendar',
-    comTitle:'Breeder Community', comSub:'Ask, share, and learn from breeders across Algeria',
-    authTitle:'Welcome to Halali', authGoogle:'Continue with Google', authEmail:'Email address', authPass:'Password', authSignIn:'Sign In', authSignUp:'Create Account', authNoAcc:"Don't have an account?", authCreateAcc:'Create Account', authHaveAcc:'Already have an account?', authSignInLink:'Sign In',
-    signout:'🚪 Sign Out',
-  },
-  fr: {
-    heroBadge: '🌾 La 1ère Plateforme des Éleveurs en Algérie',
-    heroStat1: 'Conseils & Guides', heroStat2: 'Hausse Moy. des Profits', heroStat3: 'Éleveurs Inscrits', heroStat4: 'Espèces Supportées',
-    heroBtn1: 'Guide Maladies', heroBtn2: 'Outils Éleveur',
-    catTitle: 'Choisissez votre élevage', catSub: 'Découvrez des conseils adaptés à chaque type',
-    tipsTitle: 'Meilleurs Conseils du Jour', tipsSub: 'Mis à jour chaque semaine par nos experts',
-    cat1:'Poulet Local', cat2:'Moutons', cat3:'Bovins', cat4:'Lapins', cat5:'Pigeons', cat6:'Chèvres', cat7:'Abeilles', cat8:'Dindes',
-    mktTitle:'Marché des Prix', mktSub:'Prix moyens du marché algérien sur 30 jours',
-    disTitle:'Guide Maladies & Traitements', disSub:'Apprenez les symptômes et traitements des maladies courantes',
-    toolTitle:'Outils Éleveur', toolSub:'Calculateur de fourrage, de profit et calendrier saisonnier',
-    comTitle:'Communauté des Éleveurs', comSub:'Posez des questions, partagez, apprenez de toute l\'Algérie',
-    authTitle:'Bienvenue sur Halali', authGoogle:'Continuer avec Google', authEmail:'Adresse email', authPass:'Mot de passe', authSignIn:'Connexion', authSignUp:'Créer un compte', authNoAcc:'Pas de compte?', authCreateAcc:'Créer un compte', authHaveAcc:'Déjà un compte?', authSignInLink:'Se connecter',
-    signout:'🚪 Déconnexion',
-  }
-};
-
-const _origSetLang = window.setLang;
-window.setLang = async function(lang) {
-  await _origSetLang(lang);
-  const t = i18n[lang];
-  if (!t) return;
-
-  // Hero badge
-  const badge = document.querySelector('.hero-badge');
-  if (badge) badge.textContent = t.heroBadge;
-
-  // Hero buttons
-  const heroBtns = document.querySelectorAll('.hero-btns button');
-  if (heroBtns[0]) heroBtns[0].textContent = t.heroBtn1;
-  if (heroBtns[1]) heroBtns[1].textContent = t.heroBtn2;
-
-  // Hero stats labels
-  const statLbls = document.querySelectorAll('.hero-stat-lbl');
-  [t.heroStat1, t.heroStat2, t.heroStat3, t.heroStat4].forEach((s,i) => { if(statLbls[i]) statLbls[i].textContent = s; });
-
-  // Section titles on home page
-  const secTitles = document.querySelectorAll('#page-home .section-title');
-  if (secTitles[0]) secTitles[0].textContent = t.catTitle;
-  if (secTitles[1]) secTitles[1].textContent = t.tipsTitle;
-  const secSubs = document.querySelectorAll('#page-home .section-sub');
-  if (secSubs[0]) secSubs[0].textContent = t.catSub;
-  if (secSubs[1]) secSubs[1].textContent = t.tipsSub;
-
-  // Category names
-  const cats = document.querySelectorAll('.cat-name');
-  [t.cat1,t.cat2,t.cat3,t.cat4,t.cat5,t.cat6,t.cat7,t.cat8].forEach((c,i) => { if(cats[i]) cats[i].textContent = c; });
-
-  // Page titles
-  const mktTitle = document.querySelector('#page-market .section-title');
-  const mktSub = document.querySelector('#page-market .section-sub');
-  if (mktTitle) mktTitle.textContent = t.mktTitle;
-  if (mktSub) mktSub.textContent = t.mktSub;
-
-  const disTitle = document.querySelector('#page-diseases .section-title');
-  const disSub = document.querySelector('#page-diseases .section-sub');
-  if (disTitle) disTitle.textContent = t.disTitle;
-  if (disSub) disSub.textContent = t.disSub;
-
-  const toolTitle = document.querySelector('#page-tools .section-title');
-  const toolSub = document.querySelector('#page-tools .section-sub');
-  if (toolTitle) toolTitle.textContent = t.toolTitle;
-  if (toolSub) toolSub.textContent = t.toolSub;
-
-  const comTitle = document.querySelector('#page-community .section-title');
-  const comSub = document.querySelector('#page-community .section-sub');
-  if (comTitle) comTitle.textContent = t.comTitle;
-  if (comSub) comSub.textContent = t.comSub;
-
-  // Auth modal
-  const authTitleEl = document.getElementById('auth-title');
-  if (authTitleEl) authTitleEl.textContent = t.authTitle;
-  const googleBtn = document.querySelector('.auth-google-btn');
-  if (googleBtn) googleBtn.childNodes[googleBtn.childNodes.length-1].textContent = ' ' + t.authGoogle;
-  const emailInput = document.getElementById('auth-email');
-  if (emailInput) emailInput.placeholder = t.authEmail;
-  const passInput = document.getElementById('auth-password');
-  if (passInput) passInput.placeholder = t.authPass;
-  const submitBtn = document.getElementById('auth-submit-btn');
-  if (submitBtn) submitBtn.textContent = t.authSignIn;
-  const toggleText = document.getElementById('auth-toggle-text');
-  if (toggleText) toggleText.textContent = t.authNoAcc;
-  const toggleBtn = document.getElementById('auth-toggle-btn');
-  if (toggleBtn) toggleBtn.textContent = t.authCreateAcc;
-
-  // Sign out button
-  const signoutBtn = document.querySelector('.user-dropdown-item');
-  if (signoutBtn) signoutBtn.textContent = t.signout;
-};
-</script>
+</body>
+</html>
